@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private void getData(){
 
         // This directs to host machine, rather than the emulator
-        String url ="http://10.0.2.2:8080";
+        String url = getString(R.string.url);
 
         // Formulate the request and handle the response.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,

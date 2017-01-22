@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Albums</string>
+    <string name="url">https://es-ece-coe.herokuapp.com/</string>
 </resources>
