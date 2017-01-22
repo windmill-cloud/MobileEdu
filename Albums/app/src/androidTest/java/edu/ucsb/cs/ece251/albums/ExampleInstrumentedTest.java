@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("edu.ucsb.cs.ece251.albums", appContext.getPackageName());
+        assertEquals("edu.ucsb.cs.ece251.buyalbums", appContext.getPackageName());
     }
 }
