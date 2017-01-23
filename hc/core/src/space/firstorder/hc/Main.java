@@ -1,7 +1,9 @@
 package space.firstorder.hc;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.loaders.ModelLoader;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
@@ -19,14 +21,14 @@ import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.graphics.g3d.model.NodePart;
+import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.input.RemoteInput;
 import com.badlogic.gdx.math.MathUtils;
 
 
-
-
-public class Main extends ApplicationAdapter {
+public class Main extends ApplicationAdapter implements ApplicationListener {
 	public SpriteBatch sprites;
 	public Environment environment;
 
@@ -39,6 +41,15 @@ public class Main extends ApplicationAdapter {
 	public Texture logo;
 	public Music backgroundMusic;
 
+    private LightSensorInterface lightSensor;
+
+	public interface LightSensorInterface {
+        float getCurrentLux();
+	}
+
+    public Main(LightSensorInterface lightSensor){
+        this.lightSensor = lightSensor;
+    }
 	/*
 		add variables here if you need any, in the case you're doing
 		texturing or something more complicated
@@ -46,7 +57,7 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void create() {
-		// TODO: create completely new batches for sprites and models
+        // TODO: create completely new batches for sprites and models
 		sprites = new SpriteBatch();
 		modelBatch = new ModelBatch();
 
@@ -90,8 +101,35 @@ public class Main extends ApplicationAdapter {
 		// TODO: create a new model instance and scale it to 20% it's original size (it's huge...)
         instance = new ModelInstance(model); // ← our model instance is here
 		instance.transform.scale(0.2f, 0.2f, 0.2f);
+        /*
+        Runnable gyroscopePoller = new Runnable() {
+            @Override
+            public void run() {
 
-		// TODO: set the helmet details material to a new diffuse black color attribute
+                while(true){
+                    boolean gyroscopeAvail = Gdx.input.isPeripheralAvailable(Input.Peripheral.Gyroscope);
+                    if(!gyroscopeAvail){
+                        break;
+                    }
+                    float gyroX = Gdx.input.getGyroscopeX();
+                    float gyroY = Gdx.input.getGyroscopeY();
+                    float gyroZ = Gdx.input.getGyroscopeZ();
+                    instance.transform.setFromEulerAngles(gyroX, gyroY, gyroZ);
+                    try{
+                        Thread.sleep(50);
+                    }catch (InterruptedException e){
+                        System.out.println(e.toString());
+                    }
+
+                }
+            }
+        };
+        Thread t = new Thread(gyroscopePoller);
+
+        t.start();
+        */
+
+        // TODO: set the helmet details material to a new diffuse black color attribute
         getHelmetDetails().material = new Material(ColorAttribute.createDiffuse(Color.BLACK));
         getHelmetMoreDetails().material = new Material(ColorAttribute.createDiffuse(Color.DARK_GRAY));
         getHelmetBase().material = new Material(ColorAttribute.createDiffuse(Color.WHITE));
@@ -169,6 +207,23 @@ public class Main extends ApplicationAdapter {
 		// render the instance of the model in the set-up environment using the model batch
         // end the model batch rendering process
 		modelBatch.begin(cam);
+        boolean acceleroAvail = Gdx.input.isPeripheralAvailable(Input.Peripheral.Accelerometer);
+        if(acceleroAvail) {
+            float accelerometerX = Gdx.input.getAccelerometerX();
+            float accelerometerY = Gdx.input.getAccelerometerY();
+            float accelerometerZ = Gdx.input.getAccelerometerZ();
+
+            final float alpha = 0.8f;
+            float[] gravity = new float[3];
+            gravity[0] = alpha * gravity[0] + (1 - alpha) * accelerometerX;
+            gravity[1] = alpha * gravity[1] + (1 - alpha) * accelerometerY;
+            gravity[2] = alpha * gravity[2] + (1 - alpha) * accelerometerZ;
+
+            instance.transform.setFromEulerAngles(20f * accelerometerX,
+                    20f * accelerometerY, 20f * accelerometerZ);
+        }
+
+        instance.transform.scale(0.2f, 0.2f, 0.2f);
 		modelBatch.render(instance, environment);
 
 		modelBatch.end();

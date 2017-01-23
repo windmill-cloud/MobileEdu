@@ -27,10 +27,7 @@ public class FirstOrderInputProcessor extends CameraInputController {
                 }
             }
 
-
         // otherwise, just do camera input controls
         return super.touchDown(screenX, screenY, pointer, button);
     }
-
-
 }
