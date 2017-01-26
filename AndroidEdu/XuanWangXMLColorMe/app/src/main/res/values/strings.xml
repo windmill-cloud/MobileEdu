@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">XuanWangXMLColorMe</string>
+    <string name="red">Red</string>
+    <string name="green">Green</string>
+    <string name="blue">Blue</string>
+
+    <string name="toast_red">You just clicked the RED button</string>
+    <string name="toast_green">You just clicked the GREEN button</string>
+    <string name="toast_blue">You just clicked the BLUE button</string>
+
+</resources>
