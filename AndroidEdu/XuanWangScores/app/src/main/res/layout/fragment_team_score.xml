@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <AutoCompleteTextView
+        android:hint="@string/team"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTeam" />
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAlignment="center"
+        android:hint="@string/zero"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/editScore" />
+
+</LinearLayout>

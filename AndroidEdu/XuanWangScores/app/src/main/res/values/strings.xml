@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Xuan Wang Keep Score 1S</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="team">Team</string>
+    <string name="button_title">Next Game</string>
+
+    <string name="zero">0</string>
 </resources>
