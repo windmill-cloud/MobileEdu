@@ -7,6 +7,8 @@
         android:layout_width="0dp"
         android:layout_weight="4"
         android:layout_height="wrap_content"
+        android:textCursorDrawable="@null"
+        android:backgroundTint="@android:color/holo_blue_dark"
         android:id="@+id/editTeam" />
 
     <EditText
@@ -17,6 +19,8 @@
         android:hint="@string/zero"
         android:inputType="number"
         android:ems="10"
+        android:textCursorDrawable="@null"
+        android:backgroundTint="@android:color/holo_blue_dark"
         android:id="@+id/editScore" />
 
 </LinearLayout>
