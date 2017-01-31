@@ -11,13 +11,14 @@
     android:orientation="vertical"
     tools:context="edu.ucsb.cs.cs185.xuanwangscores.MainActivity">
 
-    <fragment android:name="edu.ucsb.cs.cs185.xuanwangscores.DatePickerFragment"
-        android:id="@+id/date_fragment"
+    <DatePicker
         android:layout_width="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:layout_height="0dp"
         android:layout_weight="2"
-        tools:layout="@layout/fragment_date_picker" />
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/datePicker"
+        style="@android:style/Widget.DatePicker"
+        android:layout_marginTop="17dp" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/fragment_container"

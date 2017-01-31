@@ -1,17 +1,13 @@
 package edu.ucsb.cs.cs185.xuanwangscores;
 
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -20,19 +16,30 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
-        implements DatePickerFragment.OnFragmentInteractionListener,
-        TeamScoreFragment.OnFragmentInteractionListener, View.OnClickListener {
+        implements TeamScoreFragment.OnFragmentInteractionListener, View.OnClickListener {
+
+    protected void linkAdapters(){
+        String[] teamNames = getResources().getStringArray(R.array.Teams);
+
+        TeamScoreFragment teamScoreFragment1 =
+                (TeamScoreFragment)
+                        getSupportFragmentManager().findFragmentByTag("fragment_one");
+
+        teamScoreFragment1.setContext(this, teamNames);
+
+        TeamScoreFragment teamScoreFragment2 =
+                (TeamScoreFragment)
+                        getSupportFragmentManager().findFragmentByTag("fragment_two");
+
+        teamScoreFragment2.setContext(this, teamNames);
+    }
 
     protected void setDefaultDate(){
         DatePicker mDataPicker = (DatePicker) findViewById(R.id.datePicker);
         mDataPicker.updateDate(2014, 7, 16);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+    protected void setDatePickerBounds(){
         DatePicker mDatePicker = (DatePicker) findViewById(R.id.datePicker);
         String startDate = "Aug 16 2014";
         String endDate = "May 25 2015";
@@ -47,19 +54,29 @@ public class MainActivity extends AppCompatActivity
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_main);
+
+        // If we're being restored from a previous state,
+        // then we don't need to do anything and should return or else
+        // we could end up with overlapping fragments.
+        if (savedInstanceState != null) {
+            Button btn = (Button)findViewById(R.id.button);
+            btn.setOnClickListener(this);
+            this.linkAdapters();
+            this.setDatePickerBounds();
+            return;
+        }
+
+        this.setDatePickerBounds();
         this.setDefaultDate();
 
-        //mDatePicker.setMinDate();
-
         if (findViewById(R.id.fragment_container) != null) {
-
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
-            if (savedInstanceState != null) {
-                return;
-            }
 
             FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -85,56 +102,10 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.executePendingTransactions();
 
         }
-
-        String[] teamNames = getResources().getStringArray(R.array.Teams);
-
-        TeamScoreFragment teamScoreFragment1 =
-                (TeamScoreFragment)
-                        getSupportFragmentManager().findFragmentByTag("fragment_one");
-
-        teamScoreFragment1.setContext(this, teamNames);
-
-        TeamScoreFragment teamScoreFragment2 =
-                (TeamScoreFragment)
-                        getSupportFragmentManager().findFragmentByTag("fragment_two");
-
-        teamScoreFragment2.setContext(this, teamNames);
-        /*
-        Button btn = (Button) findViewById(R.id.button);
-        btn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                setDefaultDate();
-                TeamScoreFragment teamScoreFragment1 =
-                        (TeamScoreFragment)
-                                getSupportFragmentManager().findFragmentByTag("fragment_one");
-                teamScoreFragment1.changeTextProperties();
-                TeamScoreFragment teamScoreFragment2 =
-                        (TeamScoreFragment)
-                                getSupportFragmentManager().findFragmentByTag("fragment_two");
-                teamScoreFragment2.changeTextProperties();
-            }
-        });
-        */
         Button btn = (Button)findViewById(R.id.button);
         btn.setOnClickListener(this);
-
+        this.linkAdapters();
     }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        if (newConfig.orientation==Configuration.ORIENTATION_LANDSCAPE){
-            setContentView(R.layout.activity_main);
-            Button btn = (Button)findViewById(R.id.button);
-            btn.setOnClickListener(this);
-        }else if (newConfig.orientation==Configuration.ORIENTATION_PORTRAIT){
-            setContentView(R.layout.activity_main);
-            Button btn = (Button)findViewById(R.id.button);
-            btn.setOnClickListener(this);
-        }
-    }
-
 
     @Override
     public void onFragmentInteraction(Uri uri) {
