@@ -8,6 +8,7 @@
         android:layout_weight="4"
         android:layout_height="wrap_content"
         android:textCursorDrawable="@null"
+        android:maxLines="1"
         android:backgroundTint="@android:color/holo_blue_dark"
         android:id="@+id/editTeam" />
 

@@ -18,28 +18,31 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity
         implements TeamScoreFragment.OnFragmentInteractionListener, View.OnClickListener {
 
-    protected void linkAdapters(){
-        String[] teamNames = getResources().getStringArray(R.array.Teams);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        TeamScoreFragment teamScoreFragment1 =
-                (TeamScoreFragment)
-                        getSupportFragmentManager().findFragmentByTag("fragment_one");
+        setContentView(R.layout.activity_main);
 
-        teamScoreFragment1.setContext(this, teamNames);
+        // set the bounds for the date picker
+        this.setDatePickerBounds();
 
-        TeamScoreFragment teamScoreFragment2 =
-                (TeamScoreFragment)
-                        getSupportFragmentManager().findFragmentByTag("fragment_two");
+        // If we're being restored from a previous state,
+        // we only need to rebind listeners to the button and relink adapters
+        // and preserve date entered and states of the fragments.
+        if (savedInstanceState != null) {
+            this.setButtonListener();
+            this.linkAdapters();
+            return;
+        }
 
-        teamScoreFragment2.setContext(this, teamNames);
+        this.setDefaultDate();
+        this.setFragments();
+        this.setButtonListener();
+        this.linkAdapters();
     }
 
-    protected void setDefaultDate(){
-        DatePicker mDataPicker = (DatePicker) findViewById(R.id.datePicker);
-        mDataPicker.updateDate(2014, 7, 16);
-    }
-
-    protected void setDatePickerBounds(){
+    protected void setDatePickerBounds() {
         DatePicker mDatePicker = (DatePicker) findViewById(R.id.datePicker);
         String startDate = "Aug 16 2014";
         String endDate = "May 25 2015";
@@ -56,26 +59,38 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    /**
+     * Linking fragments with team names for AutoCompleteTextView
+     **/
+    protected void linkAdapters() {
+        String[] teamNames = getResources().getStringArray(R.array.Teams);
 
-        setContentView(R.layout.activity_main);
-
-        // If we're being restored from a previous state,
-        // then we don't need to do anything and should return or else
-        // we could end up with overlapping fragments.
-        if (savedInstanceState != null) {
-            Button btn = (Button)findViewById(R.id.button);
-            btn.setOnClickListener(this);
-            this.linkAdapters();
-            this.setDatePickerBounds();
-            return;
+        TeamScoreFragment teamScoreFragment1 =
+                (TeamScoreFragment)
+                        getSupportFragmentManager().findFragmentByTag("fragment_one");
+        if (teamScoreFragment1 != null) {
+            teamScoreFragment1.setContext(this, teamNames);
         }
 
-        this.setDatePickerBounds();
-        this.setDefaultDate();
+        TeamScoreFragment teamScoreFragment2 =
+                (TeamScoreFragment)
+                        getSupportFragmentManager().findFragmentByTag("fragment_two");
+        if (teamScoreFragment2 != null) {
+            teamScoreFragment2.setContext(this, teamNames);
+        }
+    }
 
+    protected void setDefaultDate() {
+        DatePicker mDataPicker = (DatePicker) findViewById(R.id.datePicker);
+        mDataPicker.updateDate(2014, 7, 16);
+    }
+
+    protected void setButtonListener(){
+        Button btn = (Button)findViewById(R.id.button);
+        btn.setOnClickListener(this);
+    }
+
+    protected void setFragments() {
         if (findViewById(R.id.fragment_container) != null) {
 
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -102,9 +117,6 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.executePendingTransactions();
 
         }
-        Button btn = (Button)findViewById(R.id.button);
-        btn.setOnClickListener(this);
-        this.linkAdapters();
     }
 
     @Override

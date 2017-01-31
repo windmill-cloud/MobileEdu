@@ -87,6 +87,7 @@ public class TeamScoreFragment extends Fragment {
     }
 
     public void changeTextProperties() {
+        mTextView.setHint(mParam);
         mTextView.setText("");
         mScoreView.setText("");
     }
