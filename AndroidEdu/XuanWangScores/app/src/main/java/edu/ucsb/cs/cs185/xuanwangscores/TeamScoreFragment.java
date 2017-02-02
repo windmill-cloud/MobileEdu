@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2017-present, Xuan Wang
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 package edu.ucsb.cs.cs185.xuanwangscores;
 
 import android.content.Context;
@@ -10,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.TextView;
 
 
 /**
@@ -26,11 +33,9 @@ public class TeamScoreFragment extends Fragment {
     AutoCompleteTextView mTextView;
     EditText mScoreView;
     ArrayAdapter<String> adapter;
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String TEAM = "Team";
 
-    // TODO: Rename and change types of parameters
     private String mParam;
 
     private OnFragmentInteractionListener mListener;
@@ -46,7 +51,6 @@ public class TeamScoreFragment extends Fragment {
      * @param param Parameter.
      * @return A new instance of fragment TeamScoreFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static TeamScoreFragment newInstance(String param) {
         TeamScoreFragment fragment = new TeamScoreFragment();
         Bundle args = new Bundle();
@@ -90,13 +94,6 @@ public class TeamScoreFragment extends Fragment {
         mTextView.setHint(mParam);
         mTextView.setText("");
         mScoreView.setText("");
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
