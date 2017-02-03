@@ -4,6 +4,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="team">Team</string>
     <string name="button_title">Next Game</string>
+    <string name="team1">Team 1 Name</string>
+    <string name="team2">Team 2 Name</string>
 
     <string name="zero">0</string>
 </resources>

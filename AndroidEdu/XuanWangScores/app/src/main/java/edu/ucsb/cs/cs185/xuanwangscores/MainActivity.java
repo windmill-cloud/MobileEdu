@@ -79,14 +79,14 @@ public class MainActivity extends AppCompatActivity
 
         TeamScoreFragment teamScoreFragment1 =
                 (TeamScoreFragment)
-                        getSupportFragmentManager().findFragmentByTag("fragment_one");
+                        getSupportFragmentManager().findFragmentByTag(getTag(R.string.team1));
         if (teamScoreFragment1 != null) {
             teamScoreFragment1.setContext(this, teamNames);
         }
 
         TeamScoreFragment teamScoreFragment2 =
                 (TeamScoreFragment)
-                        getSupportFragmentManager().findFragmentByTag("fragment_two");
+                        getSupportFragmentManager().findFragmentByTag(getTag(R.string.team2));
         if (teamScoreFragment2 != null) {
             teamScoreFragment2.setContext(this, teamNames);
         }
@@ -102,6 +102,10 @@ public class MainActivity extends AppCompatActivity
         btn.setOnClickListener(this);
     }
 
+    protected String getTag(int id){
+        return getResources().getString(id);
+    }
+
     protected void setFragments() {
         if (findViewById(R.id.fragment_container) != null) {
 
@@ -109,21 +113,23 @@ public class MainActivity extends AppCompatActivity
 
             FragmentTransaction ft = fragmentManager.beginTransaction();
             // Create a new Fragment to be placed in the activity layout
-            TeamScoreFragment mFirstTeamFragment = TeamScoreFragment.newInstance("Team 1 Name");
+            TeamScoreFragment mFirstTeamFragment =
+                    TeamScoreFragment.newInstance(getTag(R.string.team1));
 
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments
             mFirstTeamFragment.setArguments(getIntent().getExtras());
 
-            ft.add(R.id.fragment_container, mFirstTeamFragment, "fragment_one");
+            ft.add(R.id.fragment_container, mFirstTeamFragment, getTag(R.string.team1));
 
             // Create a new Fragment to be placed in the activity layout
-            TeamScoreFragment mSecondTeamFragment = TeamScoreFragment.newInstance("Team 2 Name");
+            TeamScoreFragment mSecondTeamFragment =
+                    TeamScoreFragment.newInstance(getTag(R.string.team2));
 
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments
             mSecondTeamFragment.setArguments(getIntent().getExtras());
-            ft.add(R.id.fragment_container, mSecondTeamFragment, "fragment_two");
+            ft.add(R.id.fragment_container, mSecondTeamFragment, getTag(R.string.team2));
 
             ft.commit();
             fragmentManager.executePendingTransactions();
@@ -167,9 +173,9 @@ public class MainActivity extends AppCompatActivity
         // if the user missed any input, we should not insert the entry.
         boolean shouldWriteDB = true;
 
-        shouldWriteDB &= this.resetFragmentAndAppendSql(sqlsb, "fragment_one");
+        shouldWriteDB &= this.resetFragmentAndAppendSql(sqlsb, getTag(R.string.team1));
         sqlsb.append(", ");
-        shouldWriteDB &= this.resetFragmentAndAppendSql(sqlsb, "fragment_two");
+        shouldWriteDB &= this.resetFragmentAndAppendSql(sqlsb, getTag(R.string.team2));
         sqlsb.append(")");
 
         // if we should insert to db, do the transaction.
@@ -203,7 +209,7 @@ public class MainActivity extends AppCompatActivity
         sqlsb.append(teamScore);
 
         // resetting Text and Score in the Fragment
-        teamScoreFragment.changeTextProperties();
+        teamScoreFragment.changeTextProperties(tag);
         return shouldWrite;
     }
 
