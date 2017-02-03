@@ -1,13 +1,15 @@
 /*
- * Copyright (c) 2017-present, Xuan Wang
- * All rights reserved.
+ *  Copyright (c) 2017 - present, Xuan Wang
+ *  All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree.
+ *  This source code is licensed under the BSD-style license found in the
+ *  LICENSE file in the root directory of this source tree.
+ *
  */
 
 package edu.ucsb.cs.cs185.xuanwangscores;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,8 +22,10 @@ import android.widget.DatePicker;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity
         implements TeamScoreFragment.OnFragmentInteractionListener, View.OnClickListener {
@@ -134,14 +138,84 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onClick(View view) {
+        // Getting the database handler
+        MatchesDBHelper dbOperator = DatabaseOperatorSingleton.getInstance(this).getDBOperator();
+
+        // sqlsb: a new sql statement
+
+        // insert into matches (Id, Date, HomeTeam, HomeScore, AwayTeam, AwayScore) values
+        // ('05ad776b-7f5c-4f21-9c85-0626080b7888',
+        // 'Sat Aug 16 18:06:10 PDT 2014',
+        // 'Arsenal', 1,
+        // 'Manchester United', 2)
+        StringBuilder sqlsb = new StringBuilder();
+        sqlsb.append("insert into ");
+        sqlsb.append(dbOperator.getTableName());
+        sqlsb.append(" (Id, Date, HomeTeam, HomeScore, AwayTeam, AwayScore) values ('");
+
+        // Generating UUID for a match
+        String uniqueId = UUID.randomUUID().toString();
+        sqlsb.append(uniqueId).append("', '");
+
+        // Add date
+        sqlsb.append(getDate()).append("', ");
+
+        // Setting default date
         setDefaultDate();
-        TeamScoreFragment teamScoreFragment1 =
+
+        // shouldWriteDB: whether we should insert this entry into db
+        // if the user missed any input, we should not insert the entry.
+        boolean shouldWriteDB = true;
+
+        shouldWriteDB &= this.resetFragmentAndAppendSql(sqlsb, "fragment_one");
+        sqlsb.append(", ");
+        shouldWriteDB &= this.resetFragmentAndAppendSql(sqlsb, "fragment_two");
+        sqlsb.append(")");
+
+        // if we should insert to db, do the transaction.
+        if(shouldWriteDB) {
+            SQLiteDatabase db = dbOperator.getWritableDatabase();
+            db.beginTransaction();
+            db.execSQL(sqlsb.toString());
+            db.endTransaction();
+        }
+    }
+
+    protected boolean resetFragmentAndAppendSql(StringBuilder sqlsb, String tag){
+        boolean shouldWrite = true;
+
+        // getting the fragment handler
+        TeamScoreFragment teamScoreFragment =
                 (TeamScoreFragment)
-                        getSupportFragmentManager().findFragmentByTag("fragment_one");
-        teamScoreFragment1.changeTextProperties();
-        TeamScoreFragment teamScoreFragment2 =
-                (TeamScoreFragment)
-                        getSupportFragmentManager().findFragmentByTag("fragment_two");
-        teamScoreFragment2.changeTextProperties();
+                        getSupportFragmentManager().findFragmentByTag(tag);
+        sqlsb.append("'");
+
+        String teamName = teamScoreFragment.getTeam();
+        if(teamName.equals("")){
+            shouldWrite = false;
+        }
+        sqlsb.append(teamName).append("', ");
+
+        String teamScore = teamScoreFragment.getScore();
+        if(teamScore.equals("")){
+            shouldWrite = false;
+        }
+        sqlsb.append(teamScore);
+
+        // resetting Text and Score in the Fragment
+        teamScoreFragment.changeTextProperties();
+        return shouldWrite;
+    }
+
+    protected String getDate(){
+        DatePicker mDatePicker = (DatePicker) findViewById(R.id.datePicker);
+        int day = mDatePicker.getDayOfMonth();
+        int month = mDatePicker.getMonth();
+        int year =  mDatePicker.getYear();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+
+        return calendar.getTime().toString();
     }
 }

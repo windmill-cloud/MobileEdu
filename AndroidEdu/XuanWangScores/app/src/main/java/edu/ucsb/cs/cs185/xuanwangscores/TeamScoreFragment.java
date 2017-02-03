@@ -81,6 +81,7 @@ public class TeamScoreFragment extends Fragment {
         }
         mTextView.setHint(mParam);
         mTextView.setAdapter(adapter);
+
         return view;
     }
 
@@ -94,6 +95,20 @@ public class TeamScoreFragment extends Fragment {
         mTextView.setHint(mParam);
         mTextView.setText("");
         mScoreView.setText("");
+    }
+
+    public String getTeam(){
+        if(mTextView == null){
+            return "";
+        }
+        return mTextView.getText().toString();
+    }
+
+    public String getScore(){
+        if(mScoreView == null) {
+            return "";
+        }
+        return mScoreView.getText().toString();
     }
 
     @Override
