@@ -3,9 +3,9 @@
  */
 'use strict';
 
-var BigEvent = require('BigEvent');
+var {BigEvent} = require('BigEvent');
 var FacebookSDK = require('FacebookSDK');
-var Parse = require('parse/react-native');
+//var Parse = require('parse/react-native');
 var React = require('React');
 var Relay = require('react-relay');
 
@@ -20,7 +20,7 @@ function setup(): ReactClass<{}> {
     //Parse.serverURL = `${serverURL}/parse`;
 
     FacebookSDK.init();
-    Parse.FacebookUtils.init();
+    //Parse.FacebookUtils.init();
     Relay.injectNetworkLayer(
         new Relay.DefaultNetworkLayer(`${serverURL}/graphql`, {
             fetchTimeout: 30000,
@@ -37,8 +37,8 @@ function setup(): ReactClass<{}> {
         constructor() {
             super();
             this.state = {
-                isLoading: true,
-                store: configureStore(() => this.setState({isLoading: false})),
+                isLoading: false, //true,
+                store: "",//configureStore(() => this.setState({isLoading: false})),
             };
         }
         render() {
@@ -47,7 +47,7 @@ function setup(): ReactClass<{}> {
             }
             return (
                 <Provider store={this.state.store}>
-                    <BitEvent />
+                    <BigEvent />
                 </Provider>
             );
         }
@@ -64,4 +64,3 @@ global.LOG = (...args) => {
 };
 
 module.exports = setup;
-
