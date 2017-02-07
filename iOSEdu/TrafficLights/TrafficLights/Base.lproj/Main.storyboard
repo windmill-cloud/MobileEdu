@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Road" translatesAutoresizingMaskIntoConstraints="NO" id="SNh-CF-v1q">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gux-qm-Wxt">
+                                <rect key="frame" x="87" y="447" width="200" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Gux-qm-Wxt" secondAttribute="height" multiplier="1:1" id="L36-MP-Pd4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="25"/>
+                                <state key="normal" title="Start" backgroundImage="redButton">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="startStop:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fhd-6W-xkE"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D9E-pg-4W9">
+                                <rect key="frame" x="120" y="364" width="134" height="51"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="51" id="j1e-4I-B6I"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Courier-Bold" family="Courier" pointSize="40"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <size key="shadowOffset" width="2" height="2"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="TrafficLight" translatesAutoresizingMaskIntoConstraints="NO" id="3qa-Jv-cnB">
+                                <rect key="frame" x="16" y="28" width="343" height="300"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="3qa-Jv-cnB" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="1Bj-HN-vwq"/>
+                            <constraint firstItem="D9E-pg-4W9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="104" id="1O4-9t-ZWd"/>
+                            <constraint firstItem="3qa-Jv-cnB" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="2Yp-vW-1K0"/>
+                            <constraint firstItem="3qa-Jv-cnB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="55e-0n-2n8"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="D9E-pg-4W9" secondAttribute="trailing" constant="105" id="8ot-Mv-7qV"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Gux-qm-Wxt" secondAttribute="trailing" constant="72" id="C4S-5M-V0i"/>
+                            <constraint firstItem="3qa-Jv-cnB" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="Cfk-Mk-fHf"/>
+                            <constraint firstItem="D9E-pg-4W9" firstAttribute="top" secondItem="3qa-Jv-cnB" secondAttribute="bottom" constant="8" id="EUF-pk-1d7"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="3qa-Jv-cnB" secondAttribute="trailing" constant="4" id="GvP-er-TlI"/>
+                            <constraint firstItem="Gux-qm-Wxt" firstAttribute="top" secondItem="D9E-pg-4W9" secondAttribute="bottom" constant="32" id="HdN-mg-Kb0"/>
+                            <constraint firstItem="Gux-qm-Wxt" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="71" id="IoE-Nc-paP"/>
+                            <constraint firstItem="D9E-pg-4W9" firstAttribute="top" secondItem="3qa-Jv-cnB" secondAttribute="bottom" constant="36" id="LgV-1c-VsH"/>
+                            <constraint firstItem="Gux-qm-Wxt" firstAttribute="top" secondItem="D9E-pg-4W9" secondAttribute="bottom" constant="8" id="WmN-Pe-Kem"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Gux-qm-Wxt" secondAttribute="bottom" constant="20" id="c9V-Zm-O4u"/>
+                            <constraint firstItem="D9E-pg-4W9" firstAttribute="top" secondItem="3qa-Jv-cnB" secondAttribute="bottom" constant="36" id="te3-2i-47K"/>
+                            <constraint firstItem="3qa-Jv-cnB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="4" id="wz4-8f-T5Y"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="scoreLabel" destination="D9E-pg-4W9" id="0tM-sE-4Hg"/>
+                        <outlet property="startButton" destination="Gux-qm-Wxt" id="CHR-4X-1JP"/>
+                        <outlet property="trafficLight" destination="3qa-Jv-cnB" id="9UX-64-TU2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="74.400000000000006" y="174.06296851574214"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Road" width="1674" height="1902"/>
+        <image name="TrafficLight" width="550" height="900"/>
+        <image name="redButton" width="1353" height="1353"/>
+    </resources>
+</document>
