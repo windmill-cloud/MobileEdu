@@ -17,6 +17,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    self.label.text = @"0";
+    self.label2.text = @"Apple";
 }
 
 
@@ -31,4 +33,11 @@
     int randomNum = arc4random() % 100;
     self.label.text = [NSString stringWithFormat:@"%i", randomNum];
 }
+
+- (IBAction)randomWord:(id)sender {
+    NSArray *words = @[@"Apple", @"Banana", @"Carrot", @"Lemon", @"Orange"];
+    int randWord = arc4random() % words.count;
+    self.label2.text = words[randWord];
+}
+
 @end
