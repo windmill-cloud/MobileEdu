@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="tdF-LT-LlL">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Random Facts" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Jd-N1-bC7">
+                                <rect key="frame" x="16" y="20" width="343" height="57"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="57" id="1TH-fR-BYI"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="50"/>
+                                <color key="textColor" red="0.99285227060317993" green="0.94991868734359741" blue="0.96956580877304077" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <size key="shadowOffset" width="2" height="2"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="crQ-gD-dsc">
+                                <rect key="frame" x="27" y="410" width="321" height="237"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="crQ-gD-dsc" secondAttribute="height" multiplier="107:79" id="VcU-4A-Xv3"/>
+                                </constraints>
+                                <state key="normal" image="Brain"/>
+                                <connections>
+                                    <action selector="randomFact:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9bh-8K-Vxo"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" minimumFontSize="32" translatesAutoresizingMaskIntoConstraints="NO" id="4Hw-7n-xID">
+                                <rect key="frame" x="16" y="104" width="348" height="271"/>
+                                <color key="backgroundColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="0.47375660211267606" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="32"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="3Jd-N1-bC7" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="321-bN-awW"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="crQ-gD-dsc" secondAttribute="bottom" constant="20" id="4Qe-Py-DbN"/>
+                            <constraint firstItem="4Hw-7n-xID" firstAttribute="top" secondItem="3Jd-N1-bC7" secondAttribute="bottom" constant="8" id="8Oa-IU-uBF"/>
+                            <constraint firstItem="4Hw-7n-xID" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="8Vp-JM-DfX"/>
+                            <constraint firstItem="crQ-gD-dsc" firstAttribute="top" secondItem="4Hw-7n-xID" secondAttribute="bottom" constant="8" id="9E6-bq-P30"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="tdF-LT-LlL" secondAttribute="bottom" id="ACS-bJ-osQ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4Hw-7n-xID" secondAttribute="trailing" constant="-5" id="Cdv-Jt-gLa"/>
+                            <constraint firstAttribute="trailing" secondItem="tdF-LT-LlL" secondAttribute="trailing" id="G7A-oj-sx5"/>
+                            <constraint firstItem="crQ-gD-dsc" firstAttribute="top" secondItem="4Hw-7n-xID" secondAttribute="bottom" constant="35" id="LeT-Ai-Y5H"/>
+                            <constraint firstItem="tdF-LT-LlL" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="YcW-LH-Y6a"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="crQ-gD-dsc" secondAttribute="trailing" constant="11" id="bNZ-pF-R14"/>
+                            <constraint firstItem="3Jd-N1-bC7" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="cqK-DF-Vsw"/>
+                            <constraint firstItem="tdF-LT-LlL" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="grS-G9-fUB"/>
+                            <constraint firstItem="crQ-gD-dsc" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="11" id="jC4-qV-xNl"/>
+                            <constraint firstItem="4Hw-7n-xID" firstAttribute="top" secondItem="3Jd-N1-bC7" secondAttribute="bottom" constant="27" id="yg4-4P-krF"/>
+                            <constraint firstItem="3Jd-N1-bC7" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="z6X-dj-HLF"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="label" destination="4Hw-7n-xID" id="4kA-7A-Mam"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="138.98050974512745"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Brain" width="460" height="340"/>
+        <image name="background" width="1920" height="1080"/>
+    </resources>
+</document>
