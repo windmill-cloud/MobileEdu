@@ -40,12 +40,14 @@ public class ReminderContent {
     }
 
     public static Reminder getItem(String id) {
-        return ITEM_MAP.get(id);
+        if(ITEM_MAP.containsKey(id)){
+            return ITEM_MAP.get(id);
+        }
+        return null;
     }
 
-    public static void setItem(Reminder reminder) {
-        /*ITEMS.set(Integer.parseInt(reminder.id) - 1, reminder);
-        ITEM_MAP.put(reminder.id, reminder);*/
+    public static void notifyAdapter(){
+        adapter.notifyDataSetChanged();
     }
 
     /**

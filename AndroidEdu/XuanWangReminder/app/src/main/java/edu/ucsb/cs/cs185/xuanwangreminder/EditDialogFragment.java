@@ -66,7 +66,13 @@ public class EditDialogFragment extends DialogFragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ReminderContent.Reminder reminder = buildReminder(contentView);
+                ReminderContent.Reminder reminder = ReminderContent.getItem(id);
+                if(reminder == null){
+                    reminder = buildReminder(contentView, null);
+                } else {
+                    reminder = buildReminder(contentView, reminder);
+                }
+
                 listener.setReminder(reminder);
             }
         });
@@ -75,9 +81,14 @@ public class EditDialogFragment extends DialogFragment {
         return builder.create();
     }
 
-    public ReminderContent.Reminder buildReminder(View contentView){
+    public ReminderContent.Reminder buildReminder(View contentView, ReminderContent.Reminder reminder){
+        if(reminder == null){
+            reminder = new ReminderContent.Reminder(
+                    "", 0, 0, 0, ""
+            );
+        }
         TextView titleView = (TextView) contentView.findViewById(R.id.editTitle);
-        String title = titleView.getText().toString();
+        reminder.title = titleView.getText().toString();
 
         int days = 0;
         CheckBox mon = (CheckBox) contentView.findViewById(R.id.mon);
@@ -101,16 +112,17 @@ public class EditDialogFragment extends DialogFragment {
         CheckBox sun = (CheckBox) contentView.findViewById(R.id.sun);
         days |= sun.isChecked() ? ReminderContent.SUNDAY : 0;
 
+        reminder.days = days;
+
         TimePicker timePicker = (TimePicker) contentView.findViewById(R.id.timePicker);
         Integer hour = timePicker.getCurrentHour();
         Integer minute = timePicker.getCurrentMinute();
+        reminder.hour = hour;
+        reminder.minute = minute;
 
         TextView detailView = (TextView) contentView.findViewById(R.id.editDetails);
-        String details = detailView.getText().toString();
+        reminder.details = detailView.getText().toString();
 
-        ReminderContent.Reminder reminder = new ReminderContent.Reminder(
-            title, days, hour, minute, details
-        );
         return reminder;
     }
 

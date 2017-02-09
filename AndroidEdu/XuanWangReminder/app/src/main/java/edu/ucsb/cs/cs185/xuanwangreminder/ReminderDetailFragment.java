@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,8 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import static edu.ucsb.cs.cs185.xuanwangreminder.ReminderContent.notifyAdapter;
+
 public class ReminderDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
     public static final String IS_ACTIVITY = "activity";
@@ -21,6 +25,7 @@ public class ReminderDetailFragment extends Fragment {
     private boolean isActivity;
     private OnCloseListener listener;
     private FragmentManager fragmentManager;
+
 
     public interface OnCloseListener {
         void OnClose();
@@ -63,9 +68,9 @@ public class ReminderDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.reminder_detail, container, false);
+        final View rootView = inflater.inflate(R.layout.reminder_detail, container, false);
         if (mItem != null) {
-            inflateViews(rootView);
+            inflateViews(rootView, mItem);
             Button editButton = (Button) rootView.findViewById(R.id.editButton);
             editButton.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -75,7 +80,13 @@ public class ReminderDetailFragment extends Fragment {
                     editDialogFragment.setReminderListener(new EditDialogFragment.ReminderListener() {
                         @Override
                         public void setReminder(ReminderContent.Reminder reminder) {
-                            ReminderContent.setItem(reminder);
+                            notifyAdapter();
+                            Activity activity = getActivity();
+                            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+                            if (appBarLayout != null) {
+                                appBarLayout.setTitle(reminder.title);
+                            }
+                            inflateViews(rootView, reminder);
                             editDialogFragment.dismiss();
                         }
                     });
@@ -87,7 +98,8 @@ public class ReminderDetailFragment extends Fragment {
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    ReminderContent.removeItem(mItem);
+                    getActivity().finish();
                 }
             });
 
@@ -95,7 +107,7 @@ public class ReminderDetailFragment extends Fragment {
         return rootView;
     }
 
-    protected void inflateViews(View contentView){
+    protected void inflateViews(View contentView, ReminderContent.Reminder mItem){
         TextView titleView = (TextView) contentView.findViewById(R.id.titleView);
         titleView.setText(mItem.title);
 
