@@ -2,10 +2,10 @@
 <!--
   ~  Copyright (c) 2017 - present, Xuan Wang
   ~  All rights reserved.
-  ~  
+  ~
   ~  This source code is licensed under the BSD-style license found in the
   ~  LICENSE file in the root directory of this source tree.
-  ~  
+  ~
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,15 +13,16 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:text="Title"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:textSize="30dp"
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textPersonName"
         android:textAlignment="center"
-        android:id="@+id/titleView" />
+        android:hint="Title"
+        android:textSize="32dp"
+        android:ems="10"
+        android:id="@+id/editTitle"
+    />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -32,28 +33,24 @@
             android:text="M"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"
             android:id="@+id/mon"
             android:layout_weight="1" />
         <CheckBox
             android:text="T"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"
             android:id="@+id/tue"
             android:layout_weight="1" />
         <CheckBox
             android:text="W"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"
             android:id="@+id/wed"
             android:layout_weight="1" />
         <CheckBox
             android:text="T"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"
             android:id="@+id/thu"
             android:layout_weight="1" />
 
@@ -61,67 +58,47 @@
             android:text="F"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"
             android:id="@+id/fri"
             android:layout_weight="1" />
         <CheckBox
             android:text="S"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"
             android:id="@+id/sat"
             android:layout_weight="1" />
         <CheckBox
             android:text="S"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"
             android:id="@+id/sun"
             android:layout_weight="1" />
     </LinearLayout>
 
+    <TimePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timePicker"
+        android:layout_gravity="center_horizontal"
+        android:timePickerMode="spinner" />
 
-    <TextView
-        android:text="Time"
-        android:textAlignment="center"
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/timeView" />
+        android:textAlignment="textStart"
+        android:layout_gravity="start"
+        android:inputType="textMultiLine"
+        android:hint="Details"
+        android:ems="10"
+        android:id="@+id/editDetails"
+        />
 
-
-    <TextView
-        android:text="Details"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:layout_width="match_parent"
+    <Button
+        android:text="add"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:id="@+id/detailView" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:text="Edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:id="@+id/editButton" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-
-        <Button
-            android:text="Delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:id="@+id/deleteButton" />
-    </LinearLayout>
+        android:id="@+id/addButton" />
 
 
 </LinearLayout>
+
