@@ -128,6 +128,7 @@ public class ReminderDetailFragment extends Fragment {
             });
 
             Button deleteButton = (Button) rootView.findViewById(R.id.deleteButton);
+            //TODO: different behavior in landscape and portrait modes
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
