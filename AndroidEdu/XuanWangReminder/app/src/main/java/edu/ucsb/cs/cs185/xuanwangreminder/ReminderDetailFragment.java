@@ -78,6 +78,30 @@ public class ReminderDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.reminder_detail, container, false);
+
+        if (savedInstanceState != null) {
+            final EditDialogFragment edf = (EditDialogFragment) getFragmentManager().
+                    findFragmentByTag("adding_reminder");
+
+            if (edf != null){
+                edf.setId(EditDialogFragment.ADD);
+                edf.setReminderListener(new EditDialogFragment.ReminderListener() {
+                    @Override
+                    public void setReminder(ReminderContent.Reminder reminder) {
+                        notifyAdapter();
+                        Activity activity = getActivity();
+                        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+                        if (appBarLayout != null) {
+                            appBarLayout.setTitle(reminder.title);
+                        }
+                        inflateViews(rootView, reminder);
+                        edf.dismiss();
+                    }
+                });
+            }
+        }
+
+
         if (mItem != null) {
             inflateViews(rootView, mItem);
             Button editButton = (Button) rootView.findViewById(R.id.editButton);
@@ -99,7 +123,7 @@ public class ReminderDetailFragment extends Fragment {
                             editDialogFragment.dismiss();
                         }
                     });
-                    editDialogFragment.show(fragmentManager, "tag");
+                    editDialogFragment.show(getActivity().getSupportFragmentManager(), "edit_reminder");
                 }
             });
 

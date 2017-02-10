@@ -108,7 +108,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:id="@+id/editButton" />
+            android:textAllCaps="false"
+            android:textSize="@dimen/button_text_size"
+            android:textColor="@color/colorLight"
+            android:background="@color/colorPrimary"
+            android:id="@+id/editButton"
+            />
 
         <View
             android:layout_width="0dp"
@@ -120,6 +125,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:textAllCaps="false"
+            android:textSize="@dimen/button_text_size"
+            android:textColor="@color/colorLight"
+            android:background="@color/colorPrimary"
             android:id="@+id/deleteButton" />
     </LinearLayout>
 

@@ -8,97 +8,110 @@
   ~
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:textAlignment="center"
-        android:hint="Title"
-        android:textSize="32dp"
-        android:ems="10"
-        android:id="@+id/editTitle"
-    />
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <CheckBox
-            android:text="M"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/mon"
-            android:layout_weight="1" />
-        <CheckBox
-            android:text="T"
+            android:inputType="textPersonName"
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center"
+            android:hint="Title"
+            android:textSize="24sp"
+            android:ems="10"
+            android:id="@+id/editTitle"
+            />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:text="M"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/mon"
+                android:layout_weight="1" />
+            <CheckBox
+                android:text="T"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tue"
+                android:layout_weight="1" />
+            <CheckBox
+                android:text="W"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/wed"
+                android:layout_weight="1" />
+            <CheckBox
+                android:text="T"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/thu"
+                android:layout_weight="1" />
+
+            <CheckBox
+                android:text="F"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fri"
+                android:layout_weight="1" />
+            <CheckBox
+                android:text="S"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sat"
+                android:layout_weight="1" />
+            <CheckBox
+                android:text="S"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sun"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <TimePicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tue"
-            android:layout_weight="1" />
-        <CheckBox
-            android:text="W"
-            android:layout_width="wrap_content"
+            android:id="@+id/timePicker"
+            android:layout_gravity="center_horizontal"
+            android:timePickerMode="spinner"
+            android:layout_margin="0dp"
+            android:padding="0dp" />
+
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/wed"
-            android:layout_weight="1" />
-        <CheckBox
-            android:text="T"
+            android:textAlignment="textStart"
+            android:layout_gravity="start"
+            android:inputType="textMultiLine"
+            android:hint="Details"
+            android:ems="10"
+            android:id="@+id/editDetails"
+            />
+
+        <Button
+            android:text="Add"
             android:layout_width="wrap_content"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
-            android:id="@+id/thu"
-            android:layout_weight="1" />
-
-        <CheckBox
-            android:text="F"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/fri"
-            android:layout_weight="1" />
-        <CheckBox
-            android:text="S"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/sat"
-            android:layout_weight="1" />
-        <CheckBox
-            android:text="S"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/sun"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <TimePicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/timePicker"
-        android:layout_gravity="center_horizontal"
-        android:timePickerMode="spinner" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="textStart"
-        android:layout_gravity="start"
-        android:inputType="textMultiLine"
-        android:hint="Details"
-        android:ems="10"
-        android:id="@+id/editDetails"
-        />
-
-    <Button
-        android:text="add"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:id="@+id/addButton" />
+            android:textAllCaps="false"
+            android:textColor="@color/colorLight"
+            android:background="@color/colorPrimary"
+            android:textSize="@dimen/button_text_size"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:id="@+id/addButton" />
+        </LinearLayout>
+    </ScrollView>
 
 
-</LinearLayout>
 

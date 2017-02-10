@@ -14,6 +14,7 @@ import android.app.Dialog;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -60,7 +61,7 @@ public class EditDialogFragment extends DialogFragment {
         if(!id.equals(ADD)){
             ReminderContent.Reminder reminder = ReminderContent.getItem(id);
             inflateViews(contentView, reminder);
-            addButton.setText("Submit Changes");
+            addButton.setText("  Submit Changes  ");
         }
 
         addButton.setOnClickListener(new View.OnClickListener() {
