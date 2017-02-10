@@ -11,6 +11,8 @@ package edu.ucsb.cs.cs185.xuanwangreminder;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -42,8 +44,6 @@ public class ReminderListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
-        //Html.fromHtml("<font color='#ff0000'>ActionBarTitle </font>")
-        //toolbar.setTitle(Html.fromHtml("<font color='#000000'>ActionBarTitle </font>"));
 
         if (savedInstanceState != null) {
            final EditDialogFragment edf = (EditDialogFragment) getSupportFragmentManager().
@@ -86,6 +86,10 @@ public class ReminderListActivity extends AppCompatActivity {
         View recyclerView = findViewById(R.id.reminder_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
+
+        if(ReminderContent.ITEMS.size() == 0){
+            this.populateRemindersFromDB();
+        }
 
         if (findViewById(R.id.reminder_detail_container) != null) {
             mTwoPane = true;
@@ -175,5 +179,10 @@ public class ReminderListActivity extends AppCompatActivity {
                 return super.toString() + " '" + mContentView.getText() + "'";
             }
         }
+    }
+
+    protected void populateRemindersFromDB(){
+        ReminderDBHelper dbOperator = DatabaseOperatorSingleton.getInstance(this).getDBOperator();
+        dbOperator.populateReminders();
     }
 }

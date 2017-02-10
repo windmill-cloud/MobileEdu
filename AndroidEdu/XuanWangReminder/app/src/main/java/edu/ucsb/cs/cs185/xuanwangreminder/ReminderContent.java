@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class ReminderContent {
     public static RecyclerView.Adapter<ReminderListActivity.SimpleItemRecyclerViewAdapter.ViewHolder> adapter;
@@ -60,10 +61,19 @@ public class ReminderContent {
         public Integer hour;
         public Integer minute;
         public int days;
-        public static int count = 0;
+        //public static int count = 0;
 
         public Reminder(String title, int days, Integer hour, Integer minute, String details) {
-            id = count++ + "";
+            id  = UUID.randomUUID().toString();
+            this.title = title;
+            this.days = days;
+            this.hour = hour;
+            this.minute = minute;
+            this.details = details;
+        }
+
+        public Reminder(String uuid, String title, int days, Integer hour, Integer minute, String details) {
+            id  = uuid;
             this.title = title;
             this.days = days;
             this.hour = hour;
@@ -71,4 +81,5 @@ public class ReminderContent {
             this.details = details;
         }
     }
+
 }

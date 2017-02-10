@@ -11,23 +11,14 @@ package edu.ucsb.cs.cs185.xuanwangreminder;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import java.sql.Time;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,8 +61,11 @@ public class EditDialogFragment extends DialogFragment {
                 ReminderContent.Reminder reminder = ReminderContent.getItem(id);
                 if(reminder == null){
                     reminder = buildReminder(contentView, null);
+                    insertIntoDatabase(reminder);
+
                 } else {
                     reminder = buildReminder(contentView, reminder);
+                    updateEntry(reminder);
                 }
 
                 listener.setReminder(reminder);
@@ -175,4 +169,13 @@ public class EditDialogFragment extends DialogFragment {
         void setReminder(ReminderContent.Reminder reminder);
     }
 
+    protected void insertIntoDatabase(ReminderContent.Reminder reminder){
+        ReminderDBHelper dbOperator = DatabaseOperatorSingleton.getInstance(getActivity()).getDBOperator();
+        dbOperator.insertReminder(reminder);
+    }
+
+    protected void updateEntry(ReminderContent.Reminder reminder){
+        ReminderDBHelper dbOperator = DatabaseOperatorSingleton.getInstance(getActivity()).getDBOperator();
+        dbOperator.updateReminder(reminder);
+    }
 }

@@ -14,17 +14,12 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import static edu.ucsb.cs.cs185.xuanwangreminder.ReminderContent.notifyAdapter;
 
@@ -102,7 +97,6 @@ public class ReminderDetailFragment extends Fragment {
             }
         }
 
-
         if (mItem != null) {
             inflateViews(rootView, mItem);
             Button editButton = (Button) rootView.findViewById(R.id.editButton);
@@ -138,8 +132,9 @@ public class ReminderDetailFragment extends Fragment {
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ReminderContent.removeItem(mItem);
+                    removeItemFromDB(mItem);
 
+                    ReminderContent.removeItem(mItem);
                     getActivity().getSupportFragmentManager().
                                 beginTransaction().remove(context).commit();
 
@@ -199,5 +194,10 @@ public class ReminderDetailFragment extends Fragment {
 
         TextView detailView = (TextView) contentView.findViewById(R.id.detailView);
         detailView.setText(mItem.details);
+    }
+
+    protected void removeItemFromDB(ReminderContent.Reminder reminder){
+        ReminderDBHelper dbOperator = DatabaseOperatorSingleton.getInstance(getActivity()).getDBOperator();
+        dbOperator.deleteReminder(reminder);
     }
 }
