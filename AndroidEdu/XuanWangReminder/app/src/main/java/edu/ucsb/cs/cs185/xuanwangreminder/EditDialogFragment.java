@@ -61,7 +61,7 @@ public class EditDialogFragment extends DialogFragment {
         if(!id.equals(ADD)){
             ReminderContent.Reminder reminder = ReminderContent.getItem(id);
             inflateViews(contentView, reminder);
-            addButton.setText("  Submit Changes  ");
+            addButton.setText(getResources().getString(R.string.submit_changes));
         }
 
         addButton.setOnClickListener(new View.OnClickListener() {

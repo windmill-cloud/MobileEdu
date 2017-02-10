@@ -29,7 +29,11 @@ import java.util.List;
 
 
 public class ReminderListActivity extends AppCompatActivity {
-    private boolean mTwoPane;
+    private static boolean mTwoPane;
+
+    public static boolean isTwoPane(){
+        return mTwoPane;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

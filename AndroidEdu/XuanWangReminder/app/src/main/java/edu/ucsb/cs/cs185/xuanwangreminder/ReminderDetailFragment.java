@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentManager;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +76,7 @@ public class ReminderDetailFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.reminder_detail, container, false);
 
@@ -123,17 +124,28 @@ public class ReminderDetailFragment extends Fragment {
                             editDialogFragment.dismiss();
                         }
                     });
-                    editDialogFragment.show(getActivity().getSupportFragmentManager(), "edit_reminder");
+                    editDialogFragment.show(getActivity().getSupportFragmentManager(),
+                            "edit_reminder");
                 }
             });
 
+            /*final ReminderDetailFragment rdf = (ReminderDetailFragment) getActivity()
+                    .getSupportFragmentManager().findFragmentByTag("reminder_detail_frag");
+            */
+            final ReminderDetailFragment context = this;
             Button deleteButton = (Button) rootView.findViewById(R.id.deleteButton);
             //TODO: different behavior in landscape and portrait modes
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     ReminderContent.removeItem(mItem);
-                    getActivity().finish();
+
+                    getActivity().getSupportFragmentManager().
+                                beginTransaction().remove(context).commit();
+
+                    if(!ReminderListActivity.isTwoPane()){
+                        getActivity().finish();
+                    }
                 }
             });
 
