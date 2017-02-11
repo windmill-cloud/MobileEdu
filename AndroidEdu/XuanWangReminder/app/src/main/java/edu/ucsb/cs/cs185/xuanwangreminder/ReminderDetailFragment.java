@@ -21,8 +21,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import static edu.ucsb.cs.cs185.xuanwangreminder.ReminderContent.notifyAdapter;
-
 public class ReminderDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
     public static final String IS_ACTIVITY = "activity";
@@ -77,14 +75,16 @@ public class ReminderDetailFragment extends Fragment {
 
         if (savedInstanceState != null) {
             final EditDialogFragment edf = (EditDialogFragment) getFragmentManager().
-                    findFragmentByTag("adding_reminder");
+                    findFragmentByTag("edit_reminder");
 
             if (edf != null){
-                edf.setId(EditDialogFragment.ADD);
+                edf.setId(mItem.id);
                 edf.setReminderListener(new EditDialogFragment.ReminderListener() {
                     @Override
                     public void setReminder(ReminderContent.Reminder reminder) {
-                        notifyAdapter();
+                        ReminderContent.updateItem(reminder, getActivity());
+
+                        //notifyAdapter();
                         Activity activity = getActivity();
                         CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
                         if (appBarLayout != null) {
@@ -108,7 +108,8 @@ public class ReminderDetailFragment extends Fragment {
                     editDialogFragment.setReminderListener(new EditDialogFragment.ReminderListener() {
                         @Override
                         public void setReminder(ReminderContent.Reminder reminder) {
-                            notifyAdapter();
+                            //notifyAdapter();
+                            ReminderContent.updateItem(reminder, getActivity());
                             Activity activity = getActivity();
                             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
                             if (appBarLayout != null) {
@@ -134,7 +135,7 @@ public class ReminderDetailFragment extends Fragment {
                 public void onClick(View view) {
                     removeItemFromDB(mItem);
 
-                    ReminderContent.removeItem(mItem);
+                    ReminderContent.removeItem(mItem, getActivity());
                     getActivity().getSupportFragmentManager().
                                 beginTransaction().remove(context).commit();
 

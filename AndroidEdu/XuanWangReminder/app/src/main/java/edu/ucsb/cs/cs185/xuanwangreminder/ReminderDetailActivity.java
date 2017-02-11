@@ -51,6 +51,7 @@ public class ReminderDetailActivity extends AppCompatActivity {
         } else {
             ReminderDetailFragment fragment = (ReminderDetailFragment) getSupportFragmentManager()
                     .findFragmentByTag("reminder_detail_frag");
+            /*
             Bundle arguments = new Bundle();
             arguments.putString(ReminderDetailFragment.ARG_ITEM_ID,
                     getIntent().getStringExtra(ReminderDetailFragment.ARG_ITEM_ID));
@@ -63,6 +64,8 @@ public class ReminderDetailActivity extends AppCompatActivity {
                 }
             });
             fragment.setArguments(arguments);
+            */
+
         }
     }
 

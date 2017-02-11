@@ -15,7 +15,6 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.support.annotation.IntegerRes;
 
 /**
  * Created by xuanwang on 2/9/17.
@@ -104,7 +103,7 @@ public class ReminderDBHelper extends SQLiteOpenHelper {
         return db.delete(TABLE_NAME, "id='" + reminder.id + "'", null);
     }
 
-    public void populateReminders() {
+    public void populateReminders(Context context) {
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from " + TABLE_NAME, null );
@@ -121,7 +120,7 @@ public class ReminderDBHelper extends SQLiteOpenHelper {
             ReminderContent.Reminder reminder =
                     new ReminderContent.Reminder(uuid, title, days, hour, minute, details);
 
-            ReminderContent.addItem(reminder);
+            ReminderContent.addItemInMem(reminder);
 
             res.moveToNext();
         }

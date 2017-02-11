@@ -11,8 +11,6 @@ package edu.ucsb.cs.cs185.xuanwangreminder;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -20,7 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +51,7 @@ public class ReminderListActivity extends AppCompatActivity {
                 edf.setReminderListener(new EditDialogFragment.ReminderListener() {
                     @Override
                     public void setReminder(ReminderContent.Reminder reminder) {
-                        ReminderContent.addItem(reminder);
+                        ReminderContent.addItem(reminder, getApplicationContext());
                         edf.dismiss();
                     }
                 });
@@ -74,7 +71,6 @@ public class ReminderListActivity extends AppCompatActivity {
                 editDialogFragment.setReminderListener(new EditDialogFragment.ReminderListener() {
                     @Override
                     public void setReminder(ReminderContent.Reminder reminder) {
-                        ReminderContent.addItem(reminder);
                         editDialogFragment.dismiss();
                     }
                 });
@@ -88,11 +84,13 @@ public class ReminderListActivity extends AppCompatActivity {
         setupRecyclerView((RecyclerView) recyclerView);
 
         if(ReminderContent.ITEMS.size() == 0){
-            this.populateRemindersFromDB();
+            ReminderContent.populateReminders(getApplicationContext());
         }
 
         if (findViewById(R.id.reminder_detail_container) != null) {
             mTwoPane = true;
+        } else {
+            mTwoPane = false;
         }
     }
 
@@ -179,10 +177,5 @@ public class ReminderListActivity extends AppCompatActivity {
                 return super.toString() + " '" + mContentView.getText() + "'";
             }
         }
-    }
-
-    protected void populateRemindersFromDB(){
-        ReminderDBHelper dbOperator = DatabaseOperatorSingleton.getInstance(this).getDBOperator();
-        dbOperator.populateReminders();
     }
 }

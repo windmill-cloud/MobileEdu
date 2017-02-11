@@ -1,5 +1,6 @@
 package edu.ucsb.cs.cs185.xuanwangreminder;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -24,9 +25,21 @@ public class ReminderContent {
      * Add a reminder to the list
      * @param item
      */
-    public static void addItem(Reminder item) {
+
+    public static void addItemInMem(Reminder item){
         ITEMS.add(item);
         ITEM_MAP.put(item.id, item);
+        adapter.notifyDataSetChanged();
+    }
+    public static void addItem(Reminder item, Context context) {
+        ReminderDBHelper dbOperator = DatabaseOperatorSingleton.getInstance(context).getDBOperator();
+        dbOperator.insertReminder(item);
+        addItemInMem(item);
+    }
+
+    public static void updateItem(Reminder item, Context context){
+        ReminderDBHelper dbOperator = DatabaseOperatorSingleton.getInstance(context).getDBOperator();
+        dbOperator.updateReminder(item);
         adapter.notifyDataSetChanged();
     }
 
@@ -34,7 +47,9 @@ public class ReminderContent {
      * Remove a reminder from the list
      * @param item
      */
-    public static void removeItem(Reminder item) {
+    public static void removeItem(Reminder item, Context context) {
+        ReminderDBHelper dbOperator = DatabaseOperatorSingleton.getInstance(context).getDBOperator();
+        dbOperator.deleteReminder(item);
         ITEMS.remove(item);
         ITEM_MAP.remove(item.id);
         adapter.notifyDataSetChanged();
@@ -47,8 +62,9 @@ public class ReminderContent {
         return null;
     }
 
-    public static void notifyAdapter(){
-        adapter.notifyDataSetChanged();
+    public static void populateReminders(Context context){
+        ReminderDBHelper dbOperator = DatabaseOperatorSingleton.getInstance(context).getDBOperator();
+        dbOperator.populateReminders(context);
     }
 
     /**

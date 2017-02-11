@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -61,11 +62,11 @@ public class EditDialogFragment extends DialogFragment {
                 ReminderContent.Reminder reminder = ReminderContent.getItem(id);
                 if(reminder == null){
                     reminder = buildReminder(contentView, null);
-                    insertIntoDatabase(reminder);
+                    ReminderContent.addItem(reminder, getActivity());
 
                 } else {
                     reminder = buildReminder(contentView, reminder);
-                    updateEntry(reminder);
+                    ReminderContent.updateItem(reminder, getActivity());
                 }
 
                 listener.setReminder(reminder);
@@ -73,7 +74,11 @@ public class EditDialogFragment extends DialogFragment {
         });
 
         builder.setView(contentView);
-        return builder.create();
+        AlertDialog dialog = builder.create();
+
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        return dialog;
     }
 
     public ReminderContent.Reminder buildReminder(View contentView, ReminderContent.Reminder reminder){
@@ -169,13 +174,4 @@ public class EditDialogFragment extends DialogFragment {
         void setReminder(ReminderContent.Reminder reminder);
     }
 
-    protected void insertIntoDatabase(ReminderContent.Reminder reminder){
-        ReminderDBHelper dbOperator = DatabaseOperatorSingleton.getInstance(getActivity()).getDBOperator();
-        dbOperator.insertReminder(reminder);
-    }
-
-    protected void updateEntry(ReminderContent.Reminder reminder){
-        ReminderDBHelper dbOperator = DatabaseOperatorSingleton.getInstance(getActivity()).getDBOperator();
-        dbOperator.updateReminder(reminder);
-    }
 }

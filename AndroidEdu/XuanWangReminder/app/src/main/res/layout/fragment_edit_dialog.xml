@@ -20,6 +20,7 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:imeOptions="flagNoExtractUi"
             android:inputType="textPersonName"
             android:layout_gravity="center_horizontal"
             android:textAlignment="center"
@@ -79,21 +80,22 @@
                 android:layout_weight="1" />
         </LinearLayout>
 
-        <TimePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/timePicker"
-            android:layout_gravity="center_horizontal"
-            android:timePickerMode="spinner"
-            android:layout_margin="0dp"
-            android:padding="0dp" />
+            <TimePicker
+                android:layout_width="wrap_content"
+                android:layout_height="141dp"
+                android:id="@+id/timePicker"
+                android:layout_gravity="center_horizontal"
+                android:timePickerMode="spinner"
+                android:layout_margin="0dp"
+                android:padding="0dp" />
 
-        <EditText
+            <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="textStart"
             android:layout_gravity="start"
             android:inputType="textMultiLine"
+                android:imeOptions="flagNoExtractUi"
             android:hint="Details"
             android:ems="10"
             android:id="@+id/editDetails"
