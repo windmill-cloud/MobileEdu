@@ -10,9 +10,10 @@ import java.util.Map;
 import java.util.UUID;
 
 public class ReminderContent {
-    public static RecyclerView.Adapter<ReminderListActivity.SimpleItemRecyclerViewAdapter.ViewHolder> adapter;
-    public static final List<Reminder> ITEMS = new ArrayList<Reminder>();
-    public static final Map<String, Reminder> ITEM_MAP = new HashMap<String, Reminder>();
+    public static RecyclerView.Adapter
+            <ReminderListActivity.SimpleItemRecyclerViewAdapter.ViewHolder> adapter;
+    public static final List<Reminder> ITEMS = new ArrayList<>();
+    public static final Map<String, Reminder> ITEM_MAP = new HashMap<>();
     public static int MONDAY = 128;
     public static int TUESDAY = 32;
     public static int WEDNESDAY = 16;
@@ -32,13 +33,15 @@ public class ReminderContent {
         adapter.notifyDataSetChanged();
     }
     public static void addItem(Reminder item, Context context) {
-        ReminderDBHelper dbOperator = DatabaseOperatorSingleton.getInstance(context).getDBOperator();
+        ReminderDBHelper dbOperator = DatabaseOperatorSingleton.
+                getInstance(context).getDBOperator();
         dbOperator.insertReminder(item);
         addItemInMem(item);
     }
 
     public static void updateItem(Reminder item, Context context){
-        ReminderDBHelper dbOperator = DatabaseOperatorSingleton.getInstance(context).getDBOperator();
+        ReminderDBHelper dbOperator = DatabaseOperatorSingleton.
+                getInstance(context).getDBOperator();
         dbOperator.updateReminder(item);
         adapter.notifyDataSetChanged();
     }
@@ -48,7 +51,8 @@ public class ReminderContent {
      * @param item
      */
     public static void removeItem(Reminder item, Context context) {
-        ReminderDBHelper dbOperator = DatabaseOperatorSingleton.getInstance(context).getDBOperator();
+        ReminderDBHelper dbOperator = DatabaseOperatorSingleton.
+                getInstance(context).getDBOperator();
         dbOperator.deleteReminder(item);
         ITEMS.remove(item);
         ITEM_MAP.remove(item.id);
@@ -63,7 +67,8 @@ public class ReminderContent {
     }
 
     public static void populateReminders(Context context){
-        ReminderDBHelper dbOperator = DatabaseOperatorSingleton.getInstance(context).getDBOperator();
+        ReminderDBHelper dbOperator = DatabaseOperatorSingleton.
+                getInstance(context).getDBOperator();
         dbOperator.populateReminders(context);
     }
 
@@ -88,7 +93,8 @@ public class ReminderContent {
             this.details = details;
         }
 
-        public Reminder(String uuid, String title, int days, Integer hour, Integer minute, String details) {
+        public Reminder(String uuid, String title, int days, Integer hour,
+                        Integer minute, String details) {
             id  = uuid;
             this.title = title;
             this.days = days;

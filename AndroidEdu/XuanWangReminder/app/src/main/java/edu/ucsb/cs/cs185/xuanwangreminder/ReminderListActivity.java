@@ -51,7 +51,7 @@ public class ReminderListActivity extends AppCompatActivity {
                 edf.setReminderListener(new EditDialogFragment.ReminderListener() {
                     @Override
                     public void setReminder(ReminderContent.Reminder reminder) {
-                        ReminderContent.addItem(reminder, getApplicationContext());
+                        //ReminderContent.addItem(reminder, getApplicationContext());
                         edf.dismiss();
                     }
                 });
