@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ReminderDetailFragment extends Fragment {
@@ -100,6 +101,18 @@ public class ReminderDetailFragment extends Fragment {
         if (mItem != null) {
             inflateViews(rootView, mItem);
             Button editButton = (Button) rootView.findViewById(R.id.editButton);
+            /*
+            View placeHolder = rootView.findViewById(R.id.detail_view_placeholder);
+            if(ReminderListActivity.isTwoPane()){
+                placeHolder.setLayoutParams(
+                        new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+            } else {
+                placeHolder.setLayoutParams(
+                        new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                                0, 0f));
+            }
+            */
             editButton.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
