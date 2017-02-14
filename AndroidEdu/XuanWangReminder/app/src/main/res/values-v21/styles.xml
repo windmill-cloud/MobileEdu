@@ -15,4 +15,9 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <style name="MyCheckBoxStyle" parent="@android:style/Widget.Material.CompoundButton.CheckBox">
+        <item name="android:buttonTint">@android:color/black</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
 </resources>

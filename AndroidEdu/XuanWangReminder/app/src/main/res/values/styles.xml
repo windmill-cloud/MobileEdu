@@ -11,6 +11,7 @@
 
     <!-- Base application theme. -->
     <!-- AppTheme
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -27,16 +28,18 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
     -->
 
-    <style name="AppTheme" parent="Theme.Design.Light">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textSize">@dimen/list_text_size</item>
         <item name="android:colorBackground">@color/colorMidLight</item>
+        <item name="android:windowActionBar">false</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
-
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="Base.ThemeOverlay.AppCompat.Light">
@@ -47,12 +50,6 @@
     <style name="AppTheme.PopupOverlay" parent="Base.ThemeOverlay.AppCompat.Light"/>
 
     <style name="MyButtonStyle" parent="@android:style/Widget.Button">
-        <item name="android:textColor">@color/colorLight</item>
-        <item name="android:background">@drawable/button</item>
-    </style>
-
-    <style name="MyFloatButtonStyle" parent="Widget.Design.FloatingActionButton">
-        <item name="android:textSize">@dimen/list_text_size</item>
         <item name="android:textColor">@color/colorLight</item>
         <item name="android:background">@drawable/button</item>
     </style>
