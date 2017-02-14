@@ -27,7 +27,6 @@
             android:textAlignment="center"
             android:hint="@string/title"
             android:textSize="24sp"
-            android:ems="10"
             android:id="@+id/editTitle"
             />
 
@@ -98,7 +97,6 @@
                 android:imeOptions="flagNoExtractUi"
                 android:textIsSelectable="true"
             android:hint="@string/details"
-            android:ems="10"
             android:id="@+id/editDetails"
             />
 
