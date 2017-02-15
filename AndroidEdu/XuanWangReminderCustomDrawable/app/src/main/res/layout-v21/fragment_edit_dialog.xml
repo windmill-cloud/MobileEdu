@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Copyright (c) 2017 - present, Xuan Wang
+  ~  All rights reserved.
+  ~
+  ~  This source code is licensed under the BSD-style license found in the
+  ~  LICENSE file in the root directory of this source tree.
+  ~
+  -->
+
+
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/title"
+            android:layout_gravity="center_horizontal"
+
+            android:textAlignment="center"
+            android:imeOptions="flagNoExtractUi"
+            android:inputType="textPersonName"
+            android:textSize="24sp"
+
+            android:id="@+id/editTitle"
+            />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:text="@string/monday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/mon"
+                android:layout_weight="1" />
+            <CheckBox
+                android:text="@string/tuesday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tue"
+                android:layout_weight="1" />
+            <CheckBox
+                android:text="@string/wednesday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/wed"
+                android:layout_weight="1" />
+            <CheckBox
+                android:text="@string/thursday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/thu"
+                android:layout_weight="1" />
+
+            <CheckBox
+                android:text="@string/friday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fri"
+                android:layout_weight="1" />
+            <CheckBox
+                android:text="@string/saturday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sat"
+                android:layout_weight="1" />
+            <CheckBox
+                android:text="@string/sunday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sun"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+            <TimePicker
+                android:layout_width="wrap_content"
+                android:layout_height="140dp"
+                android:id="@+id/timePicker"
+                android:layout_gravity="center_horizontal"
+                android:timePickerMode="spinner"
+                android:foregroundTint="@color/colorAccent"
+                android:layout_margin="0dp"
+                android:padding="0dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                android:layout_gravity="start"
+                android:inputType="textMultiLine"
+                android:imeOptions="flagNoExtractUi"
+                android:textIsSelectable="true"
+                android:hint="@string/details"
+                android:id="@+id/editDetails"
+            />
+
+        <Button
+            android:text="@string/add"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:paddingLeft="@dimen/padding"
+            android:paddingRight="@dimen/padding"
+            style="@style/MyButtonStyle"
+            android:textSize="@dimen/button_text_size"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:id="@+id/addButton" />
+        </LinearLayout>
+    </ScrollView>
+
+
+

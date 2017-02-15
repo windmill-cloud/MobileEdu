@@ -1,0 +1,23 @@
+<!--
+  ~  Copyright (c) 2017 - present, Xuan Wang
+  ~  All rights reserved.
+  ~
+  ~  This source code is licensed under the BSD-style license found in the
+  ~  LICENSE file in the root directory of this source tree.
+  ~
+  -->
+
+<resources>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="MyCheckBoxStyle" parent="@android:style/Widget.Material.CompoundButton.CheckBox">
+        <item name="android:buttonTint">@android:color/black</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+</resources>

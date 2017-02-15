@@ -126,6 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:textAllCaps="false"
+                style="@style/MyButtonStyle"
                 android:id="@+id/editButton"
                 />
 

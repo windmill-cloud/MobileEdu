@@ -51,7 +51,7 @@
 
     <style name="MyButtonStyle" parent="@android:style/Widget.Button">
         <item name="android:textColor">@color/colorLight</item>
-        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:background">@drawable/button</item>
     </style>
 
 </resources>
