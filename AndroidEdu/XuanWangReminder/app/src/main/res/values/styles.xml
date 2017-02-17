@@ -10,48 +10,51 @@
 <resources>
 
     <!-- Base application theme. -->
+
     <!-- AppTheme
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
+<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccent</item>
+</style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
+<style name="AppTheme.NoActionBar">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+</style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-    -->
+<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textSize">@dimen/list_text_size</item>
-        <item name="android:colorBackground">@color/colorMidLight</item>
-        <item name="android:windowActionBar">false</item>
-    </style>
+<style name="MyButtonStyle" parent="@android:style/Widget.Button" />
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
+-->
+<style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+    <item name="colorPrimary">@color/Primary</item>
+    <item name="colorPrimaryDark">@color/PrimaryDark</item>
+    <item name="colorAccent">@color/Accent</item>
+    <item name="android:textSize">@dimen/list_text_size</item>
+    <item name="android:textColor">@android:color/black</item>
+    <item name="android:colorBackground">@color/MidLight</item>
+    <item name="android:windowActionBar">false</item>
+</style>
 
-    <style name="AppTheme.AppBarOverlay" parent="Base.ThemeOverlay.AppCompat.Light">
-        <item name="android:textColorPrimary">@color/colorMidLight</item>
-    </style>
+<style name="AppTheme.NoActionBar">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+</style>
 
+<style name="AppTheme.AppBarOverlay" parent="Base.ThemeOverlay.AppCompat.Light">
+    <item name="android:textColorPrimary">@color/MidLight</item>
+</style>
 
-    <style name="AppTheme.PopupOverlay" parent="Base.ThemeOverlay.AppCompat.Light"/>
+<style name="AppTheme.PopupOverlay" parent="Base.ThemeOverlay.AppCompat.Light"/>
 
-    <style name="MyButtonStyle" parent="@android:style/Widget.Button">
-        <item name="android:textColor">@color/colorLight</item>
-        <item name="android:background">@color/colorPrimaryDark</item>
-    </style>
+<style name="MyButtonStyle" parent="@android:style/Widget.Button">
+    <item name="android:textColor">@color/Light</item>
+    <item name="android:background">@color/PrimaryDark</item>
+</style>
 
 </resources>

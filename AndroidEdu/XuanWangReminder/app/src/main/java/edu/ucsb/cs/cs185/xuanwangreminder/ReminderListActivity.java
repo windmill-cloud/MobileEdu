@@ -51,7 +51,6 @@ public class ReminderListActivity extends AppCompatActivity {
                 edf.setReminderListener(new EditDialogFragment.ReminderListener() {
                     @Override
                     public void setReminder(ReminderContent.Reminder reminder) {
-                        //ReminderContent.addItem(reminder, getApplicationContext());
                         edf.dismiss();
                     }
                 });
@@ -122,7 +121,6 @@ public class ReminderListActivity extends AppCompatActivity {
             holder.mItem = mValues.get(position);
             holder.mIdView.setText(">");
 
-            //holder.mIdView.setText(mValues.get(position).id);
             holder.mContentView.setText(mValues.get(position).title);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {

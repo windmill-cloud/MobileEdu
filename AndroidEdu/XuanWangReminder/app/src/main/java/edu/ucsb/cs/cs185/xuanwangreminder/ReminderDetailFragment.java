@@ -28,8 +28,6 @@ public class ReminderDetailFragment extends Fragment {
     private ReminderContent.Reminder mItem;
     private boolean isActivity;
     private OnCloseListener listener;
-    private FragmentManager fragmentManager;
-
 
     public interface OnCloseListener {
         void OnClose();
@@ -40,11 +38,6 @@ public class ReminderDetailFragment extends Fragment {
 
     public void setOnCloseListener(OnCloseListener listener) {
         this.listener = listener;
-    }
-
-    public void setFragmentManager(FragmentManager fragmentManager){
-        this.fragmentManager = fragmentManager;
-
     }
 
     private void close() {
@@ -85,7 +78,6 @@ public class ReminderDetailFragment extends Fragment {
                     public void setReminder(ReminderContent.Reminder reminder) {
                         ReminderContent.updateItem(reminder, getActivity());
 
-                        //notifyAdapter();
                         Activity activity = getActivity();
                         CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
                         if (appBarLayout != null) {
@@ -101,18 +93,7 @@ public class ReminderDetailFragment extends Fragment {
         if (mItem != null) {
             inflateViews(rootView, mItem);
             Button editButton = (Button) rootView.findViewById(R.id.editButton);
-            /*
-            View placeHolder = rootView.findViewById(R.id.detail_view_placeholder);
-            if(ReminderListActivity.isTwoPane()){
-                placeHolder.setLayoutParams(
-                        new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                                LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
-            } else {
-                placeHolder.setLayoutParams(
-                        new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                                0, 0f));
-            }
-            */
+
             editButton.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
@@ -121,7 +102,6 @@ public class ReminderDetailFragment extends Fragment {
                     editDialogFragment.setReminderListener(new EditDialogFragment.ReminderListener() {
                         @Override
                         public void setReminder(ReminderContent.Reminder reminder) {
-                            //notifyAdapter();
                             ReminderContent.updateItem(reminder, getActivity());
                             Activity activity = getActivity();
                             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
@@ -137,24 +117,15 @@ public class ReminderDetailFragment extends Fragment {
                 }
             });
 
-            /*final ReminderDetailFragment rdf = (ReminderDetailFragment) getActivity()
-                    .getSupportFragmentManager().findFragmentByTag("reminder_detail_frag");
-            */
-            final ReminderDetailFragment context = this;
+
             Button deleteButton = (Button) rootView.findViewById(R.id.deleteButton);
-            //TODO: different behavior in landscape and portrait modes
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     removeItemFromDB(mItem);
 
                     ReminderContent.removeItem(mItem, getActivity());
-                    getActivity().getSupportFragmentManager().
-                                beginTransaction().remove(context).commit();
-
-                    if(!ReminderListActivity.isTwoPane()){
-                        getActivity().finish();
-                    }
+                    close();
                 }
             });
 

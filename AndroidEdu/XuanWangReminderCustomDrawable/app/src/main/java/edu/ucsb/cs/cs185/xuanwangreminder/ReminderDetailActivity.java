@@ -37,7 +37,6 @@ public class ReminderDetailActivity extends AppCompatActivity {
                     getIntent().getStringExtra(ReminderDetailFragment.ARG_ITEM_ID));
             arguments.putBoolean(ReminderDetailFragment.IS_ACTIVITY, true);
             ReminderDetailFragment fragment = new ReminderDetailFragment();
-            fragment.setFragmentManager(getSupportFragmentManager());
             fragment.setOnCloseListener(new ReminderDetailFragment.OnCloseListener() {
                 @Override
                 public void OnClose() {
@@ -48,24 +47,6 @@ public class ReminderDetailActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.reminder_detail_container, fragment, "reminder_detail_frag")
                     .commit();
-        } else {
-            ReminderDetailFragment fragment = (ReminderDetailFragment) getSupportFragmentManager()
-                    .findFragmentByTag("reminder_detail_frag");
-            /*
-            Bundle arguments = new Bundle();
-            arguments.putString(ReminderDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(ReminderDetailFragment.ARG_ITEM_ID));
-            arguments.putBoolean(ReminderDetailFragment.IS_ACTIVITY, true);
-            fragment.setFragmentManager(getSupportFragmentManager());
-            fragment.setOnCloseListener(new ReminderDetailFragment.OnCloseListener() {
-                @Override
-                public void OnClose() {
-                    onBackPressed();
-                }
-            });
-            fragment.setArguments(arguments);
-            */
-
         }
     }
 

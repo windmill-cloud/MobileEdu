@@ -89,7 +89,6 @@
                 android:id="@+id/timePicker"
                 android:layout_gravity="center_horizontal"
                 android:timePickerMode="spinner"
-                android:foregroundTint="@color/colorAccent"
                 android:layout_margin="0dp"
                 android:padding="0dp" />
 
