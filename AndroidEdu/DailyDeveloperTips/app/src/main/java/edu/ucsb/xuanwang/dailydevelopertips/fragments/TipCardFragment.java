@@ -22,14 +22,14 @@ import edu.ucsb.xuanwang.dailydevelopertips.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link TipsCardFragment.OnFragmentInteractionListener} interface
+ * {@link TipCardFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class TipsCardFragment extends Fragment {
+public class TipCardFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public TipsCardFragment() {
+    public TipCardFragment() {
         // Required empty public constructor
     }
 
@@ -38,7 +38,7 @@ public class TipsCardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tips_card2, container, false);
+        return inflater.inflate(R.layout.fragment_tip_card, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
