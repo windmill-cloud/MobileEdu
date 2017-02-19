@@ -9,8 +9,8 @@
   -->
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="350dp"
+    android:layout_height="match_parent"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     card_view:cardCornerRadius="4dp"
     android:layout_margin="5dp"
@@ -19,26 +19,11 @@
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="edu.ucsb.xuanwang.dailydevelopertips.fragments.TipCardFragment">
 
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageButton
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:srcCompat="@drawable/settings_icon"
-                android:scaleType="fitXY"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="@dimen/activity_vertical_margin"
-                android:id="@+id/imageButton"
-                android:background="@android:color/transparent" />
 
 
             <LinearLayout
@@ -46,56 +31,66 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
+                >
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    app:srcCompat="@drawable/settings"
+                    android:scaleType="fitEnd"
+                    android:paddingTop="@dimen/text_horizontal_margin"
+                    android:layout_gravity="right"
+
+                    android:paddingRight="@dimen/text_horizontal_margin"
+                    android:id="@+id/card_settings"
+                    android:background="@android:color/transparent" />
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="150dp"
                     app:srcCompat="@drawable/develop_white"
-                    android:layout_below="@+id/imageButton"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="37dp"
-                    android:id="@+id/imageView2"
+                    android:id="@+id/cc"
                     android:background="@android:color/transparent" />
 
                 <TextView
                     android:text="TextView"
+                    android:textSize="20sp"
+                    android:textAlignment="center"
+                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="@dimen/text_horizontal_margin"
+                    android:background="@android:color/transparent"
+
                     android:id="@+id/card_title" />
 
                 <TextView
                     android:text="TextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/card_time_estimated" />
+                    android:textSize="18sp"
+                    android:textAlignment="center"
+                    android:gravity="center"
 
-                <TextView
-                    android:text="TextView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/card_description" />
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:id="@+id/card_description"
+                    android:background="@android:color/transparent"
+                    android:paddingLeft="40dp"
+                    android:paddingRight="40dp" />
 
-                <view
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    class="android.support.v4.widget.Space"
-                    android:id="@+id/view" />
+
 
                 <Button
-                    android:text="Button"
+                    android:text="Check it out"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button2"
+                    android:textAllCaps="false"
+                    android:id="@+id/card_button"
                     android:background="@android:color/transparent" />
 
 
             </LinearLayout>
 
-        </RelativeLayout>
     </FrameLayout>
 
 

@@ -13,7 +13,9 @@ package edu.ucsb.xuanwang.dailydevelopertips.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,8 +47,11 @@ public class TipCardsSelectFragment extends Fragment {
             LinearLayoutManager llm = new LinearLayoutManager(getContext());
             llm.setOrientation(LinearLayoutManager.HORIZONTAL);
             rv.setLayoutManager(llm);
-            CardAdapter adapter = new CardAdapter(Cards.cards);
+            CardAdapter adapter = new CardAdapter(getContext(), Cards.cards);
             rv.setAdapter(adapter);
+
+            SnapHelper snapHelper = new LinearSnapHelper();
+            snapHelper.attachToRecyclerView(rv);
 
         }
         return rootView;

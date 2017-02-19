@@ -22,7 +22,7 @@ import com.facebook.shimmer.ShimmerFrameLayout;
  */
 public class SplashScreen extends AppCompatActivity {
     /** Duration of wait **/
-    private final int SPLASH_DISPLAY_LENGTH = 3000;
+    private final int SPLASH_DISPLAY_LENGTH = 2000;
     private final int SHIMMER_DURATION = 1000;
 
     /** Called when the activity is first created. */

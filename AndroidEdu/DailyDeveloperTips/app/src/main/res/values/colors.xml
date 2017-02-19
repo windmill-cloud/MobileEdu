@@ -14,4 +14,17 @@
     <color name="colorBackground">#202020</color>
 
     <color name="black_overlay">#66000000</color>
+
+    <color name="card_red">#da0303</color>
+    <color name="button_red">#8c0000</color>
+
+    <color name="card_rust">#da6f03</color>
+    <color name="button_rust">#8c5200</color>
+
+    <color name="card_green">#01662a</color>
+    <color name="button_green">#004014</color>
+
+    <color name="card_blue">#1d0093</color>
+    <color name="button_blue">#040174</color>
+
 </resources>
