@@ -57,19 +57,19 @@
                 android:text="TextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView6" />
+                android:id="@+id/card_title" />
 
             <TextView
                 android:text="TextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView5" />
+                android:id="@+id/card_time_estimated" />
 
             <TextView
                 android:text="TextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView3" />
+                android:id="@+id/card_description" />
 
             <view
                 android:layout_width="match_parent"

@@ -12,6 +12,9 @@ package edu.ucsb.xuanwang.dailydevelopertips;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import edu.ucsb.xuanwang.dailydevelopertips.fragments.TipCardsSelectFragment;
+import edu.ucsb.xuanwang.dailydevelopertips.inmemojects.Cards;
+
 
 public class MainScreenActivity extends AppCompatActivity {
 
@@ -20,7 +23,12 @@ public class MainScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
+        final TipCardsSelectFragment fragment = new TipCardsSelectFragment();
 
+        Cards.inflateDummies();
 
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_fragment_container, fragment)
+                .commit();
     }
 }

@@ -21,7 +21,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.AlbumViewHolder>
     List<MainActivity.Album> albums;
 
     //define interface
-    public static interface OnRecyclerViewItemClickListener {
+    public interface OnRecyclerViewItemClickListener {
         void onItemClick(View view , String data);
     }
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
