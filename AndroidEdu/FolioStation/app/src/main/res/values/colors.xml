@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Copyright (c) 2017 - present, Xuan Wang
+  ~  All rights reserved.
+  ~
+  ~  This source code is licensed under the BSD-style license found in the
+  ~  LICENSE file in the root directory of this source tree.
+  ~
+  -->
+
+<resources>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#dcdcdc</color>
+    <color name="colorAccent">#3eb489</color>
+    <color name="colorDark">#2b8162</color>
+    <color name="splashGreenTransparent">#952b8162</color>
+    <color name="splashWhiteTransparent">#4fffffff</color>
+    <color name="splashDarkTransparent">#95000000</color>
+
+</resources>

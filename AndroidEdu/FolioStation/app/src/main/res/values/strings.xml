@@ -1,0 +1,16 @@
+<!--
+  ~  Copyright (c) 2017 - present, Xuan Wang
+  ~  All rights reserved.
+  ~
+  ~  This source code is licensed under the BSD-style license found in the
+  ~  LICENSE file in the root directory of this source tree.
+  ~
+  -->
+
+<resources>
+    <string name="app_name">FolioStation</string>
+    <string name="splash_text">Write down your ideas\nGenerate collages\nShare with friends</string>
+    <string name="sign_up">Sign up</string>
+    <string name="Log_in">Log in</string>
+
+</resources>
