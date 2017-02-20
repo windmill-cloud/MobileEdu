@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "411666830453",
+    "firebase_url": "https://foliostation.firebaseio.com",
+    "project_id": "foliostation",
+    "storage_bucket": "foliostation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:411666830453:android:46aaaedd2b7093c3",
+        "android_client_info": {
+          "package_name": "edu.ucsb.cs.cs185.foliostation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "411666830453-23h6t3g4ehu2m7fv0q4q0nj0dkpequek.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.ucsb.cs.cs185.foliostation",
+            "certificate_hash": "CE36D5A5C1C9019D05A239AF093720A5423ACE91"
+          }
+        },
+        {
+          "client_id": "411666830453-8nshdeg5cm19047070l2fbotre6j55om.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDTfqd-FkLUfX7RCCLXXHT7auuQCe1UmU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "411666830453-8nshdeg5cm19047070l2fbotre6j55om.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

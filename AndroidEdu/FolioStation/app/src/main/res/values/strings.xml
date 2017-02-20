@@ -11,6 +11,12 @@
     <string name="app_name">FolioStation</string>
     <string name="splash_text">Write down your ideas\nGenerate collages\nShare with friends</string>
     <string name="sign_up">Sign up</string>
-    <string name="Log_in">Log in</string>
+    <string name="log_in">Log in</string>
+    <string name="title_activity_collect">CollectActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 
 </resources>

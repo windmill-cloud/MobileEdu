@@ -75,7 +75,7 @@
                 style="@style/SemiTransparentButton" />
 
             <Button
-                android:text="@string/Log_in"
+                android:text="@string/log_in"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/log_in"
