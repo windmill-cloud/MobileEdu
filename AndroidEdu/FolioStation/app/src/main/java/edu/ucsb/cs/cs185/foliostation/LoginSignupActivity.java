@@ -64,7 +64,15 @@ public class LoginSignupActivity extends AppCompatActivity {
             loginSignupButton.setText("Log in");
         }
 
+        loginSignupButton.setOnClickListener(new View.OnClickListener(){
 
+            @Override
+            public void onClick(View view) {
+                Intent collectIntent = new Intent(LoginSignupActivity.this,
+                        CollectActivity.class);
+                LoginSignupActivity.this.startActivity(collectIntent);
+            }
+        });
 
     }
 /*

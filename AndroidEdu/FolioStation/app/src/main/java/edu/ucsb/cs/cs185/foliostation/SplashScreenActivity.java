@@ -58,7 +58,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         container.setDuration(SHIMMER_DURATION);
         container.startShimmerAnimation();
 
-
         Timer changeBackgroundTimer = new Timer();
         changeBackgroundTimer.schedule(new TimerTask() {
             @Override
@@ -86,7 +85,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                         LoginSignupActivity.class);
                 signUpIntent.putExtra("TYPE", "SIGN_UP");
                 SplashScreenActivity.this.startActivity(signUpIntent);
-                SplashScreenActivity.this.finish();
+                //SplashScreenActivity.this.finish();
             }
         });
 
