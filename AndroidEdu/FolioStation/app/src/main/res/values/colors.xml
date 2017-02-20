@@ -10,6 +10,8 @@
 
 <resources>
     <color name="colorPrimary">#ffffff</color>
+    <color name="colorLight">#f1f1f1</color>
+
     <color name="colorPrimaryDark">#dcdcdc</color>
     <color name="colorAccent">#3eb489</color>
     <color name="colorDark">#2b8162</color>

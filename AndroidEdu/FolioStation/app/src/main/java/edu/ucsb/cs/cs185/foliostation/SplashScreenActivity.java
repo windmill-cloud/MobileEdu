@@ -98,7 +98,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                         LoginSignupActivity.class);
                 logInIntent.putExtra("TYPE", "LOG_IN");
                 SplashScreenActivity.this.startActivity(logInIntent);
-                SplashScreenActivity.this.finish();            }
+                //SplashScreenActivity.this.finish()
+            }
         });
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {

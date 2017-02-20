@@ -20,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class LoginSignupActivity extends AppCompatActivity {
@@ -44,6 +46,26 @@ public class LoginSignupActivity extends AppCompatActivity {
             }
         });
         setSupportActionBar(myToolbar);
+
+        Intent intent = getIntent();
+
+        String type = intent.getStringExtra("TYPE");
+        TextView prompt = (TextView) findViewById(R.id.prompt);
+        EditText reEnterPassword = (EditText) findViewById(R.id.password_again);
+        Button loginSignupButton = (Button) findViewById(R.id.signup_login_button);
+
+        if (type.equals("SIGN_UP")) {
+            loginSignupButton.setText("Sign up");
+        } else if(type.equals("LOG_IN")) {
+            prompt.setText("Log in");
+            reEnterPassword.setHeight(0);
+            reEnterPassword.setVisibility(View.GONE);
+            reEnterPassword.setEnabled(false);
+            loginSignupButton.setText("Log in");
+        }
+
+
+
     }
 /*
     @Override
