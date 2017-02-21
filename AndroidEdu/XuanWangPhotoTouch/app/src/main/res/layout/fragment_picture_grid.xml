@@ -17,5 +17,12 @@
     <GridView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/photo_grid"/>
+        android:id="@+id/picture_grid"
+        android:columnWidth="70dp"
+        android:gravity="center"
+        android:horizontalSpacing="5dp"
+        android:numColumns="5"
+        android:stretchMode="none"
+        android:verticalSpacing="5dp" />
+
 </FrameLayout>

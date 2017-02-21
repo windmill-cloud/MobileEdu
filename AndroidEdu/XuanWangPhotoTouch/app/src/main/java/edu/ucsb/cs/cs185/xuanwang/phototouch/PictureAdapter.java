@@ -10,11 +10,10 @@
 package edu.ucsb.cs.cs185.xuanwang.phototouch;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
 
 /**
  * Created by xuanwang on 2/20/17.
@@ -22,9 +21,12 @@ import android.widget.ImageView;
 
 public class PictureAdapter extends BaseAdapter{
 
-    private Context mContext;
+    Context mContext;
 
-    public PictureAdapter(Context c) {
+    PictureAdapter() {
+    }
+
+    PictureAdapter(Context c) {
         mContext = c;
     }
 
@@ -45,17 +47,12 @@ public class PictureAdapter extends BaseAdapter{
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        ImageView imageView;
-        if (view == null) {  // if it's not recycled, initialize some attributes
-            imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(360, 360));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(2,2,2,2);
-        } else {
-            imageView = (ImageView) view;
-        }
+        return null;
+    }
 
-        imageView.setImageBitmap(Pictures.pictures.get(i));
-        return imageView;
+
+    public int dpToPx(int dp) {
+        DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 }

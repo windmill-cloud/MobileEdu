@@ -1,13 +1,12 @@
 package edu.ucsb.cs.cs185.xuanwang.phototouch;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -25,7 +24,15 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int PICK_IMAGE_REQUEST = 9876;
-    private PictureListFragment mPictureListFragment;
+    private static final String TAG_FRAGMENT = "PictureFragment";
+
+    private enum FragmentType {
+        LIST, GRID
+    }
+
+    private FragmentType fragmentType;
+
+    private PictureFragment mPictureFragment;
 // identifier for my intent results (result request code)
 
     @Override
@@ -48,12 +55,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        PictureListFragment fragment = new PictureListFragment();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, fragment, "PictureListFragment")
-                .commit();
-
-        mPictureListFragment = fragment;
+        buildListFragment();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -63,6 +65,33 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    protected void buildListFragment(){
+        PictureListFragment fragment = new PictureListFragment();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, fragment, TAG_FRAGMENT)
+                .commit();
+
+        fragmentType = FragmentType.LIST;
+        mPictureFragment = fragment;
+    }
+
+    protected void destroyFragment(){
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT);
+        if(fragment != null)
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+
+    }
+
+    protected void buildGridFragment(){
+        PictureGridFragment fragment = new PictureGridFragment();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, fragment, "PictureFragment")
+                .commit();
+
+        fragmentType = FragmentType.GRID;
+        mPictureFragment = fragment;
     }
 
     @Override
@@ -109,7 +138,7 @@ public class MainActivity extends AppCompatActivity
                         Bitmap image = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                         Pictures.insert(image);
 
-                        mPictureListFragment.updateViews();
+                        mPictureFragment.updateViews();
                     } catch (IOException e){
                         Log.e("Exception", e.toString());
                     }
@@ -125,15 +154,17 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_list) {
             // Handle the camera action
-
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
+            if(fragmentType != FragmentType.LIST) {
+                destroyFragment();
+                buildListFragment();
+            }
+        } else if (id == R.id.nav_grid) {
+            if(fragmentType != FragmentType.GRID) {
+                destroyFragment();
+                buildGridFragment();
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

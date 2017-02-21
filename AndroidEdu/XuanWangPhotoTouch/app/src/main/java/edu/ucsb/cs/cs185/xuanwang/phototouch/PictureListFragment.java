@@ -24,10 +24,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PictureListFragment extends Fragment {
-
-    private PictureAdapter mAdapter;
-    private ListView mListView;
+public class PictureListFragment extends PictureFragment {
 
     public PictureListFragment() {
         // Required empty public constructor
@@ -38,14 +35,18 @@ public class PictureListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_picture_list, container, false);
-        mListView = (ListView) rootView.findViewById(R.id.picture_list);
-        mAdapter = new PictureAdapter(getContext());
+        mView = rootView.findViewById(R.id.picture_list);
+
+        ListView mListView = (ListView) mView;
+        mAdapter = new PictureListAdapter(getContext());
         mListView.setAdapter(mAdapter);
         return rootView;
     }
 
+    @Override
     public void updateViews(){
         mAdapter.notifyDataSetChanged();
+        ListView mListView = (ListView) mView;
         mListView.invalidateViews();
     }
 }
