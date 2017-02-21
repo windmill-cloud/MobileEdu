@@ -38,8 +38,13 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Log.i("clicked", "camera");
+                // open activity to pick an image from device storage (e.g. Android Gallery)
+                Intent imgPickingIntent = new Intent();
+                imgPickingIntent.setType("image/*");
+                imgPickingIntent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(imgPickingIntent, PICK_IMAGE_REQUEST);
+
             }
         });
 
@@ -112,12 +117,6 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-            Log.i("clicked", "camera");
-            // open activity to pick an image from device storage (e.g. Android Gallery)
-            Intent imgPickingIntent = new Intent();
-            imgPickingIntent.setType("image/*");
-            imgPickingIntent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(imgPickingIntent, PICK_IMAGE_REQUEST);
 
         } else if (id == R.id.nav_gallery) {
 
