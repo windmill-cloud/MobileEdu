@@ -120,6 +120,12 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Log.i("ACTION", "You have clicked the clear setting");
+
+            ImageManager.clear();
+            mImageFragment.updateViews();
+            Log.i("ACTION", String.valueOf(ImageManager.getCount()));
+
             return true;
         }
 

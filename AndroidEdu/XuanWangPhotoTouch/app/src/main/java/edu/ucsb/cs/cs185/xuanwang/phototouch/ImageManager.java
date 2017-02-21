@@ -27,8 +27,17 @@ public class ImageManager {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float maxDimension = Math.max(displayMetrics.heightPixels, displayMetrics.widthPixels);
 
-
         images.add(scale(picture, maxDimension, true));
+    }
+
+    public static int getCount(){
+        return images.size();
+    }
+
+    public static void clear(){
+        if(getCount() != 0) {
+            images.clear();
+        }
     }
 
     public static Bitmap scale(Bitmap realImage, float maxImageSize,

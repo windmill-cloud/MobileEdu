@@ -9,8 +9,11 @@
 
 package edu.ucsb.cs.cs185.xuanwang.phototouch;
 
+import android.content.Intent;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 public class ImageActivity extends AppCompatActivity {
 
@@ -18,5 +21,13 @@ public class ImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
+
+        ImageView mImageView = (ImageView) findViewById(R.id.imageView);
+        Intent intent = getIntent();
+        int id = intent.getIntExtra("id", -1);
+        if (id != -1){
+            mImageView.setImageBitmap(ImageManager.images.get(id));
+        }
+
     }
 }

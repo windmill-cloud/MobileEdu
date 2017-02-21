@@ -10,11 +10,13 @@
 package edu.ucsb.cs.cs185.xuanwang.phototouch;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 
@@ -37,6 +39,16 @@ public class ImageListFragment extends ImageFragment {
         ListView mListView = (ListView) mView;
         mAdapter = new ImageListAdapter(getContext());
         mListView.setAdapter(mAdapter);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+
+                Intent intent = new Intent(getActivity(), ImageActivity.class);
+                intent.putExtra("id", position);
+                getActivity().startActivity(intent);
+                //getActivity().finish();
+            }
+        });
         return rootView;
     }
 

@@ -9,6 +9,7 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_image"
     android:layout_width="match_parent"
@@ -19,4 +20,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="edu.ucsb.cs.cs185.xuanwang.phototouch.ImageActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@android:color/holo_blue_bright"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/imageView" />
 </RelativeLayout>
