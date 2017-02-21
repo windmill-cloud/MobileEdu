@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity
                     Uri uri = data.getData();
                     try {
                         Bitmap image = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                        Pictures.insert(image);
+                        Pictures.insert(getApplicationContext(), image);
 
                         mPictureFragment.updateViews();
                     } catch (IOException e){
