@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int PICK_IMAGE_REQUEST = 9876;
+    private PictureListFragment mPictureListFragment;
 // identifier for my intent results (result request code)
 
     @Override
@@ -44,9 +45,15 @@ public class MainActivity extends AppCompatActivity
                 imgPickingIntent.setType("image/*");
                 imgPickingIntent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(imgPickingIntent, PICK_IMAGE_REQUEST);
-
             }
         });
+
+        PictureListFragment fragment = new PictureListFragment();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, fragment, "PictureListFragment")
+                .commit();
+
+        mPictureListFragment = fragment;
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -100,6 +107,9 @@ public class MainActivity extends AppCompatActivity
                     Uri uri = data.getData();
                     try {
                         Bitmap image = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                        Pictures.insert(image);
+
+                        mPictureListFragment.updateViews();
                     } catch (IOException e){
                         Log.e("Exception", e.toString());
                     }
