@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int PICK_IMAGE_REQUEST = 9876;
-    private static final String TAG_FRAGMENT = "PictureFragment";
+    private static final String TAG_FRAGMENT = "ImageFragment";
 
     private enum FragmentType {
         LIST, GRID
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity
 
     private FragmentType fragmentType;
 
-    private PictureFragment mPictureFragment;
+    private ImageFragment mImageFragment;
 // identifier for my intent results (result request code)
 
     @Override
@@ -68,13 +68,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     protected void buildListFragment(){
-        PictureListFragment fragment = new PictureListFragment();
+        ImageListFragment fragment = new ImageListFragment();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, fragment, TAG_FRAGMENT)
                 .commit();
 
         fragmentType = FragmentType.LIST;
-        mPictureFragment = fragment;
+        mImageFragment = fragment;
     }
 
     protected void destroyFragment(){
@@ -85,13 +85,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     protected void buildGridFragment(){
-        PictureGridFragment fragment = new PictureGridFragment();
+        ImageGridFragment fragment = new ImageGridFragment();
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, fragment, "PictureFragment")
+                .add(R.id.fragment_container, fragment, "ImageFragment")
                 .commit();
 
         fragmentType = FragmentType.GRID;
-        mPictureFragment = fragment;
+        mImageFragment = fragment;
     }
 
     @Override
@@ -136,9 +136,9 @@ public class MainActivity extends AppCompatActivity
                     Uri uri = data.getData();
                     try {
                         Bitmap image = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                        Pictures.insert(getApplicationContext(), image);
+                        ImageManager.insert(getApplicationContext(), image);
 
-                        mPictureFragment.updateViews();
+                        mImageFragment.updateViews();
                     } catch (IOException e){
                         Log.e("Exception", e.toString());
                     }

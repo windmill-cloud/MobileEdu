@@ -19,9 +19,9 @@ import android.widget.ImageView;
  * Created by xuanwang on 2/20/17.
  */
 
-public class PictureListAdapter extends PictureAdapter{
+public class ImageGridAdapter extends ImageAdapter {
 
-    PictureListAdapter(Context c) {
+    ImageGridAdapter(Context c) {
         super(c);
     }
 
@@ -32,8 +32,8 @@ public class PictureListAdapter extends PictureAdapter{
             imageView = new ImageView(mContext);
             imageView.setLayoutParams(
                     new GridView.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                            dpToPx(200)
+                            dpToPx(70),
+                            dpToPx(70)
                     )
             );
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -42,7 +42,7 @@ public class PictureListAdapter extends PictureAdapter{
             imageView = (ImageView) view;
         }
 
-        imageView.setImageBitmap(Pictures.pictures.get(i));
+        imageView.setImageBitmap(ImageManager.images.get(i));
         return imageView;
     }
 }

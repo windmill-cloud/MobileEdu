@@ -10,9 +10,7 @@
 package edu.ucsb.cs.cs185.xuanwang.phototouch;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.DisplayMetrics;
 
 import java.util.ArrayList;
@@ -22,15 +20,15 @@ import java.util.List;
  * Created by xuanwang on 2/20/17.
  */
 
-public class Pictures {
-    public static List<Bitmap> pictures = new ArrayList<>();
+public class ImageManager {
+    public static List<Bitmap> images = new ArrayList<>();
 
     public static void insert(Context context, Bitmap picture) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float maxDimension = Math.max(displayMetrics.heightPixels, displayMetrics.widthPixels);
 
 
-        pictures.add(scale(picture, maxDimension, true));
+        images.add(scale(picture, maxDimension, true));
     }
 
     public static Bitmap scale(Bitmap realImage, float maxImageSize,

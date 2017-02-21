@@ -11,7 +11,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.ucsb.cs.cs185.xuanwang.phototouch.PictureGridFragment">
+    tools:context="edu.ucsb.cs.cs185.xuanwang.phototouch.ImageGridFragment">
 
 
     <GridView

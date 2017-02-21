@@ -19,25 +19,25 @@ import android.widget.BaseAdapter;
  * Created by xuanwang on 2/20/17.
  */
 
-public class PictureAdapter extends BaseAdapter{
+public class ImageAdapter extends BaseAdapter{
 
     Context mContext;
 
-    PictureAdapter() {
+    ImageAdapter() {
     }
 
-    PictureAdapter(Context c) {
+    ImageAdapter(Context c) {
         mContext = c;
     }
 
     @Override
     public int getCount() {
-        return Pictures.pictures.size();
+        return ImageManager.images.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return Pictures.pictures.get(i);
+        return ImageManager.images.get(i);
     }
 
     @Override

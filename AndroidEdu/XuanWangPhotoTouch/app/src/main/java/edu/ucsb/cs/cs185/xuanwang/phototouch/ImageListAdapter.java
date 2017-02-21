@@ -10,21 +10,18 @@
 package edu.ucsb.cs.cs185.xuanwang.phototouch;
 
 import android.content.Context;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import static java.security.AccessController.getContext;
-
 /**
  * Created by xuanwang on 2/20/17.
  */
 
-public class PictureGridAdapter extends PictureAdapter {
+public class ImageListAdapter extends ImageAdapter {
 
-    PictureGridAdapter(Context c) {
+    ImageListAdapter(Context c) {
         super(c);
     }
 
@@ -35,8 +32,8 @@ public class PictureGridAdapter extends PictureAdapter {
             imageView = new ImageView(mContext);
             imageView.setLayoutParams(
                     new GridView.LayoutParams(
-                            dpToPx(70),
-                            dpToPx(70)
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            dpToPx(200)
                     )
             );
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -45,7 +42,7 @@ public class PictureGridAdapter extends PictureAdapter {
             imageView = (ImageView) view;
         }
 
-        imageView.setImageBitmap(Pictures.pictures.get(i));
+        imageView.setImageBitmap(ImageManager.images.get(i));
         return imageView;
     }
 }

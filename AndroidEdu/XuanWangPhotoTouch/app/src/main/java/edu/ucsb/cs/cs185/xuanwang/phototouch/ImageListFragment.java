@@ -15,18 +15,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ListView;
-
-import java.util.List;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PictureListFragment extends PictureFragment {
+public class ImageListFragment extends ImageFragment {
 
-    public PictureListFragment() {
+    public ImageListFragment() {
         // Required empty public constructor
     }
 
@@ -38,7 +35,7 @@ public class PictureListFragment extends PictureFragment {
         mView = rootView.findViewById(R.id.picture_list);
 
         ListView mListView = (ListView) mView;
-        mAdapter = new PictureListAdapter(getContext());
+        mAdapter = new ImageListAdapter(getContext());
         mListView.setAdapter(mAdapter);
         return rootView;
     }
