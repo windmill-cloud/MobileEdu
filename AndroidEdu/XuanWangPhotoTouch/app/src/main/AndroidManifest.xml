@@ -18,7 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ImageActivity"></activity>
+        <activity android:name=".ImageActivity"
+            android:parentActivityName="edu.ucsb.cs.cs185.xuanwang.phototouch.MainActivity" >
+            ></activity>
     </application>
 
 </manifest>
