@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.PointF;
+import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,7 +30,7 @@ public class ImageActivity extends AppCompatActivity implements View.OnTouchList
 
     ImageView mImageView;
     Bitmap mBitMap;
-    Matrix matrix;
+    Matrix mMatrix;
 
     private float mScaleFactor = 1.0f;
     private float mRotationDegrees = 0.f;
@@ -44,7 +46,7 @@ public class ImageActivity extends AppCompatActivity implements View.OnTouchList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
 
-        matrix = new Matrix();
+        mMatrix = new Matrix();
 
         mImageView = (ImageView) findViewById(R.id.imageView);
         Intent intent = getIntent();
@@ -67,10 +69,29 @@ public class ImageActivity extends AppCompatActivity implements View.OnTouchList
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
+
+
+        Drawable d = mImageView.getDrawable();
+
         mScaleDetector.onTouchEvent(motionEvent);
         mRotateDetector.onTouchEvent(motionEvent);
         mMoveDetector.onTouchEvent(motionEvent);
 
+        mImageView.setScaleType(ImageView.ScaleType.MATRIX);
+
+        RectF imageRectF = new RectF(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+        RectF viewRectF = new RectF(0, 0, mImageView.getWidth(), mImageView.getHeight());
+        mMatrix.setRectToRect(imageRectF, viewRectF, Matrix.ScaleToFit.CENTER);
+        mMatrix.preScale(mScaleFactor, mScaleFactor, mBitMap.getWidth()/2, mBitMap.getHeight()/2);
+
+        mMatrix.preRotate(mRotationDegrees, mBitMap.getWidth() / 2, mBitMap.getHeight() / 2);
+        mMatrix.postTranslate(mFocusX, mFocusY);
+
+        mImageView.setImageMatrix(mMatrix);
+        Log.i("scale", String.valueOf(mScaleFactor));
+        Log.i("rotate", String.valueOf(mRotationDegrees));
+        Log.i("focusX", String.valueOf(mFocusX));
+        Log.i("focusY", String.valueOf(mFocusY));
 
         return true;
     }
@@ -101,9 +122,6 @@ public class ImageActivity extends AppCompatActivity implements View.OnTouchList
     private class RotateListener extends RotateGestureDetector.SimpleOnRotateGestureListener {
         @Override
         public boolean onRotate(RotateGestureDetector detector) {
-            Log.i("", String.valueOf(detector.getRotationDegreesDelta()));
-            Log.i("onRotate", "onRotate");
-
             mRotationDegrees -= detector.getRotationDegreesDelta();
             return true;
         }
@@ -112,8 +130,6 @@ public class ImageActivity extends AppCompatActivity implements View.OnTouchList
     private class MoveListener extends MoveGestureDetector.SimpleOnMoveGestureListener {
         @Override
         public boolean onMove(MoveGestureDetector detector) {
-            Log.i("onMove", "onMove");
-
             PointF d = detector.getFocusDelta();
             mFocusX += d.x;
             mFocusY += d.y;
