@@ -32,6 +32,11 @@ public class ContainerActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collect);
+
+        if(ItemCards.cards.size() == 0){
+            ItemCards.inflateDummyContent();
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -59,7 +64,6 @@ public class ContainerActivity extends AppCompatActivity
                 .commit();
 
         mImageFragment = fragment;
-
     }
 
     @Override

@@ -19,6 +19,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        renderscriptTargetApi 22
+        renderscriptSupportModeEnabled true
     }
     buildTypes {
         release {
@@ -41,16 +43,16 @@ dependencies {
     // For WebP support, including animated WebP
 
     // For WebP support, without animations
-    
 
     // Provide the Android support library (you might already have this or a similar dependency)
-    
+
     compile 'com.facebook.fresco:webpsupport:1.1.0'
+
     compile 'com.facebook.fresco:webpsupport:1.1.0'
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.facebook.shimmer:shimmer:0.1.0@aar'
     compile 'com.google.firebase:firebase-auth:10.2.0'
-    compile'com.android.support:design:25.2.0'
+    compile 'com.android.support:design:25.2.0'
     compile 'com.android.support:cardview-v7:25.2.0'
     compile 'com.android.support:recyclerview-v7:25.2.0'
     compile 'com.android.volley:volley:1.0.0'
@@ -60,8 +62,10 @@ dependencies {
     compile 'com.facebook.fresco:animated-webp:1.1.0'
     compile 'com.android.support:support-core-utils:25.2.0'
     compile 'com.android.support:support-v4:25.2.0'
+    compile 'fr.tvbarthel.blurdialogfragment:lib:2.2.0'
     testCompile 'junit:junit:4.12'
 }
+
 
 
 

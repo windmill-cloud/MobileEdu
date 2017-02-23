@@ -9,9 +9,14 @@
 
 package edu.ucsb.cs.cs185.foliostation;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +24,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -35,6 +42,19 @@ import java.util.List;
 public class GridCardAdapter extends RecyclerView.Adapter<GridCardAdapter.CardViewHolder>
         implements View.OnClickListener{
 
+    private OnRecyclerViewItemClickListener mOnItemClickListener = null;
+
+    //define interface
+    public interface OnRecyclerViewItemClickListener {
+        void onItemClick(View view , int position);
+    }
+
+    Context mContext = null;
+
+    public GridCardAdapter(Context context){
+        mContext = context;
+    }
+
 
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -46,19 +66,15 @@ public class GridCardAdapter extends RecyclerView.Adapter<GridCardAdapter.CardVi
 
     @Override
     public void onBindViewHolder(CardViewHolder holder, int i) {
-        int width = 200, height = 200;
-        Uri imageUri = Uri.parse(ItemCards.cards.get(i).mURL);
-        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(imageUri)
-                .setResizeOptions(new ResizeOptions(width, height))
-                .build();
-        DraweeController controller = Fresco.newDraweeControllerBuilder()
-                .setOldController(holder.simpleDraweeView.getController())
-                .setImageRequest(request)
-                .build();
 
-        holder.simpleDraweeView.setController(controller);
-        holder.title.setText(ItemCards.cards.get(i).mTitle);
-        holder.description.setText(ItemCards.cards.get(i).mDescription);
+        ItemCards.Card card = ItemCards.cards.get(i);
+        holder.imageView.setImageDrawable(card.mDrawable);
+
+        holder.imageView.setTag(i);
+
+        holder.imageView.setOnClickListener(this);
+        holder.title.setText(card.mTitle);
+        holder.description.setText(card.mDescription);
         /*
         Button buyBtn = holder.buyAlbum;
         buyBtn.setText(String.format("See %s on ALLMUSIC", albums.get(i).albumName));
@@ -74,19 +90,26 @@ public class GridCardAdapter extends RecyclerView.Adapter<GridCardAdapter.CardVi
 
     @Override
     public void onClick(View view) {
+        if (mOnItemClickListener != null) {
+            // get tag
+            mOnItemClickListener.onItemClick(view, (int) view.getTag());
+        }
+    }
 
+    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
+        this.mOnItemClickListener = listener;
     }
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
-        SimpleDraweeView simpleDraweeView;
+        ImageView imageView;
         TextView title;
         TextView description;
 
         CardViewHolder(View itemView) {
             super(itemView);
             cv = (CardView) itemView.findViewById(R.id.cv);
-            simpleDraweeView = (SimpleDraweeView) itemView.findViewById(R.id.card_photo);
+            imageView = (ImageView) itemView.findViewById(R.id.card_photo);
             title = (TextView) itemView.findViewById(R.id.card_title);
             description = (TextView) itemView.findViewById(R.id.card_description);
         }
