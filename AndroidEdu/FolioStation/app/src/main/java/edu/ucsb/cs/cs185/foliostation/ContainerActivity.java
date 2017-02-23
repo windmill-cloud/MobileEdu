@@ -22,8 +22,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class CollectActivity extends AppCompatActivity
+public class ContainerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private CardsFragment mImageFragment;
+    private String TAG_FRAGMENT = "InflatedFragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,14 @@ public class CollectActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        CardsFragment fragment = new CardsFragment();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, fragment, TAG_FRAGMENT)
+                .commit();
+
+        mImageFragment = fragment;
+
     }
 
     @Override

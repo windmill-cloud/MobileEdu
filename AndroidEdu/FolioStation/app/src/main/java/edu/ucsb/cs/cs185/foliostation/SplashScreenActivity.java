@@ -30,8 +30,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static android.R.attr.button;
-
 public class SplashScreenActivity extends AppCompatActivity {
     ImageView background;
     int idx = 0;
@@ -119,7 +117,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                         public void run() {
                     /* Create an Intent that will start the Menu-Activity. */
                             Intent mainIntent = new Intent(SplashScreenActivity.this,
-                                    CollectActivity.class);
+                                    ContainerActivity.class);
                             SplashScreenActivity.this.startActivity(mainIntent);
                             SplashScreenActivity.this.finish();
                         }

@@ -22,5 +22,6 @@ public class FolioStationApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Fresco.initialize(this);
+        ItemCards.inflateDummyContent();
     }
 }
