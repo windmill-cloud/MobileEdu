@@ -70,7 +70,6 @@ public class ImageActivity extends AppCompatActivity implements View.OnTouchList
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
 
-
         Drawable d = mImageView.getDrawable();
 
         mScaleDetector.onTouchEvent(motionEvent);

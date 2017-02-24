@@ -66,7 +66,10 @@ public class ItemCards {
         cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/41oYBNer4pL.jpg",
                 "職業としての小説家", "村上 春樹"));
         cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/41PGlYT6DgL._SX332_BO1,204,203,200_.jpg",
-                "ねじまき鳥クロニクル",
-                "村上 春樹"));
+                "ねじまき鳥クロニクル", "村上 春樹"));
+        cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/51FYrDp2WEL._SX346_BO1,204,203,200_.jpg",
+                "恋しくて - TEN SELECTED LOVE STORIES", "村上 春樹  (編集)"));
+        cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/51cNUdZY69L._SX341_BO1,204,203,200_.jpg",
+                "女のいない男たち", "村上 春樹"));
     }
 }
