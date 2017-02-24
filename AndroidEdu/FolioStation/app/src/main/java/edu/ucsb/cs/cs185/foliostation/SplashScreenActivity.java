@@ -47,7 +47,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        inflateList();
+        inflateBackgroundPicList();
 
         background = (ImageView) findViewById(R.id.splash_image);
 
@@ -55,6 +55,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 (ShimmerFrameLayout) findViewById(R.id.shimmer_view_container);
         container.setDuration(SHIMMER_DURATION);
         container.startShimmerAnimation();
+
 
         Timer changeBackgroundTimer = new Timer();
         changeBackgroundTimer.schedule(new TimerTask() {
@@ -83,7 +84,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                         LoginSignupActivity.class);
                 signUpIntent.putExtra("TYPE", "SIGN_UP");
                 SplashScreenActivity.this.startActivity(signUpIntent);
-                //SplashScreenActivity.this.finish();
+                SplashScreenActivity.this.finish();
             }
         });
 
@@ -95,7 +96,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                         LoginSignupActivity.class);
                 logInIntent.putExtra("TYPE", "LOG_IN");
                 SplashScreenActivity.this.startActivity(logInIntent);
-                //SplashScreenActivity.this.finish()
+                SplashScreenActivity.this.finish();
             }
         });
 
@@ -155,7 +156,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
     }
 
-    private void inflateList() {
+    private void inflateBackgroundPicList() {
         backgroundImgList.add(R.drawable.back1);
         backgroundImgList.add(R.drawable.back2);
         backgroundImgList.add(R.drawable.back3);
@@ -175,7 +176,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             background.setImageResource(backgroundImgList.get(idx));
         }
     };
-
 }
 
 

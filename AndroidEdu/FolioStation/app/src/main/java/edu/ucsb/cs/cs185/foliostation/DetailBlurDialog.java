@@ -58,9 +58,11 @@ public class DetailBlurDialog extends DialogFragment {
     @Override
     public void onDetach() {
         super.onDetach();
+
         ImageView background = (ImageView) getActivity().findViewById(R.id.activity_background);
         background.setImageResource(android.R.color.transparent);
         sendViewToBack(background);
+
     }
 
     @Override

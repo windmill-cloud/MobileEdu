@@ -23,11 +23,13 @@ import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
+import android.support.v7.widget.Toolbar;
 import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
@@ -48,11 +50,78 @@ import com.android.volley.toolbox.ImageRequest;
  */
 public class CardsFragment extends Fragment {
 
-    GridCardAdapter mGridCardAdapter = new GridCardAdapter(getContext());;
-
+    GridCardAdapter mGridCardAdapter;
+    RecyclerView mRecyclerView;
+    RecyclerView.LayoutManager mLayoutManager;
 
     public CardsFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View rootView =  inflater.inflate(R.layout.fragment_cards, container, false);
+
+        getCardImages();
+
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.cards_recycler);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setNestedScrollingEnabled(false);
+
+        GridCardAdapter.setContext(getContext());
+        mGridCardAdapter = new GridCardAdapter(ItemCards.cards);
+        mGridCardAdapter.setHasStableIds(true);
+
+
+        mLayoutManager = new GridLayoutManager(getContext(), 2);
+        mLayoutManager.setItemPrefetchEnabled(true);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        mGridCardAdapter.setOnItemClickListener(new GridCardAdapter.OnRecyclerViewItemClickListener(){
+            @Override
+            public void onItemClick(View view , int position){
+                Bundle arguments = new Bundle();
+                arguments.putInt("POSITION", position);
+                DetailBlurDialog fragment = new DetailBlurDialog();
+
+                fragment.setArguments(arguments);
+                FragmentManager ft = getActivity().getSupportFragmentManager();
+
+                fragment.show(ft, "dialog");
+
+                Bitmap map=takeScreenShot(getActivity());
+                Bitmap fast=BlurBuilder.blur(getContext(), map);
+                final Drawable draw=new BitmapDrawable(getResources(),fast);
+
+                ImageView background = (ImageView) getActivity().findViewById(R.id.activity_background);
+                background.bringToFront();
+                background.setScaleType(ImageView.ScaleType.FIT_XY);
+                background.setImageDrawable(draw);
+
+            }
+        });
+
+        /*
+        SnapHelper helper = new LinearSnapHelper();
+        helper.attachToRecyclerView(mRecyclerView);*/
+
+
+        mRecyclerView.setAdapter(mGridCardAdapter);
+        /*mRecyclerView.addOnScrollListener(new ScrollListener(getContext()) {
+            @Override
+            public void onMoved(int distance) {
+                AppCompatActivity activity = (AppCompatActivity) CardsFragment.this.getActivity();
+                Toolbar toolbar = (Toolbar) activity.findViewById(R.
+                id.toolbar_title);
+                toolbar.setTranslationY(-distance);
+            }
+        });
+        */
+        return rootView;
     }
 
     private static Bitmap takeScreenShot(Activity activity)
@@ -73,8 +142,8 @@ public class CardsFragment extends Fragment {
     }
 
     public static class BlurBuilder {
-        private static final float BITMAP_SCALE = 1.0f;
-        private static final float BLUR_RADIUS = 12.0f;
+        private static final float BITMAP_SCALE = 0.3f;
+        private static final float BLUR_RADIUS = 24.0f;
 
         public static Bitmap blur(Context context, Bitmap image) {
             int width = Math.round(image.getWidth() * BITMAP_SCALE);
@@ -94,50 +163,6 @@ public class CardsFragment extends Fragment {
 
             return outputBitmap;
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView =  inflater.inflate(R.layout.fragment_cards, container, false);
-
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.cards_recycler);
-        recyclerView.setHasFixedSize(true);
-
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-
-        mGridCardAdapter.setOnItemClickListener(new GridCardAdapter.OnRecyclerViewItemClickListener(){
-            @Override
-            public void onItemClick(View view , int position){
-                Bundle arguments = new Bundle();
-                arguments.putInt("POSITION", position);
-                DetailBlurDialog fragment = new DetailBlurDialog();
-
-                fragment.setArguments(arguments);
-
-                Bitmap map=takeScreenShot(getActivity());
-                Bitmap fast=BlurBuilder.blur(getContext(), map);
-                final Drawable draw=new BitmapDrawable(getResources(),fast);
-                ImageView background = (ImageView) getActivity().findViewById(R.id.activity_background);
-                background.bringToFront();
-                background.setImageDrawable(draw);
-
-                FragmentManager ft = getActivity().getSupportFragmentManager();
-                fragment.show(ft, "dialog");
-
-            }
-        });
-
-        getCardImages();
-        /*
-        SnapHelper helper = new LinearSnapHelper();
-        helper.attachToRecyclerView(recyclerView);
-        */
-
-        recyclerView.setAdapter(mGridCardAdapter);
-
-        return rootView;
     }
 
     private void getCardImages(){
@@ -167,6 +192,19 @@ public class CardsFragment extends Fragment {
         // Access the RequestQueue through your singleton class.
         SingletonRequestQueue.getInstance(getContext()).getRequestQueue().add(imageRequest);
 
+    }
+
+    public static Bitmap scale(Bitmap realImage, float maxImageSize,
+                               boolean filter) {
+        float ratio = Math.min(
+                maxImageSize / realImage.getWidth(),
+                maxImageSize / realImage.getHeight());
+        int width = Math.round( ratio * realImage.getWidth());
+        int height = Math.round( ratio * realImage.getHeight());
+
+        Bitmap newBitmap = Bitmap.createScaledBitmap(realImage, width,
+                height, filter);
+        return newBitmap;
     }
 
 }

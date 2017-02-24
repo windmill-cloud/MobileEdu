@@ -37,6 +37,13 @@ public class ContainerActivity extends AppCompatActivity
             ItemCards.inflateDummyContent();
         }
 
+        CardsFragment fragment = new CardsFragment();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, fragment, TAG_FRAGMENT)
+                .commit();
+
+        mImageFragment = fragment;
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -58,12 +65,6 @@ public class ContainerActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        CardsFragment fragment = new CardsFragment();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, fragment, TAG_FRAGMENT)
-                .commit();
-
-        mImageFragment = fragment;
     }
 
     @Override

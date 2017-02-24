@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -41,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
 
         rv = (RecyclerView) findViewById(R.id.rv);
         rv.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        rv.setLayoutManager(llm);
+        //LinearLayoutManager llm = new LinearLayoutManager(this);
+        //llm.setOrientation(LinearLayoutManager.VERTICAL);
+        rv.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
 
         mRequestQueue = SingletonRequestQueue.getInstance(this).getRequestQueue();
         getData();

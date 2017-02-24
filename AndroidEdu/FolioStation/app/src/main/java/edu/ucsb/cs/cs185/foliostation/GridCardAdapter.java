@@ -24,14 +24,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.interfaces.DraweeController;
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.common.ResizeOptions;
-import com.facebook.imagepipeline.request.ImageRequest;
-import com.facebook.imagepipeline.request.ImageRequestBuilder;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -43,18 +36,22 @@ public class GridCardAdapter extends RecyclerView.Adapter<GridCardAdapter.CardVi
         implements View.OnClickListener{
 
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
+    List<ItemCards.Card> mCards;
 
     //define interface
     public interface OnRecyclerViewItemClickListener {
         void onItemClick(View view , int position);
     }
 
-    Context mContext = null;
+    static Context mContext = null;
 
-    public GridCardAdapter(Context context){
-        mContext = context;
+    public GridCardAdapter(List<ItemCards.Card> cards){
+        mCards = cards;
     }
 
+    static void setContext(Context context){
+        mContext = context;
+    }
 
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -67,10 +64,21 @@ public class GridCardAdapter extends RecyclerView.Adapter<GridCardAdapter.CardVi
     @Override
     public void onBindViewHolder(CardViewHolder holder, int i) {
 
-        ItemCards.Card card = ItemCards.cards.get(i);
+        if(mContext == null){
+            Log.e("mContext", "null");
+        }
+        ItemCards.Card card = mCards.get(i);
+        /*
+        Picasso.with(mContext)
+                .load(card.mURL)
+                .resize(200, 300)
+                .centerCrop()
+                .into(holder.imageView);
+        */
         holder.imageView.setImageDrawable(card.mDrawable);
 
         holder.imageView.setTag(i);
+        //holder.imageView.setBackgroundResource(R.drawable.placeholder);
 
         holder.imageView.setOnClickListener(this);
         holder.title.setText(card.mTitle);
@@ -85,8 +93,10 @@ public class GridCardAdapter extends RecyclerView.Adapter<GridCardAdapter.CardVi
 
     @Override
     public int getItemCount() {
-        return ItemCards.cards.size();
+        return mCards.size();
     }
+
+    @Override public long getItemId(int position) { return position; }
 
     @Override
     public void onClick(View view) {

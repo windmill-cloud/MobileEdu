@@ -11,10 +11,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context="edu.ucsb.cs.cs185.foliostation.CardsFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cards_recycler"
+        android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

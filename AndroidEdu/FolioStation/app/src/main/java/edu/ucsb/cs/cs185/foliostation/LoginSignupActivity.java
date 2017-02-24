@@ -48,7 +48,7 @@ public class LoginSignupActivity extends AppCompatActivity {
         EditText reEnterPassword = (EditText) findViewById(R.id.password_again);
         Button loginSignupButton = (Button) findViewById(R.id.signup_login_button);
 
-        if (type.equals("SIGN_UP")) {
+        if (type == null || type.equals("SIGN_UP")) {
             loginSignupButton.setText("Sign up");
         } else if(type.equals("LOG_IN")) {
             prompt.setText("Log in");
@@ -64,7 +64,9 @@ public class LoginSignupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent collectIntent = new Intent(LoginSignupActivity.this,
                         ContainerActivity.class);
+                collectIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 LoginSignupActivity.this.startActivity(collectIntent);
+                LoginSignupActivity.this.finish();
             }
         });
 

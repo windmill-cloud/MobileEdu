@@ -63,6 +63,8 @@ dependencies {
     compile 'com.android.support:support-core-utils:25.2.0'
     compile 'com.android.support:support-v4:25.2.0'
     compile 'fr.tvbarthel.blurdialogfragment:lib:2.2.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
     testCompile 'junit:junit:4.12'
 }
 

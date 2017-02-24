@@ -29,7 +29,6 @@
             android:layout_height="wrap_content"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
-            app:srcCompat="@drawable/back1"
             android:id="@+id/dialog_photo" />
 
         <TextView
