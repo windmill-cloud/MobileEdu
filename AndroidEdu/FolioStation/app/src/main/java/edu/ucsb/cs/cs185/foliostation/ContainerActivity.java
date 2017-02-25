@@ -41,6 +41,7 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 
 import java.util.ArrayList;
 
+import edu.ucsb.cs.cs185.foliostation.editentry.EditTabsActivity;
 import edu.ucsb.cs.cs185.foliostation.utilities.PicassoImageLoader;
 
 
@@ -204,6 +205,12 @@ public class ContainerActivity extends AppCompatActivity
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
             if (data != null && requestCode == IMAGE_PICKER) {
                 ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                ItemCards itemCards = ItemCards.getInstance(getApplicationContext());
+                itemCards.addNewCardFromImages(images);
+                Intent intent = new Intent(this, EditTabsActivity.class);
+                intent.putExtra("CARD_INDEX", itemCards.cards.size() - 1);
+                startActivity(intent);
+                finish();
                 /*
                 MyAdapter adapter = new MyAdapter(images);
                 gridView.setAdapter(adapter);*/

@@ -20,12 +20,12 @@ import android.widget.TextView;
  */
 
 public class CardViewHolder extends RecyclerView.ViewHolder {
-    CardView cv;
-    ImageView imageView;
-    TextView title;
-    TextView description;
+    public CardView cv;
+    public ImageView imageView;
+    public TextView title;
+    public TextView description;
 
-    CardViewHolder(View itemView) {
+    public CardViewHolder(View itemView) {
         super(itemView);
         cv = (CardView) itemView.findViewById(R.id.cv);
         imageView = (ImageView) itemView.findViewById(R.id.card_photo);

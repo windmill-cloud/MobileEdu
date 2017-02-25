@@ -162,18 +162,4 @@ public class CardsFragment extends Fragment {
         }
     }
 
-
-    public static Bitmap scale(Bitmap realImage, float maxImageSize,
-                               boolean filter) {
-        float ratio = Math.min(
-                maxImageSize / realImage.getWidth(),
-                maxImageSize / realImage.getHeight());
-        int width = Math.round( ratio * realImage.getWidth());
-        int height = Math.round( ratio * realImage.getHeight());
-
-        Bitmap newBitmap = Bitmap.createScaledBitmap(realImage, width,
-                height, filter);
-        return newBitmap;
-    }
-
 }

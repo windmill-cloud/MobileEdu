@@ -77,7 +77,7 @@ public class DetailBlurDialog extends DialogFragment {
         //Uri imageUri = Uri.parse(card.mURL);
         ImageView imageView = (ImageView) rootView.findViewById(R.id.dialog_photo);
 
-        imageView.setImageDrawable(card.mDrawable);
+        imageView.setImageDrawable(card.mImages.get(0).mDrawable);
 
         TextView title = (TextView) rootView.findViewById(R.id.dialog_title);
         title.setText(card.mTitle);

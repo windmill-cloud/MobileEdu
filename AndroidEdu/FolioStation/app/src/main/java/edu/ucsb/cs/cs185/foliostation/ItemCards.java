@@ -11,11 +11,15 @@ package edu.ucsb.cs.cs185.foliostation;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.LruCache;
+import android.view.Display;
 import android.widget.ImageView;
 
 import com.android.volley.RequestQueue;
@@ -23,8 +27,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageRequest;
+import com.lzy.imagepicker.bean.ImageItem;
+import com.squareup.picasso.Downloader;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -33,9 +41,11 @@ import java.util.List;
 
 public class ItemCards {
     public static ItemCards mInstance;
-    public List<Card> cards = new ArrayList<>();
+    public List<Card> cards = new LinkedList<>();
     private static Context mContext = null;
     private static RecyclerView.Adapter<CardViewHolder> mAdapter;
+    private static int mScreenSize;
+
 
     public void setAdapter(RecyclerView.Adapter<CardViewHolder> adapter) {
         mAdapter = adapter;
@@ -44,6 +54,8 @@ public class ItemCards {
 
     private ItemCards(Context context) {
         mContext = context;
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        mScreenSize = Math.max(displayMetrics.heightPixels, displayMetrics.widthPixels);
     }
 
     public static synchronized ItemCards getInstance(Context context) {
@@ -98,9 +110,8 @@ public class ItemCards {
 
     public class Card{
         List<CardImage> mImages = new ArrayList<>();
-        Drawable mDrawable = null;
-        String mTitle;
-        String mDescription;
+        String mTitle = "";
+        String mDescription = "";
 
         public Card(String url, String title, String description){
             mImages.add(new CardImage(url));
@@ -108,10 +119,28 @@ public class ItemCards {
             mDescription =  description;
         }
 
-        public Card(Drawable drawable, String title, String description){
-            mDrawable = drawable;
-            mTitle = title;
-            mDescription =  description;
+        public Card(){
+
+        }
+
+        public String getDescription() {
+            return mDescription;
+        }
+
+        public void setDescription(String mDescription) {
+            this.mDescription = mDescription;
+        }
+
+        public List<CardImage> getImages() {
+            return mImages;
+        }
+
+        public String getTitle() {
+            return mTitle;
+        }
+
+        public void setTitle(String mTitle) {
+            this.mTitle = mTitle;
         }
     }
 
@@ -132,5 +161,73 @@ public class ItemCards {
                 "恋しくて - TEN SELECTED LOVE STORIES", "村上 春樹  (編集)"));
         cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/51cNUdZY69L._SX341_BO1,204,203,200_.jpg",
                 "女のいない男たち", "村上 春樹"));
+    }
+
+    public void addNewCardFromImages(List<ImageItem> imgItemList){
+        ImageItem[] imageItems = listToArray(imgItemList);
+        Card newCard = new Card();
+        cards.add(newCard);
+        Wrapper wrapper = new Wrapper(newCard, imageItems);
+        new ProcessBitmapTask().execute(wrapper);
+
+    }
+
+    private static ImageItem[] listToArray(List<ImageItem> imgItemList){
+        ImageItem[] res = new ImageItem[imgItemList.size()];
+        for(int i = 0; i < imgItemList.size(); i++){
+            res[i] = imgItemList.get(i);
+        }
+        return res;
+    }
+
+    public static Bitmap scale(Bitmap realImage, float maxImageSize,
+                               boolean filter) {
+        float ratio = Math.min(
+                maxImageSize / realImage.getWidth(),
+                maxImageSize / realImage.getHeight());
+        int width = Math.round( ratio * realImage.getWidth());
+        int height = Math.round( ratio * realImage.getHeight());
+
+        Bitmap newBitmap = Bitmap.createScaledBitmap(realImage, width,
+                height, filter);
+        return newBitmap;
+    }
+
+    private class Wrapper {
+        Card mCard;
+        ImageItem[] mImgItemList;
+        Wrapper(Card card, ImageItem[] imgItemList) {
+            mCard = card;
+            mImgItemList = imgItemList;
+        }
+    }
+
+    private class ProcessBitmapTask extends AsyncTask<Wrapper, Integer, Long> {
+        protected Long doInBackground(Wrapper... items) {
+            int count = items.length;
+            long totalSize = 0;
+            for (int i = 0; i < count; i++) {
+                Wrapper item = items[i];
+                for( int j = 0; j < item.mImgItemList.length; j++){
+                    File imgFile = new File( item.mImgItemList[j].path);
+                    if(imgFile.exists()){
+                        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                        Bitmap scaledBitmap = scale(myBitmap, mScreenSize, true);
+                        item.mCard.mImages.add(new CardImage(scaledBitmap));
+
+                    }
+                }
+
+            }
+
+            return totalSize;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+        }
+
+        protected void onPostExecute(Long result) {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 }
