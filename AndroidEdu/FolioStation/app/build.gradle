@@ -35,6 +35,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile project(':imagepicker')
 
     // If your app supports Android versions before Ice Cream Sandwich (API level 14)
 
@@ -47,7 +48,6 @@ dependencies {
     // Provide the Android support library (you might already have this or a similar dependency)
 
     compile 'com.facebook.fresco:webpsupport:1.1.0'
-
     compile 'com.facebook.fresco:webpsupport:1.1.0'
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.facebook.shimmer:shimmer:0.1.0@aar'
@@ -64,9 +64,10 @@ dependencies {
     compile 'com.android.support:support-v4:25.2.0'
     compile 'fr.tvbarthel.blurdialogfragment:lib:2.2.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
-
     testCompile 'junit:junit:4.12'
 }
+
+
 
 
 
