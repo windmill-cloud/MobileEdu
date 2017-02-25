@@ -58,10 +58,6 @@ public class ContainerActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collect);
 
-        if(ItemCards.cards.size() == 0){
-            ItemCards.inflateDummyContent();
-        }
-
         CardsFragment fragment = new CardsFragment();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, fragment, TAG_FRAGMENT)

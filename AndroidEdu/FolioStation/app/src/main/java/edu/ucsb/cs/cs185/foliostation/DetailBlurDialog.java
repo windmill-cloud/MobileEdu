@@ -71,12 +71,11 @@ public class DetailBlurDialog extends DialogFragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_detail_blur_dialog, container, false);
         int idx = getArguments().getInt("POSITION");
-        ItemCards.Card card = ItemCards.cards.get(idx);
+        ItemCards.Card card = ItemCards.getInstance(getContext()).cards.get(idx);
 
         int width = 200, height = 200;
-        Uri imageUri = Uri.parse(card.mURL);
+        //Uri imageUri = Uri.parse(card.mURL);
         ImageView imageView = (ImageView) rootView.findViewById(R.id.dialog_photo);
-
 
         imageView.setImageDrawable(card.mDrawable);
 
@@ -85,7 +84,6 @@ public class DetailBlurDialog extends DialogFragment {
 
         TextView description = (TextView) rootView.findViewById(R.id.dialog_description);
         description.setText(card.mDescription);
-
 
         return rootView;
     }

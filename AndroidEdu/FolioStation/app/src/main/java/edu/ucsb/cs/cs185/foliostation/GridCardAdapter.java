@@ -32,7 +32,7 @@ import java.util.List;
  * Created by xuanwang on 2/19/17.
  */
 
-public class GridCardAdapter extends RecyclerView.Adapter<GridCardAdapter.CardViewHolder>
+public class GridCardAdapter extends RecyclerView.Adapter<CardViewHolder>
         implements View.OnClickListener{
 
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
@@ -67,7 +67,7 @@ public class GridCardAdapter extends RecyclerView.Adapter<GridCardAdapter.CardVi
         if(mContext == null){
             Log.e("mContext", "null");
         }
-        ItemCards.Card card = mCards.get(i);
+        ItemCards.Card card = ItemCards.getInstance(mContext).cards.get(i);
         /*
         Picasso.with(mContext)
                 .load(card.mURL)
@@ -75,7 +75,7 @@ public class GridCardAdapter extends RecyclerView.Adapter<GridCardAdapter.CardVi
                 .centerCrop()
                 .into(holder.imageView);
         */
-        holder.imageView.setImageDrawable(card.mDrawable);
+        holder.imageView.setImageDrawable(card.mImages.get(0).mDrawable);
 
         holder.imageView.setTag(i);
         //holder.imageView.setBackgroundResource(R.drawable.placeholder);
@@ -108,21 +108,6 @@ public class GridCardAdapter extends RecyclerView.Adapter<GridCardAdapter.CardVi
 
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
         this.mOnItemClickListener = listener;
-    }
-
-    public static class CardViewHolder extends RecyclerView.ViewHolder {
-        CardView cv;
-        ImageView imageView;
-        TextView title;
-        TextView description;
-
-        CardViewHolder(View itemView) {
-            super(itemView);
-            cv = (CardView) itemView.findViewById(R.id.cv);
-            imageView = (ImageView) itemView.findViewById(R.id.card_photo);
-            title = (TextView) itemView.findViewById(R.id.card_title);
-            description = (TextView) itemView.findViewById(R.id.card_description);
-        }
     }
 }
 

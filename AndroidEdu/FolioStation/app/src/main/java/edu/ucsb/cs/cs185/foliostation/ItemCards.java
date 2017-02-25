@@ -13,11 +13,15 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.LruCache;
 import android.widget.ImageView;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageRequest;
 
 import java.util.ArrayList;
@@ -28,21 +32,78 @@ import java.util.List;
  */
 
 public class ItemCards {
-    public static List<Card> cards = new ArrayList<>();
+    public static ItemCards mInstance;
+    public List<Card> cards = new ArrayList<>();
     private static Context mContext = null;
+    private static RecyclerView.Adapter<CardViewHolder> mAdapter;
 
-    public static void setContext(Context context){
+    public void setAdapter(RecyclerView.Adapter<CardViewHolder> adapter) {
+        mAdapter = adapter;
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private ItemCards(Context context) {
         mContext = context;
     }
 
-    public static class Card{
-        String mURL = "";
+    public static synchronized ItemCards getInstance(Context context) {
+        if (mInstance == null) {
+            mInstance = new ItemCards(context);
+        }
+        return mInstance;
+    }
+
+    public class CardImage {
+        public String mUrl = "";
+        public Drawable mDrawable = null;
+
+        CardImage(String url){
+            mUrl = url;
+            if(mContext != null) {
+                mDrawable = mContext.getResources().getDrawable(R.drawable.placeholder);
+            }
+            ImageRequest imageRequest = new ImageRequest(mUrl,
+                    new Response.Listener<Bitmap>() {
+                        @Override
+                        public void onResponse(Bitmap bitmap) {
+                            Drawable drawable = new BitmapDrawable(mContext.getResources(), bitmap);
+                            mDrawable = drawable;
+                            Log.i("got", "got");
+                            if(mAdapter != null){
+                                Log.i("note", "note");
+
+                                mAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }, 0, 0, ImageView.ScaleType.CENTER, null,
+                    new Response.ErrorListener() {
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("error", error.toString());
+                            //mImageView.setImageResource(R.drawable.image_load_error);
+                        }
+                    });
+            // Access the RequestQueue through your singleton class.
+            SingletonRequestQueue.getInstance(mContext).getRequestQueue().add(imageRequest);
+
+        }
+
+        public CardImage(Drawable drawable){
+            mDrawable = drawable;
+        }
+
+        public CardImage(Bitmap bitmap){
+            mDrawable = new BitmapDrawable(mContext.getResources(), bitmap);
+        }
+    }
+
+    public class Card{
+        List<CardImage> mImages = new ArrayList<>();
         Drawable mDrawable = null;
         String mTitle;
         String mDescription;
 
         public Card(String url, String title, String description){
-            mURL = url;
+            mImages.add(new CardImage(url));
             mTitle = title;
             mDescription =  description;
         }
@@ -54,7 +115,7 @@ public class ItemCards {
         }
     }
 
-    public static void inflateDummyContent(){
+    public void inflateDummyContent(){
         cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/413e3mR4cSL.jpg",
                 "騎士団長殺し 第1部 顕れるイデア編", "村上 春樹"));
         cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/51raGEQSo2L.jpg",

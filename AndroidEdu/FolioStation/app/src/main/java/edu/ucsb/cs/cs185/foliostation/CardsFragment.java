@@ -11,6 +11,7 @@ package edu.ucsb.cs.cs185.foliostation;
 
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -64,14 +65,14 @@ public class CardsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_cards, container, false);
 
-        getCardImages();
+        //getCardImages();
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.cards_recycler);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setNestedScrollingEnabled(false);
 
         GridCardAdapter.setContext(getContext());
-        mGridCardAdapter = new GridCardAdapter(ItemCards.cards);
+        mGridCardAdapter = new GridCardAdapter(ItemCards.getInstance(getContext()).cards);
         mGridCardAdapter.setHasStableIds(true);
 
 
@@ -108,19 +109,15 @@ public class CardsFragment extends Fragment {
         /*
         SnapHelper helper = new LinearSnapHelper();
         helper.attachToRecyclerView(mRecyclerView);*/
+        ItemCards itemCards = ItemCards.getInstance(getContext());
+        itemCards.setAdapter(mGridCardAdapter);
 
+        if(itemCards.cards.size() == 0){
+            itemCards.inflateDummyContent();
+        }
 
         mRecyclerView.setAdapter(mGridCardAdapter);
-        /*mRecyclerView.addOnScrollListener(new ScrollListener(getContext()) {
-            @Override
-            public void onMoved(int distance) {
-                AppCompatActivity activity = (AppCompatActivity) CardsFragment.this.getActivity();
-                Toolbar toolbar = (Toolbar) activity.findViewById(R.
-                id.toolbar_title);
-                toolbar.setTranslationY(-distance);
-            }
-        });
-        */
+
         return rootView;
     }
 
@@ -165,34 +162,6 @@ public class CardsFragment extends Fragment {
         }
     }
 
-    private void getCardImages(){
-        for(ItemCards.Card card: ItemCards.cards){
-            if(!card.mURL.equals("")){
-                getImage(card);
-            }
-        }
-    }
-
-    private void getImage(final ItemCards.Card card){
-        ImageRequest imageRequest = new ImageRequest(card.mURL,
-                new Response.Listener<Bitmap>() {
-                    @Override
-                    public void onResponse(Bitmap bitmap) {
-                        Drawable drawable = new BitmapDrawable(getResources(), bitmap);
-                        card.mDrawable = drawable;
-                        mGridCardAdapter.notifyDataSetChanged();
-                    }
-                }, 0, 0, ImageView.ScaleType.CENTER, null,
-                new Response.ErrorListener() {
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("error", error.toString());
-                        //mImageView.setImageResource(R.drawable.image_load_error);
-                    }
-                });
-        // Access the RequestQueue through your singleton class.
-        SingletonRequestQueue.getInstance(getContext()).getRequestQueue().add(imageRequest);
-
-    }
 
     public static Bitmap scale(Bitmap realImage, float maxImageSize,
                                boolean filter) {
