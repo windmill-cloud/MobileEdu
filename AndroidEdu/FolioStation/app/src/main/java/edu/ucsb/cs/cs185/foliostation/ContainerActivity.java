@@ -9,6 +9,8 @@
 
 package edu.ucsb.cs.cs185.foliostation;
 
+import android.*;
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -39,6 +41,8 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 
 import java.util.ArrayList;
 
+import edu.ucsb.cs.cs185.foliostation.utilities.PicassoImageLoader;
+
 
 public class ContainerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,7 +50,7 @@ public class ContainerActivity extends AppCompatActivity
     private CardsFragment mImageFragment;
     private String TAG_FRAGMENT = "InflatedFragment";
     private static final int PICK_IMAGE_REQUEST = 9876;
-    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 7654;
+    private static final int ASK_MULTIPLE_PERMISSION_REQUEST_CODE = 7654;
     private static final int IMAGE_PICKER = 1234;
 
     @Override
@@ -121,6 +125,9 @@ public class ContainerActivity extends AppCompatActivity
     }
 
 
+    boolean filePermission = false;
+    boolean cameraPermission = false;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -130,14 +137,18 @@ public class ContainerActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
 
+
             // Here, thisActivity is the current activity
             if (ContextCompat.checkSelfPermission(this,
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.CAMERA)
+                            != PackageManager.PERMISSION_GRANTED) {
 
                 // Should we show an explanation?
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
                     // Show an explanation to the user *asynchronously* -- don't block
                     // this thread waiting for the user's response! After the user
@@ -148,17 +159,20 @@ public class ContainerActivity extends AppCompatActivity
                     // No explanation needed, we can request the permission.
 
                     ActivityCompat.requestPermissions(this,
-                            new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
-                            MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    Manifest.permission.CAMERA},
+                            ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
 
                     // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                     // app-defined int constant. The callback method gets the
                     // result of the request.
                 }
             } else {
+
+                ImagePicker imagePicker = ImagePicker.getInstance();
+                imagePicker.setShowCamera(true);
                 startImagesPicking();
             }
-
             /*
             Intent intent = new Intent(this,
                     EditTabsActivity.class);
@@ -197,36 +211,40 @@ public class ContainerActivity extends AppCompatActivity
                 /*
                 MyAdapter adapter = new MyAdapter(images);
                 gridView.setAdapter(adapter);*/
+
             } else {
                 Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
+    private boolean hasCamera = false;
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
+
         switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_READ_CONTACTS: {
+            case ASK_MULTIPLE_PERMISSION_REQUEST_CODE: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startImagesPicking();
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
+
+                    ImagePicker imagePicker = ImagePicker.getInstance();
+                    imagePicker.setShowCamera(true);
+                    startImagesPicking();
 
                 } else {
 
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
+                    return;
                 }
-                return;
             }
 
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
+
+
     }
-
-
 }

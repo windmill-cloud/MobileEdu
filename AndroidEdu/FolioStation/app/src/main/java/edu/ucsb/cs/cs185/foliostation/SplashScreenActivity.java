@@ -151,7 +151,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void setImagePicker(){
         ImagePicker imagePicker = ImagePicker.getInstance();
         imagePicker.setImageLoader(new PicassoImageLoader());   //设置图片加载器
-        imagePicker.setShowCamera(true);  //显示拍照按钮
+        imagePicker.setShowCamera(false);  //显示拍照按钮
         imagePicker.setCrop(true);        //允许裁剪（单选才有效）
         imagePicker.setSaveRectangle(true); //是否按矩形区域保存
         imagePicker.setSelectLimit(9);    //选中数量限制

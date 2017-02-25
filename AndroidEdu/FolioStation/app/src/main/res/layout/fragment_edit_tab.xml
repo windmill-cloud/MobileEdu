@@ -13,10 +13,49 @@
     android:layout_height="match_parent"
     tools:context="edu.ucsb.cs.cs185.foliostation.editentry.EditTabFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Name Your Project"
+            android:ems="10"
+            android:id="@+id/editText2" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:inputType="textPersonName"
+            android:hint="Description"
+            android:ems="10"
+            android:id="@+id/edit_description" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Tags, comma, separated"
+            android:ems="10"
+            android:id="@+id/edit_title"
+            android:drawableLeft="@mipmap/checkbox_checked"
+            android:paddingLeft="20dp" />
+
+    </LinearLayout>
 
 </FrameLayout>
