@@ -14,25 +14,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
-import android.os.Bundle;
+
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.util.LruCache;
-import android.view.Display;
-import android.widget.ImageView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.ImageRequest;
-import com.facebook.imagepipeline.cache.BitmapMemoryCacheFactory;
 import com.lzy.imagepicker.bean.ImageItem;
-import com.squareup.picasso.Downloader;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -50,8 +36,8 @@ public class ItemCards {
     private static RecyclerView.Adapter<CardViewHolder> mAdapter;
     private static int mScreenSize;
     private static int mThumbnailSize;
-    final private static int MAIN_IMAGE = 0;
-    final private static int THUMBNAIL_IMAGE = 1;
+    final private static int URL = 0;
+    final private static int PATH = 1;
 
     public void setAdapter(RecyclerView.Adapter<CardViewHolder> adapter) {
         mAdapter = adapter;
@@ -75,11 +61,13 @@ public class ItemCards {
 
     public class CardImage {
         public String mUrl = "";
+        public int mType = PATH;
         public Drawable mDrawable = null;
         public Drawable mThumbnail = null;
 
-        CardImage(String url){
+        CardImage(String url, int type){
             mUrl = url;
+            mType = type;
             /*
             if(mContext != null) {
                 mDrawable = mContext.getResources().getDrawable(R.drawable.placeholder);
@@ -108,6 +96,15 @@ public class ItemCards {
             SingletonRequestQueue.getInstance(mContext).getRequestQueue().add(imageRequest);
             */
         }
+
+        public boolean isFromPath(){
+            return mType == PATH;
+        }
+
+        public boolean isFromUrl(){
+            return mType == URL;
+        }
+
         public CardImage() {
         }
 
@@ -139,8 +136,8 @@ public class ItemCards {
         String mTitle = "";
         String mDescription = "";
 
-        public Card(String url, String title, String description){
-            mImages.add(new CardImage(url));
+        public Card(String url, int type,  String title, String description){
+            mImages.add(new CardImage(url, type));
             mTitle = title;
             mDescription =  description;
         }
@@ -171,21 +168,21 @@ public class ItemCards {
     }
 
     public void inflateDummyContent(){
-        cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/413e3mR4cSL.jpg",
+        cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/413e3mR4cSL.jpg", URL,
                 "騎士団長殺し 第1部 顕れるイデア編", "村上 春樹"));
-        cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/51raGEQSo2L.jpg",
+        cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/51raGEQSo2L.jpg", URL,
                 "色彩を持たない多崎つくると、彼の巡礼の年", "村上 春樹"));
-        cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/41jAK3VHZ2L.jpg",
+        cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/41jAK3VHZ2L.jpg", URL,
                 "海辺のカフカ", "村上 春樹"));
-        cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/51pdnZBq-aL.jpg",
+        cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/51pdnZBq-aL.jpg", URL,
                 "1Q84 BOOK1〈4月‐6月〉", "村上 春樹"));
-        cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/41oYBNer4pL.jpg",
+        cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/41oYBNer4pL.jpg", URL,
                 "職業としての小説家", "村上 春樹"));
-        cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/41PGlYT6DgL._SX332_BO1,204,203,200_.jpg",
+        cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/41PGlYT6DgL._SX332_BO1,204,203,200_.jpg", URL,
                 "ねじまき鳥クロニクル", "村上 春樹"));
-        cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/51FYrDp2WEL._SX346_BO1,204,203,200_.jpg",
+        cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/51FYrDp2WEL._SX346_BO1,204,203,200_.jpg", URL,
                 "恋しくて - TEN SELECTED LOVE STORIES", "村上 春樹  (編集)"));
-        cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/51cNUdZY69L._SX341_BO1,204,203,200_.jpg",
+        cards.add(new Card("https://images-na.ssl-images-amazon.com/images/I/51cNUdZY69L._SX341_BO1,204,203,200_.jpg", URL,
                 "女のいない男たち", "村上 春樹"));
     }
 
@@ -194,7 +191,7 @@ public class ItemCards {
         Card newCard = new Card();
 
         for(ImageItem imageItem: imageItemList){
-            newCard.mImages.add(new CardImage(imageItem.path));
+            newCard.mImages.add(new CardImage(imageItem.path, PATH));
         }
         cards.add(newCard);
     }

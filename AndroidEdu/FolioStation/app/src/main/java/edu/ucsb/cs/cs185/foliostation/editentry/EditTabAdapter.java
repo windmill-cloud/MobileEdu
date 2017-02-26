@@ -68,11 +68,19 @@ public class EditTabAdapter extends RecyclerView.Adapter<CardViewHolder>
             Log.e("mContext", "null");
         }
 
-        Picasso.with(mContext)
-                .load(new File(mCardImages.get(i).mUrl))
-                .resize(1500, 1500)
-                .centerCrop()
-                .into(holder.imageView);
+        if(mCardImages.get(i).isFromPath()) {
+            Picasso.with(mContext)
+                    .load(new File(mCardImages.get(i).mUrl))
+                    .resize(1500, 1500)
+                    .centerCrop()
+                    .into(holder.imageView);
+        } else {
+            Picasso.with(mContext)
+                    .load(mCardImages.get(i).mUrl)
+                    .resize(1500, 1500)
+                    .centerCrop()
+                    .into(holder.imageView);
+        }
 
         //holder.imageView.setImageBitmap(mCardImages.get(i));
 

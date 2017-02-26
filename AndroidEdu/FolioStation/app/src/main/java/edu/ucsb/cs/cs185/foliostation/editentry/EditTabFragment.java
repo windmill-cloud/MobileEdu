@@ -75,21 +75,38 @@ public class EditTabFragment extends Fragment {
 
         mCoverImage = (ImageView) rootView.findViewById(R.id.cover_image);
 
-        Picasso.with(getContext())
-                .load(new File(mItemCard.getImages().get(0).mUrl))
-                .resize(1500, 1500)
-                .centerCrop()
-                .noFade()
-                .into(mCoverImage);
+        if(mItemCard.getImages().get(0).isFromPath()) {
+            Picasso.with(getContext())
+                    .load(new File(mItemCard.getImages().get(0).mUrl))
+                    .resize(1500, 1500)
+                    .centerCrop()
+                    .noFade()
+                    .into(mCoverImage);
+        } else {
+            Picasso.with(getContext())
+                    .load(mItemCard.getImages().get(0).mUrl)
+                    .resize(1500, 1500)
+                    .centerCrop()
+                    .noFade()
+                    .into(mCoverImage);
+        }
 
         mAdapter.setOnItemClickListener(new EditTabAdapter.OnRecyclerViewItemClickListener(){
             @Override
             public void onItemClick(View view , int position){
-                Picasso.with(getContext())
-                        .load(new File(mItemCard.getImages().get(position).mUrl)).noFade()
-                        .resize(1500, 1500)
-                        .centerCrop()
-                        .into(mCoverImage);
+                if(mItemCard.getImages().get(position).isFromPath()) {
+                    Picasso.with(getContext())
+                            .load(new File(mItemCard.getImages().get(position).mUrl)).noFade()
+                            .resize(1500, 1500)
+                            .centerCrop()
+                            .into(mCoverImage);
+                } else {
+                    Picasso.with(getContext())
+                            .load(mItemCard.getImages().get(position).mUrl).noFade()
+                            .resize(1500, 1500)
+                            .centerCrop()
+                            .into(mCoverImage);
+                }
 
                 /*
                 Bundle arguments = new Bundle();
