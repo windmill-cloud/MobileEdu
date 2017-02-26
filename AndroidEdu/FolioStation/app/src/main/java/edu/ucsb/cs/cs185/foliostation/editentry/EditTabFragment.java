@@ -64,7 +64,7 @@ public class EditTabFragment extends Fragment {
 
         EditTabAdapter.setContext(getContext());
         mItemCard = ItemCards.getInstance(getContext()).cards.get(activity.cardIndex);
-        mAdapter = new EditTabAdapter(mItemCard.getImages());
+        mAdapter = new EditTabAdapter(mItemCard);
         mAdapter.setHasStableIds(true);
 
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -107,6 +107,10 @@ public class EditTabFragment extends Fragment {
                             .centerCrop()
                             .into(mCoverImage);
                 }
+
+                mItemCard.setCoverIndex(position);
+                mAdapter.notifyDataSetChanged();
+
 
                 /*
                 Bundle arguments = new Bundle();

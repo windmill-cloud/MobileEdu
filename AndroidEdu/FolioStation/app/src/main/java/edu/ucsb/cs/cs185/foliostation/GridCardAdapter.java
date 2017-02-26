@@ -87,7 +87,7 @@ public class GridCardAdapter extends RecyclerView.Adapter<CardViewHolder>
         ItemCards.Card card = ItemCards.getInstance(mContext).cards.get(i);
 
         Picasso.with(mContext)
-                .load(card.getImages().get(0).mUrl)
+                .load(card.getCoverImage().mUrl)
                 .resize(200, 300)
                 .centerCrop()
                 .into(holder.imageView);

@@ -133,6 +133,7 @@ public class ItemCards {
     public class Card{
         List<CardImage> mImages = new ArrayList<>();
         public List<Bitmap> mThumbnails = new ArrayList<>();
+        public int coverIndex = 0;
         String mTitle = "";
         String mDescription = "";
 
@@ -143,6 +144,15 @@ public class ItemCards {
         }
 
         public Card(){
+
+        }
+
+        public CardImage getCoverImage(){
+            return mImages.get(coverIndex);
+        }
+
+        public void setCoverIndex(int index){
+            coverIndex = index;
 
         }
 

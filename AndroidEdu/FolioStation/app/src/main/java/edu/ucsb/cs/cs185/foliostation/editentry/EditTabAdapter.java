@@ -11,12 +11,14 @@ package edu.ucsb.cs.cs185.foliostation.editentry;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
@@ -36,8 +38,8 @@ public class EditTabAdapter extends RecyclerView.Adapter<CardViewHolder>
     implements View.OnClickListener {
 
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
-    List<ItemCards.CardImage> mCardImages;
 
+    ItemCards.Card mCard;
     //define interface
     public interface OnRecyclerViewItemClickListener {
         void onItemClick(View view, int position);
@@ -45,8 +47,8 @@ public class EditTabAdapter extends RecyclerView.Adapter<CardViewHolder>
 
     static Context mContext = null;
 
-    public EditTabAdapter(List<ItemCards.CardImage> thumbnails) {
-        mCardImages = thumbnails;
+    public EditTabAdapter(  ItemCards.Card Card) {
+        mCard = Card;
     }
 
     static void setContext(Context context) {
@@ -61,6 +63,14 @@ public class EditTabAdapter extends RecyclerView.Adapter<CardViewHolder>
         return cardViewHolder;
     }
 
+    public static void sendViewToBack(final View child) {
+        final ViewGroup parent = (ViewGroup)child.getParent();
+        if (parent != null) {
+            parent.removeView(child);
+            parent.addView(child, 0);
+        }
+    }
+
     @Override
     public void onBindViewHolder(CardViewHolder holder, int i) {
 
@@ -68,15 +78,27 @@ public class EditTabAdapter extends RecyclerView.Adapter<CardViewHolder>
             Log.e("mContext", "null");
         }
 
-        if(mCardImages.get(i).isFromPath()) {
+        ItemCards.CardImage image =  mCard.getImages().get(i);
+        if(i == mCard.coverIndex){
+            holder.checked.setImageResource(R.mipmap.checkbox_checked);
+            sendViewToBack(holder.mask);
+
+            holder.mask.setColorFilter(android.R.color.transparent);
+        } else {
+            holder.checked.setImageResource(android.R.color.transparent);
+            holder.mask.setBackgroundColor(mContext.getResources().getColor(R.color.colorGrayTransparent));
+            holder.mask.bringToFront();
+        }
+
+        if(image.isFromPath()) {
             Picasso.with(mContext)
-                    .load(new File(mCardImages.get(i).mUrl))
+                    .load(new File(image.mUrl))
                     .resize(1500, 1500)
                     .centerCrop()
                     .into(holder.imageView);
         } else {
             Picasso.with(mContext)
-                    .load(mCardImages.get(i).mUrl)
+                    .load(image.mUrl)
                     .resize(1500, 1500)
                     .centerCrop()
                     .into(holder.imageView);
@@ -102,7 +124,7 @@ public class EditTabAdapter extends RecyclerView.Adapter<CardViewHolder>
 
     @Override
     public int getItemCount() {
-        return mCardImages.size();
+        return mCard.getImages().size();
     }
 
     @Override
