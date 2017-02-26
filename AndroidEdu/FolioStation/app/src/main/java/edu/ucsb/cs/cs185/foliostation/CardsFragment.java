@@ -45,6 +45,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 
+import edu.ucsb.cs.cs185.foliostation.editentry.EditTabsActivity;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -103,6 +105,18 @@ public class CardsFragment extends Fragment {
                 background.setScaleType(ImageView.ScaleType.FIT_XY);
                 background.setImageDrawable(draw);
 
+            }
+        });
+
+        mGridCardAdapter.setOnItemLongClickListener(new GridCardAdapter.OnRecyclerViewItemLongClickListener(){
+
+            @Override
+            public boolean onItemLongClick(View view, int position) {
+                Log.i("long", "press");
+                Intent intent = new Intent(getActivity(), EditTabsActivity.class);
+                intent.putExtra("CARD_INDEX", position);
+                startActivity(intent);
+                return true;
             }
         });
 

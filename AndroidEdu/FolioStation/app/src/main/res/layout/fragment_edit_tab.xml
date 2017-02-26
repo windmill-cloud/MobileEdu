@@ -8,6 +8,7 @@
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,45 +18,24 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/back1"
+            android:id="@+id/cover_image" />
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
             android:layout_weight="4"
             android:id="@+id/cards_recycler"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="Name Your Project"
-            android:ems="10"
-            android:id="@+id/editText2" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:inputType="textPersonName"
-            android:hint="Description"
-            android:ems="10"
-            android:id="@+id/edit_description" />
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="Tags, comma, separated"
-            android:ems="10"
-            android:id="@+id/edit_title"
-            android:drawableLeft="@mipmap/checkbox_checked"
-            android:paddingLeft="20dp" />
 
     </LinearLayout>
 

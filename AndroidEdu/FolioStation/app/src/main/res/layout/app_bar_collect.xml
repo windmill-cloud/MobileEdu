@@ -30,6 +30,8 @@
             android:background="?attr/colorPrimary"
             android:elevation="6dp"
             app:layout_scrollFlags="scroll|enterAlways"
+            app:titleTextAppearance="@style/Toolbar.TitleText"
+
 
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 

@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
+            android:longClickable="true"
             android:id="@+id/card_photo" />
 
         <TextView

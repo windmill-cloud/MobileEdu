@@ -28,19 +28,36 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import edu.ucsb.cs.cs185.foliostation.utilities.PicassoImageLoader;
+
 /**
  * Created by xuanwang on 2/19/17.
  */
 
 public class GridCardAdapter extends RecyclerView.Adapter<CardViewHolder>
-        implements View.OnClickListener{
+        implements View.OnClickListener, View.OnLongClickListener{
 
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
+    private OnRecyclerViewItemLongClickListener mOnItemLongClickListener = null;
+
     List<ItemCards.Card> mCards;
+
+    @Override
+    public boolean onLongClick(View view) {
+        if (mOnItemLongClickListener != null) {
+            // get tag
+            mOnItemLongClickListener.onItemLongClick(view, (int) view.getTag());
+        }
+        return true;
+    }
 
     //define interface
     public interface OnRecyclerViewItemClickListener {
-        void onItemClick(View view , int position);
+        void onItemClick(View view, int position);
+    }
+
+    public interface OnRecyclerViewItemLongClickListener {
+        boolean onItemLongClick(View view, int position);
     }
 
     static Context mContext = null;
@@ -68,19 +85,21 @@ public class GridCardAdapter extends RecyclerView.Adapter<CardViewHolder>
             Log.e("mContext", "null");
         }
         ItemCards.Card card = ItemCards.getInstance(mContext).cards.get(i);
-        /*
+
         Picasso.with(mContext)
-                .load(card.mURL)
+                .load(card.getImages().get(0).mUrl)
                 .resize(200, 300)
                 .centerCrop()
                 .into(holder.imageView);
-        */
-        holder.imageView.setImageDrawable(card.mImages.get(0).mDrawable);
+
+        //holder.imageView.setImageDrawable(card.mImages.get(0).mDrawable);
 
         holder.imageView.setTag(i);
         //holder.imageView.setBackgroundResource(R.drawable.placeholder);
 
         holder.imageView.setOnClickListener(this);
+        holder.imageView.setOnLongClickListener(this);
+
         holder.title.setText(card.mTitle);
         holder.description.setText(card.mDescription);
         /*
@@ -108,6 +127,10 @@ public class GridCardAdapter extends RecyclerView.Adapter<CardViewHolder>
 
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
         this.mOnItemClickListener = listener;
+    }
+
+    public void setOnItemLongClickListener(OnRecyclerViewItemLongClickListener listener) {
+        this.mOnItemLongClickListener = listener;
     }
 }
 

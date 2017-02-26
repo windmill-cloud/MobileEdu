@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -27,6 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageRequest;
+import com.facebook.imagepipeline.cache.BitmapMemoryCacheFactory;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.squareup.picasso.Downloader;
 
@@ -34,6 +36,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import edu.ucsb.cs.cs185.foliostation.utilities.ImageUtilities;
 
 /**
  * Created by xuanwang on 2/19/17.
@@ -45,7 +49,9 @@ public class ItemCards {
     private static Context mContext = null;
     private static RecyclerView.Adapter<CardViewHolder> mAdapter;
     private static int mScreenSize;
-
+    private static int mThumbnailSize;
+    final private static int MAIN_IMAGE = 0;
+    final private static int THUMBNAIL_IMAGE = 1;
 
     public void setAdapter(RecyclerView.Adapter<CardViewHolder> adapter) {
         mAdapter = adapter;
@@ -54,8 +60,10 @@ public class ItemCards {
 
     private ItemCards(Context context) {
         mContext = context;
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        mScreenSize = Math.max(displayMetrics.heightPixels, displayMetrics.widthPixels);
+
+        mScreenSize = ImageUtilities.getScreenXYmaxDimension(context);
+        mThumbnailSize = ImageUtilities.getThumbnailPixelSize(context, 120);
+        int i = 0;
     }
 
     public static synchronized ItemCards getInstance(Context context) {
@@ -68,9 +76,11 @@ public class ItemCards {
     public class CardImage {
         public String mUrl = "";
         public Drawable mDrawable = null;
+        public Drawable mThumbnail = null;
 
         CardImage(String url){
             mUrl = url;
+            /*
             if(mContext != null) {
                 mDrawable = mContext.getResources().getDrawable(R.drawable.placeholder);
             }
@@ -96,20 +106,36 @@ public class ItemCards {
                     });
             // Access the RequestQueue through your singleton class.
             SingletonRequestQueue.getInstance(mContext).getRequestQueue().add(imageRequest);
-
+            */
+        }
+        public CardImage() {
         }
 
         public CardImage(Drawable drawable){
             mDrawable = drawable;
+            mThumbnail = ImageUtilities.scale(mContext, drawable, mThumbnailSize);
+        }
+
+        public CardImage(Drawable drawable, Drawable thumbnail){
+            mDrawable = drawable;
+            mThumbnail = thumbnail;
+        }
+
+        public CardImage(Bitmap bitmap, Bitmap thumbnail){
+            mDrawable = new BitmapDrawable(mContext.getResources(), bitmap);
+            mThumbnail = new BitmapDrawable(mContext.getResources(), thumbnail);
         }
 
         public CardImage(Bitmap bitmap){
             mDrawable = new BitmapDrawable(mContext.getResources(), bitmap);
+            mThumbnail = new BitmapDrawable(mContext.getResources(),
+                    ImageUtilities.scale(bitmap, mThumbnailSize, false));
         }
     }
 
     public class Card{
         List<CardImage> mImages = new ArrayList<>();
+        public List<Bitmap> mThumbnails = new ArrayList<>();
         String mTitle = "";
         String mDescription = "";
 
@@ -163,71 +189,13 @@ public class ItemCards {
                 "女のいない男たち", "村上 春樹"));
     }
 
-    public void addNewCardFromImages(List<ImageItem> imgItemList){
-        ImageItem[] imageItems = listToArray(imgItemList);
+    public void addNewCardFromImages(List<ImageItem> imageItemList){
+
         Card newCard = new Card();
+
+        for(ImageItem imageItem: imageItemList){
+            newCard.mImages.add(new CardImage(imageItem.path));
+        }
         cards.add(newCard);
-        Wrapper wrapper = new Wrapper(newCard, imageItems);
-        new ProcessBitmapTask().execute(wrapper);
-
-    }
-
-    private static ImageItem[] listToArray(List<ImageItem> imgItemList){
-        ImageItem[] res = new ImageItem[imgItemList.size()];
-        for(int i = 0; i < imgItemList.size(); i++){
-            res[i] = imgItemList.get(i);
-        }
-        return res;
-    }
-
-    public static Bitmap scale(Bitmap realImage, float maxImageSize,
-                               boolean filter) {
-        float ratio = Math.min(
-                maxImageSize / realImage.getWidth(),
-                maxImageSize / realImage.getHeight());
-        int width = Math.round( ratio * realImage.getWidth());
-        int height = Math.round( ratio * realImage.getHeight());
-
-        Bitmap newBitmap = Bitmap.createScaledBitmap(realImage, width,
-                height, filter);
-        return newBitmap;
-    }
-
-    private class Wrapper {
-        Card mCard;
-        ImageItem[] mImgItemList;
-        Wrapper(Card card, ImageItem[] imgItemList) {
-            mCard = card;
-            mImgItemList = imgItemList;
-        }
-    }
-
-    private class ProcessBitmapTask extends AsyncTask<Wrapper, Integer, Long> {
-        protected Long doInBackground(Wrapper... items) {
-            int count = items.length;
-            long totalSize = 0;
-            for (int i = 0; i < count; i++) {
-                Wrapper item = items[i];
-                for( int j = 0; j < item.mImgItemList.length; j++){
-                    File imgFile = new File( item.mImgItemList[j].path);
-                    if(imgFile.exists()){
-                        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                        Bitmap scaledBitmap = scale(myBitmap, mScreenSize, true);
-                        item.mCard.mImages.add(new CardImage(scaledBitmap));
-
-                    }
-                }
-
-            }
-
-            return totalSize;
-        }
-
-        protected void onProgressUpdate(Integer... progress) {
-        }
-
-        protected void onPostExecute(Long result) {
-            mAdapter.notifyDataSetChanged();
-        }
     }
 }

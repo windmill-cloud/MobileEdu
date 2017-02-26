@@ -38,6 +38,7 @@ import android.widget.Toast;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
+import com.lzy.imagepicker.view.CropImageView;
 
 import java.util.ArrayList;
 
@@ -68,6 +69,7 @@ public class ContainerActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Collections");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +89,22 @@ public class ContainerActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        setImagePicker();
+
+    }
+
+    protected void setImagePicker(){
+        ImagePicker imagePicker = ImagePicker.getInstance();
+        imagePicker.setImageLoader(new PicassoImageLoader());   //设置图片加载器
+        imagePicker.setShowCamera(false);  //显示拍照按钮
+        imagePicker.setCrop(true);        //允许裁剪（单选才有效）
+        imagePicker.setSaveRectangle(true); //是否按矩形区域保存
+        imagePicker.setSelectLimit(9);    //选中数量限制
+        imagePicker.setStyle(CropImageView.Style.RECTANGLE);  //裁剪框的形状
+        imagePicker.setFocusWidth(800);   //裁剪框的宽度。单位像素（圆形自动取宽高最小值）
+        imagePicker.setFocusHeight(800);  //裁剪框的高度。单位像素（圆形自动取宽高最小值）
+        imagePicker.setOutPutX(1000);//保存文件的宽度。单位像素
+        imagePicker.setOutPutY(1000);//保存文件的高度。单位像素
     }
 
     @Override
@@ -133,7 +151,6 @@ public class ContainerActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-
 
             // Here, thisActivity is the current activity
             if (ContextCompat.checkSelfPermission(this,
@@ -199,6 +216,8 @@ public class ContainerActivity extends AppCompatActivity
         startActivityForResult(intent, IMAGE_PICKER);
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -210,7 +229,7 @@ public class ContainerActivity extends AppCompatActivity
                 Intent intent = new Intent(this, EditTabsActivity.class);
                 intent.putExtra("CARD_INDEX", itemCards.cards.size() - 1);
                 startActivity(intent);
-                finish();
+                //finish();
                 /*
                 MyAdapter adapter = new MyAdapter(images);
                 gridView.setAdapter(adapter);*/

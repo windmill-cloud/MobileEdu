@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import edu.ucsb.cs.cs185.foliostation.ItemCards;
 import edu.ucsb.cs.cs185.foliostation.R;
 
 public class EditTabsActivity extends AppCompatActivity {
@@ -67,15 +68,6 @@ public class EditTabsActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
     }
 
@@ -137,6 +129,13 @@ public class EditTabsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        ItemCards itemCards = ItemCards.getInstance(getApplicationContext());
+        itemCards.cards.remove(itemCards.cards.size()-1);
+    }
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -164,7 +163,7 @@ public class EditTabsActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 1;
         }
 
         @Override

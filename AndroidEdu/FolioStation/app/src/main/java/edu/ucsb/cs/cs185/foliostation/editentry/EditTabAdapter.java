@@ -10,12 +10,17 @@
 package edu.ucsb.cs.cs185.foliostation.editentry;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 import java.util.List;
 
 import edu.ucsb.cs.cs185.foliostation.CardViewHolder;
@@ -40,8 +45,8 @@ public class EditTabAdapter extends RecyclerView.Adapter<CardViewHolder>
 
     static Context mContext = null;
 
-    public EditTabAdapter(List<ItemCards.CardImage> cardImages) {
-        mCardImages = cardImages;
+    public EditTabAdapter(List<ItemCards.CardImage> thumbnails) {
+        mCardImages = thumbnails;
     }
 
     static void setContext(Context context) {
@@ -63,14 +68,13 @@ public class EditTabAdapter extends RecyclerView.Adapter<CardViewHolder>
             Log.e("mContext", "null");
         }
 
-        /*
         Picasso.with(mContext)
-                .load(card.mURL)
-                .resize(200, 300)
+                .load(new File(mCardImages.get(i).mUrl))
+                .resize(1500, 1500)
                 .centerCrop()
                 .into(holder.imageView);
-        */
-        holder.imageView.setImageDrawable(mCardImages.get(i).mDrawable);
+
+        //holder.imageView.setImageBitmap(mCardImages.get(i));
 
         holder.imageView.setTag(i);
         //holder.imageView.setBackgroundResource(R.drawable.placeholder);

@@ -24,6 +24,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+
 import edu.ucsb.cs.cs185.foliostation.CardsFragment;
 import edu.ucsb.cs.cs185.foliostation.DetailBlurDialog;
 import edu.ucsb.cs.cs185.foliostation.GridCardAdapter;
@@ -37,6 +41,8 @@ public class EditTabFragment extends Fragment {
     RecyclerView mRecyclerView;
     EditTabAdapter mAdapter;
     LinearLayoutManager mLayoutManager;
+    ItemCards.Card mItemCard;
+    ImageView mCoverImage;
 
     public EditTabFragment() {
         // Required empty public constructor
@@ -49,14 +55,16 @@ public class EditTabFragment extends Fragment {
         View rootView =  inflater.inflate(R.layout.fragment_edit_tab, container, false);
 
         //getCardImages();
+        EditTabsActivity activity = (EditTabsActivity) getActivity();
+        activity.getSupportActionBar().setTitle("Select a Cover Picture");
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.cards_recycler);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setNestedScrollingEnabled(false);
 
         EditTabAdapter.setContext(getContext());
-        EditTabsActivity activity = (EditTabsActivity) getActivity();
-        mAdapter = new EditTabAdapter(ItemCards.getInstance(getContext()).cards.get(activity.cardIndex).getImages());
+        mItemCard = ItemCards.getInstance(getContext()).cards.get(activity.cardIndex);
+        mAdapter = new EditTabAdapter(mItemCard.getImages());
         mAdapter.setHasStableIds(true);
 
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -65,9 +73,24 @@ public class EditTabFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        mCoverImage = (ImageView) rootView.findViewById(R.id.cover_image);
+
+        Picasso.with(getContext())
+                .load(new File(mItemCard.getImages().get(0).mUrl))
+                .resize(1500, 1500)
+                .centerCrop()
+                .noFade()
+                .into(mCoverImage);
+
         mAdapter.setOnItemClickListener(new EditTabAdapter.OnRecyclerViewItemClickListener(){
             @Override
             public void onItemClick(View view , int position){
+                Picasso.with(getContext())
+                        .load(new File(mItemCard.getImages().get(position).mUrl)).noFade()
+                        .resize(1500, 1500)
+                        .centerCrop()
+                        .into(mCoverImage);
+
                 /*
                 Bundle arguments = new Bundle();
                 arguments.putInt("POSITION", position);

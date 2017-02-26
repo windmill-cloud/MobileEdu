@@ -28,6 +28,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
+import com.squareup.picasso.Picasso;
 
 import fr.tvbarthel.lib.blurdialogfragment.BlurDialogEngine;
 import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
@@ -75,9 +76,16 @@ public class DetailBlurDialog extends DialogFragment {
 
         int width = 200, height = 200;
         //Uri imageUri = Uri.parse(card.mURL);
+
         ImageView imageView = (ImageView) rootView.findViewById(R.id.dialog_photo);
 
-        imageView.setImageDrawable(card.mImages.get(0).mDrawable);
+        Picasso.with(getContext())
+                .load(card.getImages().get(0).mUrl)
+                .resize(240, 360)
+                .centerCrop()
+                .into(imageView);
+
+        //imageView.setImageDrawable(card.mImages.get(0).mDrawable);
 
         TextView title = (TextView) rootView.findViewById(R.id.dialog_title);
         title.setText(card.mTitle);
