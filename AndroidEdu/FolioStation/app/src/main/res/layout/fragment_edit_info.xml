@@ -12,49 +12,85 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     tools:context="edu.ucsb.cs.cs185.foliostation.editentry.EditInfoFragment">
 
-
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/back1"
-            android:id="@+id/imageView2" />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="Name Your Project"
-            android:ems="10"
-            android:id="@+id/editText2" />
+            android:layout_height="match_parent"
+            android:weightSum="1">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:inputType="textPersonName"
-            android:hint="Description"
-            android:ems="10"
-            android:id="@+id/edit_description" />
+            <FrameLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner" />
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:scaleType="centerCrop"
+                    android:id="@+id/edit_info_cover_image"
+                    android:src="@drawable/back1"
+                    android:paddingTop="16dp"
+                    />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="Tags, comma, separated"
-            android:ems="10"
-            android:id="@+id/edit_title"
-            android:drawableLeft="@mipmap/checkbox_checked"
-            android:paddingLeft="20dp" />
-    </LinearLayout>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:inputType="textPersonName"
+                    android:hint="Name Your Project"
+                    android:ems="10"
+                    android:id="@+id/edit_title"
+                    android:paddingLeft="120dp" />
+
+
+            </FrameLayout>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:inputType="textPersonName"
+                android:hint="Write Your Description"
+                android:gravity="top"
+                android:ems="10"
+                android:id="@+id/edit_description" />
+
+            <FrameLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/tags"
+                    android:layout_marginTop="8dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:inputType="textPersonName"
+                android:gravity="top"
+
+                android:hint="Tags, comma, separated"
+                android:ems="10"
+                android:id="@+id/edit_tags"
+                android:paddingLeft="35dp" />
+
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
 </FrameLayout>

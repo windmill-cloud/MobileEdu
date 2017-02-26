@@ -133,6 +133,7 @@ public class ItemCards {
     public class Card{
         List<CardImage> mImages = new ArrayList<>();
         public List<Bitmap> mThumbnails = new ArrayList<>();
+        List<String> tags = new ArrayList<>();
         public int coverIndex = 0;
         String mTitle = "";
         String mDescription = "";

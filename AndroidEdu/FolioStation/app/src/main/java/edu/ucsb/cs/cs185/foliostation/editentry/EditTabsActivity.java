@@ -10,8 +10,6 @@
 package edu.ucsb.cs.cs185.foliostation.editentry;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -20,12 +18,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.StringBuilderPrinter;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import android.widget.TextView;
 
 import edu.ucsb.cs.cs185.foliostation.ItemCards;
@@ -48,6 +49,10 @@ public class EditTabsActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
 
+    Button mLeftButton, mRightButton;
+    TextView mTitle;
+    Fragment mFragment;
+
     protected int cardIndex = 0;
 
     @Override
@@ -67,6 +72,34 @@ public class EditTabsActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mLeftButton = (Button) findViewById(R.id.edit_toolbar_leftbutton);
+        mRightButton = (Button) findViewById(R.id.edit_toolbar_rightbutton);
+        mTitle = (TextView) findViewById(R.id.edit_toolbar_title);
+
+        setSelectCoverToolbar();
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position){
+                    case 0:
+                        setSelectCoverToolbar(); break;
+                    case 1:
+                        setEnterInfoToolbar(); break;
+                }
+                Log.d("page", String.valueOf(position));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
 
     }
@@ -137,6 +170,45 @@ public class EditTabsActivity extends AppCompatActivity {
         itemCards.cards.remove(itemCards.cards.size()-1);
     }
 
+    public void setSelectCoverToolbar(){
+        mLeftButton.setText("Back");
+        mLeftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("left", "pressed");
+                onBackPressed();
+            }
+        });
+
+        mTitle.setText("Select a Cover");
+
+        mRightButton.setText("Next");
+        mRightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mViewPager.setCurrentItem(1, true);
+            }
+        });
+    }
+
+    public void setEnterInfoToolbar(){
+        mLeftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mViewPager.setCurrentItem(0, true);
+            }
+        });
+
+        mTitle.setText("Enter Details");
+
+        mRightButton.setText("Publish");
+        mRightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //mViewPager.setCurrentItem(1, true);
+            }
+        });
+    }
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -155,7 +227,7 @@ public class EditTabsActivity extends AppCompatActivity {
                 case 0:
                     return new EditTabFragment();
                 case 1:
-                    return  PlaceholderFragment.newInstance(1);
+                    return new EditInfoFragment();
             }
             return null;
                 //return PlaceholderFragment.newInstance(position + 1);
@@ -164,15 +236,17 @@ public class EditTabsActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 1;
+            return 2;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
+
                     return "SECTION 1";
                 case 1:
+
                     return "SECTION 2";
                 case 2:
                     return "SECTION 3";

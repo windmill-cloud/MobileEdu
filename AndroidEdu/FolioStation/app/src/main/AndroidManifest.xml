@@ -39,7 +39,8 @@
         <activity
             android:name=".editentry.EditTabsActivity"
             android:label="@string/title_activity_edit_tabs"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan"></activity>
     </application>
 
 </manifest>

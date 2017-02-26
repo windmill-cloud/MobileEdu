@@ -45,38 +45,36 @@
                 android:layout_height="match_parent"
                 android:background="@color/transparent">
 
-                <TextView
+                <Button
                     android:text="Back"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/edit_tab_toolbar_title"
-                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:id="@+id/edit_toolbar_leftbutton"
                     android:textSize="18sp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:textColor="@color/colorDark"/>
+                    android:textColor="@color/colorDark"
+                    android:background="@color/transparent" />
+
 
                 <TextView
                     android:text="Select a Cover"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:paddingLeft="20dp"
                     android:gravity="center_vertical"
                     android:textSize="18sp"
-
+                    android:id="@+id/edit_toolbar_title"
                     android:layout_weight="1" />
 
-                <TextView
+                <Button
                     android:text="Next"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-
-                    android:id="@+id/edit_tab_publish"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:id="@+id/edit_toolbar_rightbutton"
                     android:textSize="18sp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:textColor="@color/colorDark" />
+                    android:textColor="@color/colorDark"
+                    android:background="@color/transparent" />
             </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
