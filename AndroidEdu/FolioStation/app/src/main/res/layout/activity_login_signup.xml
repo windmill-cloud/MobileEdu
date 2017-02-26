@@ -17,25 +17,6 @@
     tools:context="edu.ucsb.cs.cs185.foliostation.LoginSignupActivity"
     android:background="@color/colorLight">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimaryDark"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Back"
-            android:textSize="15sp"
-            android:id="@+id/toolbar_title"
-            android:padding="10dp" />
-
-    </android.support.v7.widget.Toolbar>
-
 
     <TextView
         android:text="Sign up"
@@ -122,5 +103,27 @@
         android:gravity="center"
         android:layout_marginTop="16dp"
         android:id="@+id/textView5" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimaryDark"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:textSize="15sp"
+            android:id="@+id/toolbar_title"
+            android:padding="10dp" />
+
+    </android.support.v7.widget.Toolbar>
 
 </RelativeLayout>
