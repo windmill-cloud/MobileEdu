@@ -98,7 +98,7 @@ public class CardsFragment extends Fragment {
 
                 Bitmap map=takeScreenShot(getActivity());
                 Bitmap fast=BlurBuilder.blur(getContext(), map);
-                final Drawable draw=new BitmapDrawable(getResources(),fast);
+                final Drawable draw=new BitmapDrawable(getResources(), fast);
 
                 ImageView background = (ImageView) getActivity().findViewById(R.id.activity_background);
                 background.bringToFront();

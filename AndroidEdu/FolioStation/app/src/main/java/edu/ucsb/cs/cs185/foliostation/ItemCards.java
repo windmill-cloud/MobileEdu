@@ -41,7 +41,7 @@ public class ItemCards {
 
     public void setAdapter(RecyclerView.Adapter<CardViewHolder> adapter) {
         mAdapter = adapter;
-        mAdapter.notifyDataSetChanged();
+        //mAdapter.notifyDataSetChanged();
     }
 
     private ItemCards(Context context) {
