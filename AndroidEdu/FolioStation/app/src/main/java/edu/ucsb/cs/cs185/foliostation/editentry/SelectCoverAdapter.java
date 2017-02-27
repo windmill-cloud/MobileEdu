@@ -10,23 +10,17 @@
 package edu.ucsb.cs.cs185.foliostation.editentry;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.util.List;
 
 import edu.ucsb.cs.cs185.foliostation.CardViewHolder;
-import edu.ucsb.cs.cs185.foliostation.GridCardAdapter;
 import edu.ucsb.cs.cs185.foliostation.ItemCards;
 import edu.ucsb.cs.cs185.foliostation.R;
 
@@ -34,7 +28,7 @@ import edu.ucsb.cs.cs185.foliostation.R;
  * Created by xuanwang on 2/24/17.
  */
 
-public class EditTabAdapter extends RecyclerView.Adapter<CardViewHolder>
+public class SelectCoverAdapter extends RecyclerView.Adapter<CardViewHolder>
     implements View.OnClickListener {
 
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
@@ -47,7 +41,7 @@ public class EditTabAdapter extends RecyclerView.Adapter<CardViewHolder>
 
     static Context mContext = null;
 
-    public EditTabAdapter(  ItemCards.Card Card) {
+    public SelectCoverAdapter(ItemCards.Card Card) {
         mCard = Card;
     }
 
@@ -140,7 +134,7 @@ public class EditTabAdapter extends RecyclerView.Adapter<CardViewHolder>
         }
     }
 
-    public void setOnItemClickListener(EditTabAdapter.OnRecyclerViewItemClickListener listener) {
+    public void setOnItemClickListener(SelectCoverAdapter.OnRecyclerViewItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }
 }

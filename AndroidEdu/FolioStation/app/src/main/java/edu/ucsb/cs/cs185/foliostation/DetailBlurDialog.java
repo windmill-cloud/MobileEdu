@@ -30,6 +30,8 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+
 import fr.tvbarthel.lib.blurdialogfragment.BlurDialogEngine;
 import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
 
@@ -79,11 +81,20 @@ public class DetailBlurDialog extends DialogFragment {
 
         ImageView imageView = (ImageView) rootView.findViewById(R.id.dialog_photo);
 
-        Picasso.with(getContext())
-                .load(card.getImages().get(0).mUrl)
-                .resize(240, 360)
-                .centerCrop()
-                .into(imageView);
+        // TODO: refactor picture loading
+        if(card.getCoverImage().isFromPath()) {
+            Picasso.with(getContext())
+                    .load(new File(card.getCoverImage().mUrl))
+                    .resize(300, 450)
+                    .centerCrop()
+                    .into(imageView);
+        } else {
+            Picasso.with(getContext())
+                    .load(card.getCoverImage().mUrl)
+                    .resize(300, 450)
+                    .centerCrop()
+                    .into(imageView);
+        }
 
         //imageView.setImageDrawable(card.mImages.get(0).mDrawable);
 

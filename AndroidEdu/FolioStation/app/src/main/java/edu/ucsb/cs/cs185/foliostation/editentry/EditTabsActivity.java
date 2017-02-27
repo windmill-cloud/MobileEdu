@@ -19,7 +19,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.StringBuilderPrinter;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,11 +48,12 @@ public class EditTabsActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
 
-    Button mLeftButton, mRightButton;
+    Button mLeftButton, mRightButton, mDeleteButton;
     TextView mTitle;
     Fragment mFragment;
 
-    protected int cardIndex = 0;
+    int cardIndex = 0;
+    boolean isEdit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +62,7 @@ public class EditTabsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         cardIndex = intent.getIntExtra("CARD_INDEX", 0);
+        isEdit = intent.getBooleanExtra("EDIT", false);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -73,6 +74,7 @@ public class EditTabsActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mLeftButton = (Button) findViewById(R.id.edit_toolbar_leftbutton);
+        mDeleteButton = (Button) findViewById(R.id.edit_toolbar_deletebutton);
         mRightButton = (Button) findViewById(R.id.edit_toolbar_rightbutton);
         mTitle = (TextView) findViewById(R.id.edit_toolbar_title);
 
@@ -90,7 +92,9 @@ public class EditTabsActivity extends AppCompatActivity {
                     case 0:
                         setSelectCoverToolbar(); break;
                     case 1:
-                        setEnterInfoToolbar(); break;
+                        setEnterInfoToolbar();
+                        setCoverImageInEditTab();
+                        break;
                 }
                 Log.d("page", String.valueOf(position));
             }
@@ -100,8 +104,11 @@ public class EditTabsActivity extends AppCompatActivity {
 
             }
         });
+    }
 
-
+    protected void setCoverImageInEditTab(){
+        EditInfoFragment fragment = (EditInfoFragment) mFragment;
+        fragment.setUpdatedCoverImage();
     }
 
 
@@ -167,7 +174,9 @@ public class EditTabsActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         ItemCards itemCards = ItemCards.getInstance(getApplicationContext());
-        itemCards.cards.remove(itemCards.cards.size()-1);
+        if(!isEdit) {
+            itemCards.cards.remove(cardIndex);
+        }
     }
 
     public void setSelectCoverToolbar(){
@@ -181,6 +190,20 @@ public class EditTabsActivity extends AppCompatActivity {
         });
 
         mTitle.setText("Select a Cover");
+
+        if(isEdit){
+            mDeleteButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    Log.d("Index", String.valueOf(cardIndex));
+                    ItemCards.getInstance(getApplicationContext()).cards.remove(cardIndex);
+                    finish();
+                }
+            });
+
+        } else {
+            mDeleteButton.setVisibility(View.GONE);
+        }
 
         mRightButton.setText("Next");
         mRightButton.setOnClickListener(new View.OnClickListener() {
@@ -201,11 +224,26 @@ public class EditTabsActivity extends AppCompatActivity {
 
         mTitle.setText("Enter Details");
 
+        if(isEdit){
+            mDeleteButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    ItemCards.getInstance(getApplicationContext()).cards.remove(cardIndex);
+                }
+            });
+
+        } else {
+            mDeleteButton.setVisibility(View.GONE);
+        }
+
         mRightButton.setText("Publish");
         mRightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //mViewPager.setCurrentItem(1, true);
+                EditInfoFragment fragment = (EditInfoFragment) mFragment;
+                fragment.publishCard();
+                finish();
             }
         });
     }
@@ -225,9 +263,11 @@ public class EditTabsActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return new EditTabFragment();
+                    mFragment = new SelectCoverFragment();
+                    return mFragment;
                 case 1:
-                    return new EditInfoFragment();
+                    mFragment = new EditInfoFragment();
+                    return mFragment;
             }
             return null;
                 //return PlaceholderFragment.newInstance(position + 1);
@@ -243,10 +283,8 @@ public class EditTabsActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-
                     return "SECTION 1";
                 case 1:
-
                     return "SECTION 2";
                 case 2:
                     return "SECTION 3";

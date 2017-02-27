@@ -75,8 +75,41 @@ public class ContainerActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                // Here, thisActivity is the current activity
+                if (ContextCompat.checkSelfPermission(ContainerActivity.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED ||
+                        ContextCompat.checkSelfPermission(ContainerActivity.this,
+                                Manifest.permission.CAMERA)
+                                != PackageManager.PERMISSION_GRANTED) {
+
+                    // Should we show an explanation?
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(ContainerActivity.this,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                        // Show an explanation to the user *asynchronously* -- don't block
+                        // this thread waiting for the user's response! After the user
+                        // sees the explanation, try again to request the permission.
+
+                    } else {
+
+                        // No explanation needed, we can request the permission.
+
+                        ActivityCompat.requestPermissions(ContainerActivity.this,
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                        Manifest.permission.CAMERA},
+                                ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
+
+                        // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                        // app-defined int constant. The callback method gets the
+                        // result of the request.
+                    }
+                } else {
+
+                    ImagePicker imagePicker = ImagePicker.getInstance();
+                    imagePicker.setShowCamera(true);
+                    startImagesPicking();
+                }
             }
         });
 
@@ -154,48 +187,6 @@ public class ContainerActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
 
-            // Here, thisActivity is the current activity
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED ||
-                    ContextCompat.checkSelfPermission(this,
-                            Manifest.permission.CAMERA)
-                            != PackageManager.PERMISSION_GRANTED) {
-
-                // Should we show an explanation?
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-                    // Show an explanation to the user *asynchronously* -- don't block
-                    // this thread waiting for the user's response! After the user
-                    // sees the explanation, try again to request the permission.
-
-                } else {
-
-                    // No explanation needed, we can request the permission.
-
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                    Manifest.permission.CAMERA},
-                            ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
-
-                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                    // app-defined int constant. The callback method gets the
-                    // result of the request.
-                }
-            } else {
-
-                ImagePicker imagePicker = ImagePicker.getInstance();
-                imagePicker.setShowCamera(true);
-                startImagesPicking();
-            }
-            /*
-            Intent intent = new Intent(this,
-                    EditTabsActivity.class);
-            // intent.putExtra("TYPE", "SIGN_UP");
-            startActivity(intent);
-            // Handle the camera action
-            */
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -218,8 +209,6 @@ public class ContainerActivity extends AppCompatActivity
         startActivityForResult(intent, IMAGE_PICKER);
     }
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -229,7 +218,7 @@ public class ContainerActivity extends AppCompatActivity
                 ItemCards itemCards = ItemCards.getInstance(getApplicationContext());
                 itemCards.addNewCardFromImages(images);
                 Intent intent = new Intent(this, EditTabsActivity.class);
-                intent.putExtra("CARD_INDEX", itemCards.cards.size() - 1);
+                intent.putExtra("CARD_INDEX", 0);
                 startActivity(intent);
                 //finish();
                 /*
@@ -242,7 +231,6 @@ public class ContainerActivity extends AppCompatActivity
         }
     }
 
-    private boolean hasCamera = false;
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {

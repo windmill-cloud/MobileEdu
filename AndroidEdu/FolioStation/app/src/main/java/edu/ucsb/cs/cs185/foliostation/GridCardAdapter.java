@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 import edu.ucsb.cs.cs185.foliostation.utilities.PicassoImageLoader;
@@ -86,12 +87,22 @@ public class GridCardAdapter extends RecyclerView.Adapter<CardViewHolder>
         }
         ItemCards.Card card = ItemCards.getInstance(mContext).cards.get(i);
 
-        Picasso.with(mContext)
-                .load(card.getCoverImage().mUrl)
-                .resize(200, 300)
-                .centerCrop()
-                .into(holder.imageView);
-
+        // TODO: refactor picture loading
+        if(card.getCoverImage().isFromPath()) {
+            Picasso.with(mContext)
+                    .load(new File(card.getCoverImage().mUrl))
+                    .resize(300, 450)
+                    .centerCrop()
+                    .noFade()
+                    .into(holder.imageView);
+        } else {
+            Picasso.with(mContext)
+                    .load(card.getCoverImage().mUrl)
+                    .resize(300, 450)
+                    .centerCrop()
+                    .noFade()
+                    .into(holder.imageView);
+        }
         //holder.imageView.setImageDrawable(card.mImages.get(0).mDrawable);
 
         holder.imageView.setTag(i);
@@ -102,12 +113,7 @@ public class GridCardAdapter extends RecyclerView.Adapter<CardViewHolder>
 
         holder.title.setText(card.mTitle);
         holder.description.setText(card.mDescription);
-        /*
-        Button buyBtn = holder.buyAlbum;
-        buyBtn.setText(String.format("See %s on ALLMUSIC", albums.get(i).albumName));
-        holder.buyAlbum.setOnClickListener(this);
-        buyBtn.setTag(albums.get(i).amazonUrl);
-        */
+
     }
 
     @Override

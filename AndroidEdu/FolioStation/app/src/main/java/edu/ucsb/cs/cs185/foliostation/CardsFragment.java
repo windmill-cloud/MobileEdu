@@ -115,6 +115,7 @@ public class CardsFragment extends Fragment {
                 Log.i("long", "press");
                 Intent intent = new Intent(getActivity(), EditTabsActivity.class);
                 intent.putExtra("CARD_INDEX", position);
+                intent.putExtra("EDIT", true);
                 startActivity(intent);
                 return true;
             }
@@ -131,8 +132,16 @@ public class CardsFragment extends Fragment {
         }
 
         mRecyclerView.setAdapter(mGridCardAdapter);
-
+        mGridCardAdapter.notifyDataSetChanged();
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mGridCardAdapter != null){
+            mGridCardAdapter.notifyDataSetChanged();
+        }
     }
 
     private static Bitmap takeScreenShot(Activity activity)

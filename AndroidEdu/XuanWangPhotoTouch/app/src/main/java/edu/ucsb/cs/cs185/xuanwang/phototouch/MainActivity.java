@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private FragmentType fragmentType;
-
     private ImageFragment mImageFragment;
 // identifier for my intent results (result request code)
 
@@ -55,7 +54,9 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        buildListFragment();
+        if (savedInstanceState == null) {
+            buildListFragment();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -78,16 +79,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     protected void destroyFragment(){
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT);
-        if(fragment != null)
+        for(Fragment fragment:getSupportFragmentManager().getFragments()){
             getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-
+        }
     }
 
     protected void buildGridFragment(){
         ImageGridFragment fragment = new ImageGridFragment();
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, fragment, "ImageFragment")
+                .add(R.id.fragment_container, fragment, TAG_FRAGMENT)
                 .commit();
 
         fragmentType = FragmentType.GRID;

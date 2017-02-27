@@ -31,7 +31,7 @@ import edu.ucsb.cs.cs185.foliostation.utilities.ImageUtilities;
 
 public class ItemCards {
     public static ItemCards mInstance;
-    public List<Card> cards = new LinkedList<>();
+    public LinkedList<Card> cards = new LinkedList<>();
     private static Context mContext = null;
     private static RecyclerView.Adapter<CardViewHolder> mAdapter;
     private static int mScreenSize;
@@ -133,6 +133,15 @@ public class ItemCards {
     public class Card{
         List<CardImage> mImages = new ArrayList<>();
         public List<Bitmap> mThumbnails = new ArrayList<>();
+
+        public List<String> getTags() {
+            return tags;
+        }
+
+        public void setTags(List<String> tags) {
+            this.tags = tags;
+        }
+
         List<String> tags = new ArrayList<>();
         public int coverIndex = 0;
         String mTitle = "";
@@ -149,10 +158,12 @@ public class ItemCards {
         }
 
         public CardImage getCoverImage(){
+            int i = 0;
             return mImages.get(coverIndex);
         }
 
         public void setCoverIndex(int index){
+            int i = 0;
             coverIndex = index;
 
         }
@@ -204,6 +215,6 @@ public class ItemCards {
         for(ImageItem imageItem: imageItemList){
             newCard.mImages.add(new CardImage(imageItem.path, PATH));
         }
-        cards.add(newCard);
+        cards.addFirst(newCard);
     }
 }
