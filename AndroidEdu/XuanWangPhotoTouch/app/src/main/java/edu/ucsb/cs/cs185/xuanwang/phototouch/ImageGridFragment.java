@@ -24,7 +24,6 @@ import android.widget.GridView;
  */
 public class ImageGridFragment extends ImageFragment {
 
-
     public ImageGridFragment() {
         // Required empty public constructor
     }
@@ -37,6 +36,9 @@ public class ImageGridFragment extends ImageFragment {
         mView = rootView.findViewById(R.id.picture_grid);
 
         GridView mGridView = (GridView) mView;
+        int columnWidth =(ImageAdapter.getScreenWidth(getContext())
+                - ImageAdapter.dpToPx(getContext(), 4 * 5 + 32 )) / 5;
+        mGridView.setColumnWidth(columnWidth);
         mAdapter = new ImageGridAdapter(getContext());
         mGridView.setAdapter(mAdapter);
 

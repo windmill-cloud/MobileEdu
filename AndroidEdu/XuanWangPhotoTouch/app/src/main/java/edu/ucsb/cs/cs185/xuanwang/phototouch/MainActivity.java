@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        mImageFragment = (ImageFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT);
         if (savedInstanceState == null) {
             buildListFragment();
         }

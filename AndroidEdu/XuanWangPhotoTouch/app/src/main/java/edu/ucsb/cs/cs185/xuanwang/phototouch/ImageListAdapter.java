@@ -33,7 +33,7 @@ public class ImageListAdapter extends ImageAdapter {
             imageView.setLayoutParams(
                     new GridView.LayoutParams(
                             ViewGroup.LayoutParams.WRAP_CONTENT,
-                            dpToPx(200)
+                            dpToPx(mContext, 200)
                     )
             );
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);

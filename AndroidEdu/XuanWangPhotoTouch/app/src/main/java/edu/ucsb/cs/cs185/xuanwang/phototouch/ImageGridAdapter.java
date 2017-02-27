@@ -29,11 +29,11 @@ public class ImageGridAdapter extends ImageAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         ImageView imageView;
         if (view == null) {  // if it's not recycled, initialize some attributes
-            imageView = new ImageView(mContext);
+            imageView = new SquareImageView(mContext);
             imageView.setLayoutParams(
                     new GridView.LayoutParams(
-                            dpToPx(70),
-                            dpToPx(70)
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT
                     )
             );
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
