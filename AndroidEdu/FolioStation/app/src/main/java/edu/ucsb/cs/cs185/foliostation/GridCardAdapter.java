@@ -10,6 +10,7 @@
 package edu.ucsb.cs.cs185.foliostation;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -22,18 +23,16 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.List;
 
+import edu.ucsb.cs.cs185.foliostation.editentry.EditTabsActivity;
+
 /**
  * Created by xuanwang on 2/19/17.
  */
 
 public class GridCardAdapter extends RecyclerView.Adapter<CardViewHolder>
-        implements View.OnClickListener,
-        View.OnLongClickListener,
-        Toolbar.OnMenuItemClickListener {
+        implements View.OnClickListener {
 
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
-    private OnRecyclerViewItemLongClickListener mOnItemLongClickListener = null;
-    private OnToolbarItemClickListener mOnToolbarItemClickListener = null;
 
     List<ItemCards.Card> mCards;
 
@@ -56,7 +55,9 @@ public class GridCardAdapter extends RecyclerView.Adapter<CardViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(CardViewHolder holder, int i) {
+    public void onBindViewHolder(final CardViewHolder holder, int i) {
+
+        final int position = i;
 
         if(mContext == null){
             Log.e("mContext", "null");
@@ -85,15 +86,46 @@ public class GridCardAdapter extends RecyclerView.Adapter<CardViewHolder>
         //holder.imageView.setBackgroundResource(R.drawable.placeholder);
 
         holder.imageView.setOnClickListener(this);
-        holder.imageView.setOnLongClickListener(this);
+        holder.imageView.setOnLongClickListener(new View.OnLongClickListener(){
+
+            @Override
+            public boolean onLongClick(View view) {
+                startEditActivity(view, position);
+                return true;
+            }
+        });
 
         holder.title.setText(card.mTitle);
         holder.description.setText(card.mDescription);
 
+        holder.toolbar.getMenu().clear();
+
         holder.toolbar.inflateMenu(R.menu.card_toolbar);
 
-        holder.toolbar.setOnMenuItemClickListener(this);
-        //holder.deleteMenuItem.setOnMenuItemClickListener(this);
+        holder.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.card_toolbar_edit:
+                        Log.i("selected", "edit");
+                        startEditActivity(holder.imageView, position);
+                        break;
+                    case R.id.card_toolbar_delete:
+                        Log.i("selected", "delete");
+                        ItemCards.deleteIthCard(position);
+                        GridCardAdapter.this.notifyDataSetChanged();
+                        break;
+                }
+                return true;
+            }
+        });
+    }
+
+    public void startEditActivity(View view, int position){
+        Intent intent = new Intent(view.getContext(), EditTabsActivity.class);
+        intent.putExtra("CARD_INDEX", position);
+        intent.putExtra("EDIT", true);
+        view.getContext().startActivity(intent);
     }
 
     @Override
@@ -107,21 +139,6 @@ public class GridCardAdapter extends RecyclerView.Adapter<CardViewHolder>
     * Handlers for click listeners
      */
 
-    public interface OnToolbarItemClickListener {
-        void onToolbarItemClick(MenuItem menuItem);
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem menuItem) {
-        if(mOnToolbarItemClickListener != null){
-            mOnToolbarItemClickListener.onToolbarItemClick(menuItem);
-        }
-        return true;
-    }
-
-    public void setOnToolbarItemClickListener(OnToolbarItemClickListener listener) {
-        this.mOnToolbarItemClickListener = listener;
-    }
 
     /**
      * Item click
@@ -144,25 +161,4 @@ public class GridCardAdapter extends RecyclerView.Adapter<CardViewHolder>
         this.mOnItemClickListener = listener;
     }
 
-    /**
-     * Item long click
-     */
-
-
-    public interface OnRecyclerViewItemLongClickListener {
-        boolean onItemLongClick(View view, int position);
-    }
-
-    @Override
-    public boolean onLongClick(View view) {
-        if (mOnItemLongClickListener != null) {
-            // get tag
-            mOnItemLongClickListener.onItemLongClick(view, (int) view.getTag());
-        }
-        return true;
-    }
-
-    public void setOnItemLongClickListener(OnRecyclerViewItemLongClickListener listener) {
-        this.mOnItemLongClickListener = listener;
-    }
 }

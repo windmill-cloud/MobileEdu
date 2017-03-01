@@ -108,34 +108,6 @@ public class CardsFragment extends Fragment {
 
             }
         });
-
-        mGridCardAdapter.setOnItemLongClickListener(new GridCardAdapter.OnRecyclerViewItemLongClickListener(){
-            @Override
-            public boolean onItemLongClick(View view, int position) {
-                Log.i("long", "press");
-                Intent intent = new Intent(getActivity(), EditTabsActivity.class);
-                intent.putExtra("CARD_INDEX", position);
-                intent.putExtra("EDIT", true);
-                startActivity(intent);
-                return true;
-            }
-        });
-
-        mGridCardAdapter.setOnToolbarItemClickListener(new GridCardAdapter.OnToolbarItemClickListener(){
-
-            @Override
-            public void onToolbarItemClick(MenuItem menuItem) {
-                switch (menuItem.getItemId()){
-                    case R.id.card_toolbar_edit:
-                        Log.i("selected", "edit");
-                        break;
-                    case R.id.card_toolbar_delete:
-                        Log.i("selected", "delete");
-                        break;
-                }
-            }
-        });
-
         /*
         SnapHelper helper = new LinearSnapHelper();
         helper.attachToRecyclerView(mRecyclerView);*/
@@ -151,7 +123,7 @@ public class CardsFragment extends Fragment {
         return rootView;
     }
 
-    @Override
+  @Override
     public void onResume() {
         super.onResume();
         if(mGridCardAdapter != null){

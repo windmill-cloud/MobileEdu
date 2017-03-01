@@ -59,6 +59,12 @@ public class ItemCards {
         return mInstance;
     }
 
+    public static void deleteIthCard(int i){
+        if (mInstance != null){
+            mInstance.cards.remove(i);
+        }
+    }
+
     public class CardImage {
         public String mUrl = "";
         public int mType = PATH;
@@ -68,33 +74,7 @@ public class ItemCards {
         CardImage(String url, int type){
             mUrl = url;
             mType = type;
-            /*
-            if(mContext != null) {
-                mDrawable = mContext.getResources().getDrawable(R.drawable.placeholder);
-            }
-            ImageRequest imageRequest = new ImageRequest(mUrl,
-                    new Response.Listener<Bitmap>() {
-                        @Override
-                        public void onResponse(Bitmap bitmap) {
-                            Drawable drawable = new BitmapDrawable(mContext.getResources(), bitmap);
-                            mDrawable = drawable;
-                            Log.i("got", "got");
-                            if(mAdapter != null){
-                                Log.i("note", "note");
 
-                                mAdapter.notifyDataSetChanged();
-                            }
-                        }
-                    }, 0, 0, ImageView.ScaleType.CENTER, null,
-                    new Response.ErrorListener() {
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e("error", error.toString());
-                            //mImageView.setImageResource(R.drawable.image_load_error);
-                        }
-                    });
-            // Access the RequestQueue through your singleton class.
-            SingletonRequestQueue.getInstance(mContext).getRequestQueue().add(imageRequest);
-            */
         }
 
         public boolean isFromPath(){
