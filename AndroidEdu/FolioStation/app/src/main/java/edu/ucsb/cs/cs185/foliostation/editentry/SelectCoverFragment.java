@@ -52,7 +52,7 @@ public class SelectCoverFragment extends Fragment {
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.cards_recycler);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setNestedScrollingEnabled(false);
+        //mRecyclerView.setNestedScrollingEnabled(false);
 
         SelectCoverAdapter.setContext(getContext());
         mItemCard = ItemCards.getInstance(getContext()).cards.get(activity.cardIndex);
