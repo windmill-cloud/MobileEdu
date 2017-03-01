@@ -61,6 +61,7 @@ public class GridCardAdapter extends RecyclerView.Adapter<CardViewHolder>
         boolean onItemLongClick(View view, int position);
     }
 
+
     static Context mContext = null;
 
     public GridCardAdapter(List<ItemCards.Card> cards){
@@ -113,6 +114,8 @@ public class GridCardAdapter extends RecyclerView.Adapter<CardViewHolder>
 
         holder.title.setText(card.mTitle);
         holder.description.setText(card.mDescription);
+
+        holder.toolbar.inflateMenu(R.menu.card_toolbar);
 
     }
 

@@ -11,6 +11,7 @@ package edu.ucsb.cs.cs185.foliostation;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
     public TextView description;
     public ImageView checked;
     public ImageView mask;
+    public Toolbar toolbar;
 
     public CardViewHolder(View itemView) {
         super(itemView);
@@ -35,5 +37,6 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
         description = (TextView) itemView.findViewById(R.id.card_description);
         checked = (ImageView) itemView.findViewById(R.id.cover_checked);
         mask = (ImageView) itemView.findViewById(R.id.card_mask);
+        toolbar = (Toolbar) itemView.findViewById(R.id.card_toolbar);
     }
 }
