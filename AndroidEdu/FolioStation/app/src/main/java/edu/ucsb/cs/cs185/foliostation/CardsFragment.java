@@ -37,6 +37,7 @@ import android.support.v8.renderscript.RenderScript;
 import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -109,7 +110,6 @@ public class CardsFragment extends Fragment {
         });
 
         mGridCardAdapter.setOnItemLongClickListener(new GridCardAdapter.OnRecyclerViewItemLongClickListener(){
-
             @Override
             public boolean onItemLongClick(View view, int position) {
                 Log.i("long", "press");
@@ -118,6 +118,21 @@ public class CardsFragment extends Fragment {
                 intent.putExtra("EDIT", true);
                 startActivity(intent);
                 return true;
+            }
+        });
+
+        mGridCardAdapter.setOnToolbarItemClickListener(new GridCardAdapter.OnToolbarItemClickListener(){
+
+            @Override
+            public void onToolbarItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.card_toolbar_edit:
+                        Log.i("selected", "edit");
+                        break;
+                    case R.id.card_toolbar_delete:
+                        Log.i("selected", "delete");
+                        break;
+                }
             }
         });
 
