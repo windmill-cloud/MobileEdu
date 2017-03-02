@@ -7,7 +7,7 @@
  *
  */
 
-package edu.ucsb.cs.cs185.foliostation;
+package edu.ucsb.cs.cs185.foliostation.mycollections;
 
 
 import android.media.Image;
@@ -32,6 +32,8 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
+import edu.ucsb.cs.cs185.foliostation.ItemCards;
+import edu.ucsb.cs.cs185.foliostation.R;
 import fr.tvbarthel.lib.blurdialogfragment.BlurDialogEngine;
 import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
 
@@ -99,10 +101,10 @@ public class DetailBlurDialog extends DialogFragment {
         //imageView.setImageDrawable(card.mImages.get(0).mDrawable);
 
         TextView title = (TextView) rootView.findViewById(R.id.dialog_title);
-        title.setText(card.mTitle);
+        title.setText(card.getTitle());
 
         TextView description = (TextView) rootView.findViewById(R.id.dialog_description);
-        description.setText(card.mDescription);
+        description.setText(card.getDescription());
 
         return rootView;
     }

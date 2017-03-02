@@ -11,7 +11,6 @@ package edu.ucsb.cs.cs185.foliostation;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
@@ -23,6 +22,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.ucsb.cs.cs185.foliostation.mycollections.CardViewHolder;
 import edu.ucsb.cs.cs185.foliostation.utilities.ImageUtilities;
 
 /**

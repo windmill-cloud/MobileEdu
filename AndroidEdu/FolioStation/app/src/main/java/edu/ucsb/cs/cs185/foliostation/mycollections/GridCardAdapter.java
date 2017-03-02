@@ -7,7 +7,7 @@
  *
  */
 
-package edu.ucsb.cs.cs185.foliostation;
+package edu.ucsb.cs.cs185.foliostation.mycollections;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +23,8 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.List;
 
+import edu.ucsb.cs.cs185.foliostation.ItemCards;
+import edu.ucsb.cs.cs185.foliostation.R;
 import edu.ucsb.cs.cs185.foliostation.editentry.EditTabsActivity;
 
 /**
@@ -95,8 +97,8 @@ public class GridCardAdapter extends RecyclerView.Adapter<CardViewHolder>
             }
         });
 
-        holder.title.setText(card.mTitle);
-        holder.description.setText(card.mDescription);
+        holder.title.setText(card.getTitle());
+        holder.description.setText(card.getDescription());
 
         holder.toolbar.getMenu().clear();
 

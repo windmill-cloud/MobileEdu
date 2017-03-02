@@ -7,7 +7,7 @@
  *
  */
 
-package edu.ucsb.cs.cs185.foliostation;
+package edu.ucsb.cs.cs185.foliostation.utilities;
 
 /**
  * Created by xuanwang on 2/19/17.

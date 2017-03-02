@@ -7,46 +7,32 @@
  *
  */
 
-package edu.ucsb.cs.cs185.foliostation;
+package edu.ucsb.cs.cs185.foliostation.mycollections;
 
 
 import android.app.Activity;
-import android.content.ClipData;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
-import android.support.v7.widget.Toolbar;
 import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
 import android.support.v8.renderscript.ScriptIntrinsicBlur;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
-
-import edu.ucsb.cs.cs185.foliostation.editentry.EditTabsActivity;
+import edu.ucsb.cs.cs185.foliostation.ItemCards;
+import edu.ucsb.cs.cs185.foliostation.R;
 
 
 /**
@@ -57,6 +43,9 @@ public class CardsFragment extends Fragment {
     GridCardAdapter mGridCardAdapter;
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
+
+    private static final int ASK_MULTIPLE_PERMISSION_REQUEST_CODE = 7654;
+    private static final int IMAGE_PICKER = 1234;
 
     public CardsFragment() {
         // Required empty public constructor
@@ -108,6 +97,7 @@ public class CardsFragment extends Fragment {
 
             }
         });
+
         /*
         SnapHelper helper = new LinearSnapHelper();
         helper.attachToRecyclerView(mRecyclerView);*/
@@ -120,10 +110,13 @@ public class CardsFragment extends Fragment {
 
         mRecyclerView.setAdapter(mGridCardAdapter);
         mGridCardAdapter.notifyDataSetChanged();
+
+
         return rootView;
     }
 
-  @Override
+
+    @Override
     public void onResume() {
         super.onResume();
         if(mGridCardAdapter != null){
@@ -131,8 +124,7 @@ public class CardsFragment extends Fragment {
         }
     }
 
-    private static Bitmap takeScreenShot(Activity activity)
-    {
+    private static Bitmap takeScreenShot(Activity activity) {
         View view = activity.getWindow().getDecorView();
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
