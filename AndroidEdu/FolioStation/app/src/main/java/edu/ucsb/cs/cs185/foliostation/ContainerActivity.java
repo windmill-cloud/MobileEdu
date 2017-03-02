@@ -78,7 +78,7 @@ public class ContainerActivity extends AppCompatActivity
     protected void setImagePicker(){
         ImagePicker imagePicker = ImagePicker.getInstance();
         imagePicker.setImageLoader(new PicassoImageLoader());   //设置图片加载器
-        imagePicker.setShowCamera(false);  //显示拍照按钮
+        imagePicker.setShowCamera(true);  //显示拍照按钮
         imagePicker.setCrop(true);        //允许裁剪（单选才有效）
         imagePicker.setSaveRectangle(true); //是否按矩形区域保存
         imagePicker.setSelectLimit(9);    //选中数量限制
@@ -158,9 +158,39 @@ public class ContainerActivity extends AppCompatActivity
             setDiscoverFragment();
 
         } else if (id == R.id.nav_new) {
-            if(mFragment != null) {
+            if (ContextCompat.checkSelfPermission(ContainerActivity.this,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED
+                    || ContextCompat.checkSelfPermission(ContainerActivity.this,
+                    android.Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
 
-                destroyFragments();
+                // Should we show an explanation?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(ContainerActivity.this,
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                    // Show an explanation to the user *asynchronously* -- don't block
+                    // this thread waiting for the user's response! After the user
+                    // sees the explanation, try again to request the permission.
+
+                } else {
+
+                    // No explanation needed, we can request the permission.
+
+                    ActivityCompat.requestPermissions(ContainerActivity.this,
+                            new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    android.Manifest.permission.CAMERA},
+                            ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
+
+                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                    // app-defined int constant. The callback method gets the
+                    // result of the request.
+                }
+            } else {
+
+                ImagePicker imagePicker = ImagePicker.getInstance();
+                imagePicker.setShowCamera(true);
+                startImagesPicking();
             }
 
         } else if (id == R.id.nav_settings) {
