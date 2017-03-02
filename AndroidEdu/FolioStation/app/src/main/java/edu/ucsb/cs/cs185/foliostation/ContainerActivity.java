@@ -16,7 +16,9 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -43,9 +45,8 @@ import edu.ucsb.cs.cs185.foliostation.utilities.PicassoImageLoader;
 public class ContainerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private CardsFragment mImageFragment;
+    private Fragment mFragment;
     private String TAG_FRAGMENT = "InflatedFragment";
-    private static final int PICK_IMAGE_REQUEST = 9876;
     private static final int ASK_MULTIPLE_PERMISSION_REQUEST_CODE = 7654;
     private static final int IMAGE_PICKER = 1234;
 
@@ -54,16 +55,8 @@ public class ContainerActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collect);
 
-        CardsFragment fragment = new CardsFragment();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, fragment, TAG_FRAGMENT)
-                .commit();
-
-        mImageFragment = fragment;
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Collections");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -74,48 +67,9 @@ public class ContainerActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Here, thisActivity is the current activity
-                if (ContextCompat.checkSelfPermission(ContainerActivity.this,
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED
-                        || ContextCompat.checkSelfPermission(ContainerActivity.this,
-                        android.Manifest.permission.CAMERA)
-                        != PackageManager.PERMISSION_GRANTED) {
-
-                    // Should we show an explanation?
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(ContainerActivity.this,
-                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-                        // Show an explanation to the user *asynchronously* -- don't block
-                        // this thread waiting for the user's response! After the user
-                        // sees the explanation, try again to request the permission.
-
-                    } else {
-
-                        // No explanation needed, we can request the permission.
-
-                        ActivityCompat.requestPermissions(ContainerActivity.this,
-                                new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                        android.Manifest.permission.CAMERA},
-                                ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
-
-                        // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                        // app-defined int constant. The callback method gets the
-                        // result of the request.
-                    }
-                } else {
-
-                    ImagePicker imagePicker = ImagePicker.getInstance();
-                    imagePicker.setShowCamera(true);
-                    startImagesPicking();
-                }
-            }
-        });
-
+        if(savedInstanceState == null){
+            setGridsFragment();
+        }
         setImagePicker();
 
     }
@@ -177,14 +131,34 @@ public class ContainerActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_collections) {
+            if(mFragment != null) {
+                destroyFragments();
+            }
+            setGridsFragment();
 
         } else if (id == R.id.nav_shared) {
+            if(mFragment != null) {
+
+                destroyFragments();
+            }
 
         } else if (id == R.id.nav_discover) {
+            if(mFragment != null) {
+
+                destroyFragments();
+            }
 
         } else if (id == R.id.nav_new) {
+            if(mFragment != null) {
+
+                destroyFragments();
+            }
 
         } else if (id == R.id.nav_settings) {
+            if(mFragment != null) {
+
+                destroyFragments();
+            }
 
         }
 
@@ -198,6 +172,70 @@ public class ContainerActivity extends AppCompatActivity
         Intent intent = new Intent(this, ImageGridActivity.class);
         startActivityForResult(intent, IMAGE_PICKER);
     }
+
+
+    protected void setGridsFragment() {
+        CardsFragment fragment = new CardsFragment();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, fragment, TAG_FRAGMENT)
+                .commit();
+
+        mFragment = fragment;
+        ActionBar toolbar = getSupportActionBar();
+        if(toolbar != null){
+            toolbar.setTitle("Collections");
+        }
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Here, thisActivity is the current activity
+                if (ContextCompat.checkSelfPermission(ContainerActivity.this,
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(ContainerActivity.this,
+                        android.Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    // Should we show an explanation?
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(ContainerActivity.this,
+                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                        // Show an explanation to the user *asynchronously* -- don't block
+                        // this thread waiting for the user's response! After the user
+                        // sees the explanation, try again to request the permission.
+
+                    } else {
+
+                        // No explanation needed, we can request the permission.
+
+                        ActivityCompat.requestPermissions(ContainerActivity.this,
+                                new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                        android.Manifest.permission.CAMERA},
+                                ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
+
+                        // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                        // app-defined int constant. The callback method gets the
+                        // result of the request.
+                    }
+                } else {
+
+                    ImagePicker imagePicker = ImagePicker.getInstance();
+                    imagePicker.setShowCamera(true);
+                    startImagesPicking();
+                }
+            }
+        });
+    }
+
+    protected void destroyFragments(){
+        for(Fragment fragment:getSupportFragmentManager().getFragments()){
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        }
+        mFragment = null;
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
