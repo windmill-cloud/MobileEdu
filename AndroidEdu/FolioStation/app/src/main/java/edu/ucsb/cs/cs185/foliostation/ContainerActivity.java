@@ -46,6 +46,7 @@ public class ContainerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Fragment mFragment;
+    private int mNavigationID;
     private String TAG_FRAGMENT = "InflatedFragment";
     private static final int ASK_MULTIPLE_PERMISSION_REQUEST_CODE = 7654;
     private static final int IMAGE_PICKER = 1234;
@@ -130,6 +131,14 @@ public class ContainerActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        if(id == mNavigationID){
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+            return true;
+        }
+
+        mNavigationID = id;
+
         if (id == R.id.nav_collections) {
             if(mFragment != null) {
                 destroyFragments();
@@ -138,7 +147,6 @@ public class ContainerActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_shared) {
             if(mFragment != null) {
-
                 destroyFragments();
             }
 
@@ -147,6 +155,7 @@ public class ContainerActivity extends AppCompatActivity
 
                 destroyFragments();
             }
+            setDiscoverFragment();
 
         } else if (id == R.id.nav_new) {
             if(mFragment != null) {
@@ -187,6 +196,8 @@ public class ContainerActivity extends AppCompatActivity
         }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setVisibility(View.VISIBLE);
+        fab.setEnabled(true);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -227,6 +238,8 @@ public class ContainerActivity extends AppCompatActivity
                 }
             }
         });
+
+        mNavigationID = R.id.nav_collections;
     }
 
     protected void destroyFragments(){
@@ -234,6 +247,13 @@ public class ContainerActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().remove(fragment).commit();
         }
         mFragment = null;
+    }
+
+    protected void setDiscoverFragment(){
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setVisibility(View.GONE);
+        fab.setEnabled(false);
     }
 
 
