@@ -16,7 +16,6 @@
     tools:context="edu.ucsb.cs.cs185.foliostation.mycollections.CardsFragment">
 
 
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
