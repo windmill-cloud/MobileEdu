@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Copyright (c) 2017 - present, Xuan Wang
+  ~  All rights reserved.
+  ~
+  ~  This source code is licensed under the BSD-style license found in the
+  ~  LICENSE file in the root directory of this source tree.
+  ~
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:theme="?attr/actionBarTheme"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/toolbar2" >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="8dp"
+                android:src="@drawable/back1"
+                app:civ_border_width="2dp"
+                app:civ_border_color="@android:color/white"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/profile_image"
+                android:layout_toEndOf="@+id/profile_image">
+
+                <TextView
+                    android:text="Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:id="@+id/textView6" />
+
+                <TextView
+                    android:text="Details"
+                    android:layout_width="match_parent"
+
+                    android:id="@+id/textView4"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <edu.ucsb.cs.cs185.foliostation.utilities.SquareImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/discover_square_image"
+        android:layout_below="@id/toolbar2"
+     />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/discover_square_image"
+        android:layout_centerHorizontal="true">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_favorite_border_black_24dp"
+            android:id="@+id/imageButton"
+             />
+    </LinearLayout>
+
+</RelativeLayout>
