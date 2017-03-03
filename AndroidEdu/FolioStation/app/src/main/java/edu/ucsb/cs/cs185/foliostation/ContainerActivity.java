@@ -28,10 +28,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
+import com.lzy.imagepicker.ui.ImageBaseActivity;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.lzy.imagepicker.view.CropImageView;
 
@@ -225,10 +227,10 @@ public class ContainerActivity extends AppCompatActivity
             toolbar.setTitle("Collections");
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setVisibility(View.VISIBLE);
-        fab.setEnabled(true);
-        fab.setOnClickListener(new View.OnClickListener() {
+        ImageButton addCollection = (ImageButton) findViewById(R.id.add_collection);
+        addCollection.setVisibility(View.VISIBLE);
+        addCollection.setEnabled(true);
+        addCollection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Here, thisActivity is the current activity
@@ -281,9 +283,9 @@ public class ContainerActivity extends AppCompatActivity
 
     protected void setDiscoverFragment(){
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setVisibility(View.GONE);
-        fab.setEnabled(false);
+        ImageButton addCollection = (ImageButton) findViewById(R.id.add_collection);
+        addCollection.setVisibility(View.GONE);
+        addCollection.setEnabled(false);
     }
 
 

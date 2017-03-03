@@ -43,27 +43,38 @@
                     android:id="@+id/collectios_toolbar_title"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textSize="16sp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:text="Collections" />
+                    android:layout_alignParentTop="true"
+                    android:gravity="center"
+                    android:text="Collection Details"
+                    android:textSize="16sp" />
 
                 <ImageButton
                     android:id="@+id/add_collection"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:padding="16dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_toLeftOf="@+id/imageButton2"
+                    android:layout_toStartOf="@+id/imageButton2"
                     android:background="@color/transparent"
-                    android:layout_alignParentRight="true"
+                    android:padding="16dp"
                     app:srcCompat="@drawable/ic_add_black_24dp" />
+
+                <ImageButton
+                    android:id="@+id/imageButton2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/transparent"
+                    android:padding="16dp"
+                    app:srcCompat="@drawable/ic_edit_black_24dp" />
 
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_collect" />
+    <include layout="@layout/content_detail" />
 
 </android.support.design.widget.CoordinatorLayout>

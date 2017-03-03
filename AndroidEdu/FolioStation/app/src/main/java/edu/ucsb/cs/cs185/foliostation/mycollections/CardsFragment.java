@@ -12,6 +12,7 @@ package edu.ucsb.cs.cs185.foliostation.mycollections;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -33,6 +34,7 @@ import android.widget.ImageView;
 
 import edu.ucsb.cs.cs185.foliostation.ItemCards;
 import edu.ucsb.cs.cs185.foliostation.R;
+import edu.ucsb.cs.cs185.foliostation.collectiondetails.CollectionDetailsActivity;
 
 
 /**
@@ -77,24 +79,15 @@ public class CardsFragment extends Fragment {
         mGridCardAdapter.setOnItemClickListener(new GridCardAdapter.OnRecyclerViewItemClickListener(){
             @Override
             public void onItemClick(View view , int position){
-                Bundle arguments = new Bundle();
-                arguments.putInt("POSITION", position);
-                DetailBlurDialog fragment = new DetailBlurDialog();
+                ItemCards.Card card = ItemCards.getInstance(getContext()).cards.get(position);
 
-                fragment.setArguments(arguments);
-                FragmentManager ft = getActivity().getSupportFragmentManager();
-
-                fragment.show(ft, "dialog");
-
-                Bitmap map=takeScreenShot(getActivity());
-                Bitmap fast=BlurBuilder.blur(getContext(), map);
-                final Drawable draw=new BitmapDrawable(getResources(), fast);
-
-                ImageView background = (ImageView) getActivity().findViewById(R.id.activity_background);
-                background.bringToFront();
-                background.setScaleType(ImageView.ScaleType.FIT_XY);
-                background.setImageDrawable(draw);
-
+                if (card.hasMultiPics()){
+                    Intent intent = new Intent(getActivity(), CollectionDetailsActivity.class);
+                    intent.putExtra("CARD_INDEX", position);
+                    startActivity(intent);
+                } else {
+                    startDetailDialog(position);
+                }
             }
         });
 
@@ -113,6 +106,26 @@ public class CardsFragment extends Fragment {
 
 
         return rootView;
+    }
+
+    protected void startDetailDialog(int position){
+        Bundle arguments = new Bundle();
+        arguments.putInt("POSITION", position);
+        DetailBlurDialog fragment = new DetailBlurDialog();
+
+        fragment.setArguments(arguments);
+        FragmentManager ft = getActivity().getSupportFragmentManager();
+
+        fragment.show(ft, "dialog");
+
+        Bitmap map = takeScreenShot(getActivity());
+        Bitmap fast = BlurBuilder.blur(getContext(), map);
+        final Drawable draw = new BitmapDrawable(getResources(), fast);
+
+        ImageView background = (ImageView) getActivity().findViewById(R.id.activity_background);
+        background.bringToFront();
+        background.setScaleType(ImageView.ScaleType.FIT_XY);
+        background.setImageDrawable(draw);
     }
 
 

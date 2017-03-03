@@ -121,6 +121,12 @@ public class GridCardAdapter extends RecyclerView.Adapter<CardViewHolder>
                 return true;
             }
         });
+
+        if (card.hasMultiPics()){
+            holder.hasMultiPics.setVisibility(View.VISIBLE);
+        } else {
+            holder.hasMultiPics.setVisibility(View.GONE);
+        }
     }
 
     public void startEditActivity(View view, int position){

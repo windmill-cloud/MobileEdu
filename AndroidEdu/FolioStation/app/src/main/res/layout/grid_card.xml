@@ -27,14 +27,29 @@
         android:padding="8dp"
         >
 
-        <ImageView
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/placeholder"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:longClickable="true"
-            android:id="@+id/card_photo" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/card_photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:longClickable="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/placeholder" />
+
+            <ImageView
+                android:id="@+id/card_is_multiimages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|right"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_collections_white_24dp" />
+        </FrameLayout>
 
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"

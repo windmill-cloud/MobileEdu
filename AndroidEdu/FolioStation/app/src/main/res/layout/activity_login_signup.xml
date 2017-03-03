@@ -17,7 +17,6 @@
     tools:context="edu.ucsb.cs.cs185.foliostation.LoginSignupActivity"
     android:background="@color/colorLight">
 
-
     <TextView
         android:text="Sign up"
         android:layout_width="wrap_content"

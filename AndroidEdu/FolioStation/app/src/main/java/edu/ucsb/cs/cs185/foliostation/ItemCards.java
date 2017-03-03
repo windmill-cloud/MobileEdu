@@ -148,6 +148,10 @@ public class ItemCards {
 
         }
 
+        public boolean hasMultiPics(){
+            return mImages.size() > 1;
+        }
+
         public String getDescription() {
             return mDescription;
         }
