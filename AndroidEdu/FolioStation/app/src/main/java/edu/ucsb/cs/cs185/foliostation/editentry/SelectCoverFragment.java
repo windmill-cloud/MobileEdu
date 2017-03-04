@@ -10,18 +10,26 @@
 package edu.ucsb.cs.cs185.foliostation.editentry;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.bean.ImageItem;
+import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import edu.ucsb.cs.cs185.foliostation.ItemCards;
 import edu.ucsb.cs.cs185.foliostation.R;
@@ -35,6 +43,9 @@ public class SelectCoverFragment extends Fragment {
     LinearLayoutManager mLayoutManager;
     ItemCards.Card mItemCard;
     ImageView mCoverImage;
+    View rootView;
+
+    private static int FRAGMENT_PICK_IMAGE = 111;
 
     public SelectCoverFragment() {
         // Required empty public constructor
@@ -44,7 +55,7 @@ public class SelectCoverFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView =  inflater.inflate(R.layout.fragment_edit_tab, container, false);
+        rootView =  inflater.inflate(R.layout.fragment_edit_tab, container, false);
 
         //getCardImages();
         EditTabsActivity activity = (EditTabsActivity) getActivity();
@@ -115,7 +126,48 @@ public class SelectCoverFragment extends Fragment {
 
         mRecyclerView.setAdapter(mAdapter);
 
+        setAddImageButton();
+
         return rootView;
     }
 
+    protected void setAddImageButton(){
+        // TODO: making a TextView is a walk around, think about another way.
+        TextView addPic = (TextView) rootView.findViewById(R.id.add_image);
+
+        if(mItemCard.hasMaxNumOfImages()){
+            addPic.setVisibility(View.GONE);
+        } else {
+            addPic.setVisibility(View.VISIBLE);
+            addPic.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View view) {
+                    ImagePicker.getInstance().setSelectLimit(24 - mItemCard.getImages().size());
+
+                    Intent intent = new Intent(getContext(), ImageGridActivity.class);
+                    startActivityForResult(intent, FRAGMENT_PICK_IMAGE);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
+            if (data != null && requestCode == FRAGMENT_PICK_IMAGE) {
+                ArrayList<ImageItem> images = (ArrayList<ImageItem>)
+                        data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                mItemCard.addImages(images);
+                mAdapter.notifyDataSetChanged();
+
+                setAddImageButton();
+
+            } else {
+                Toast.makeText(getContext(), "No data", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
 }

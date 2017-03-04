@@ -159,6 +159,10 @@ public class ItemCards {
 
         }
 
+        public boolean hasMaxNumOfImages(){
+            return mImages.size() >= 24;
+        }
+
         public void addImages(List<ImageItem> images){
             for(ImageItem imageItem: images) {
                 mImages.add(new CardImage(imageItem.path, PATH));

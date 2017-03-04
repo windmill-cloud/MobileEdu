@@ -58,16 +58,38 @@
                         android:paddingBottom="20dp"
                         android:id="@+id/cards_recycler"/>
 
-                    <Button
-                        android:text="+"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:id="@+id/button2"
-                        android:layout_marginTop="20dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_toRightOf="@+id/cards_recycler"
+
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignTop="@+id/cards_recycler"
                         android:layout_toEndOf="@+id/cards_recycler"
-                        android:background="@drawable/custom_edittext" />
+                        android:layout_toRightOf="@+id/cards_recycler"
+                        android:layout_centerHorizontal="true">
+
+                        <ImageView
+                            android:id="@+id/button2"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_marginTop="20dp"
+
+                            android:padding="4dp"
+                            android:src="@drawable/custom_edittext"
+                         />
+
+                        <TextView
+                            android:id="@+id/add_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:layout_marginTop="20dp"
+                            android:fontFamily="monospace"
+                            android:textSize="24sp"
+                            android:gravity="center"
+                            android:text="+"
+                            android:textColor="@color/colorAccent" />
+
+                    </FrameLayout>
 
 
                 </RelativeLayout>
