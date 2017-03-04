@@ -38,11 +38,11 @@
                     android:layout_height="wrap_content">
 
                     <edu.ucsb.cs.cs185.foliostation.utilities.SquareImageView
-                        android:id="@+id/detail_cover_image"
+                        android:id="@+id/details_cover_image"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:padding="8dp"
-                        android:scaleType="fitXY"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/back1" />
 
 
@@ -50,11 +50,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/detail_cover_image"
+                        android:layout_toRightOf="@id/details_cover_image"
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView3"
+                            android:id="@+id/details_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Title"
@@ -62,7 +62,7 @@
                             android:textSize="16sp" />
 
                         <TextView
-                            android:id="@+id/textView2"
+                            android:id="@+id/details_tags"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Tags"
@@ -74,14 +74,15 @@
                 </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/details_descriptions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@id/cover_title_tag_bar"
                     android:paddingLeft="8dp"
-                    android:text="Description" />
+                    android:text="Description"
+                    android:paddingBottom="6dp"/>
 
             </RelativeLayout>
 

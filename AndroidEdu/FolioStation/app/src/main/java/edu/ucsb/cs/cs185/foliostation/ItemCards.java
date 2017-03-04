@@ -118,6 +118,17 @@ public class ItemCards {
             return tags;
         }
 
+        public String getTagsString() {
+            StringBuilder sb = new StringBuilder();
+            for(String tag: tags){
+                sb.append(tag).append(", ");
+            }
+            if(sb.length() >= 2 ){
+                sb.setLength(sb.length()-2);
+            }
+            return sb.toString();
+        }
+
         public void setTags(List<String> tags) {
             this.tags = tags;
         }
@@ -146,6 +157,12 @@ public class ItemCards {
             int i = 0;
             coverIndex = index;
 
+        }
+
+        public void addImages(List<ImageItem> images){
+            for(ImageItem imageItem: images) {
+                mImages.add(new CardImage(imageItem.path, PATH));
+            }
         }
 
         public boolean hasMultiPics(){

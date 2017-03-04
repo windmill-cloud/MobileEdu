@@ -208,12 +208,10 @@ public class ContainerActivity extends AppCompatActivity
         return true;
     }
 
-
     protected void startImagesPicking() {
         Intent intent = new Intent(this, ImageGridActivity.class);
         startActivityForResult(intent, IMAGE_PICKER);
     }
-
 
     protected void setGridsFragment() {
         CardsFragment fragment = new CardsFragment();

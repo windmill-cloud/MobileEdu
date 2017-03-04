@@ -22,12 +22,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import edu.ucsb.cs.cs185.foliostation.ItemCards;
@@ -88,16 +91,71 @@ public class CollectionDetailsActivity extends AppCompatActivity {
         mAdapter.notifyDataSetChanged();
 
         ImageButton addPic = (ImageButton) findViewById(R.id.add_image_to_collection);
-        addPic.setOnClickListener(new View.OnClickListener(){
+        if(card.getImages().size() < 24) {
 
+            addPic.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    ImagePicker.getInstance().setSelectLimit(24 - card.getImages().size());
+                    Intent intent = new Intent(CollectionDetailsActivity.this, ImageGridActivity.class);
+                    startActivityForResult(intent, IMAGE_PICKER);
+                }
+            });
+        }else {
+            addPic.setVisibility(View.GONE);
+        }
+
+
+        ImageButton editDetails = (ImageButton) findViewById(R.id.edit_collection_infop);
+        editDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ImagePicker.getInstance().setSelectLimit(24 - card.getImages().size());
-                Intent intent = new Intent(CollectionDetailsActivity.this, ImageGridActivity.class);
-                startActivityForResult(intent, IMAGE_PICKER);
+
+                Intent intent = new Intent(CollectionDetailsActivity.this, EditTabsActivity.class);
+                intent.putExtra("CARD_INDEX", mCardIndex);
+                intent.putExtra("EDIT", true);
+                startActivity(intent);
             }
         });
 
+        inflateInfoBar();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        inflateInfoBar();
+    }
+
+    protected void inflateInfoBar(){
+        ItemCards.Card card = ItemCards.getInstance(getApplicationContext()).cards.get(mCardIndex);
+        ImageView coverImage = (ImageView) findViewById(R.id.details_cover_image);
+        TextView titleText = (TextView) findViewById(R.id.details_title);
+        TextView tagsText = (TextView) findViewById(R.id.details_tags);
+        TextView descriptionText = (TextView) findViewById(R.id.details_descriptions);
+
+        if(card != null) {
+            // TODO: refactor picture loading
+            if (card.getCoverImage().isFromPath()) {
+                Picasso.with(getApplicationContext())
+                        .load(new File(card.getCoverImage().mUrl))
+                        .resize(600, 600)
+                        .centerCrop()
+                        .noFade()
+                        .into(coverImage);
+            } else {
+                Picasso.with(getApplicationContext())
+                        .load(card.getCoverImage().mUrl)
+                        .resize(600, 600)
+                        .centerCrop()
+                        .noFade()
+                        .into(coverImage);
+            }
+            titleText.setText(card.getTitle());
+            tagsText.setText(card.getTagsString());
+            descriptionText.setText(card.getDescription());
+        }
     }
 
     @Override
@@ -113,8 +171,11 @@ public class CollectionDetailsActivity extends AppCompatActivity {
                 intent.putExtra("CARD_INDEX", 0);
                 startActivity(intent);
                 */
-                Toast.makeText(this, "Got data", Toast.LENGTH_SHORT).show();
-
+                ArrayList<ImageItem> images = (ArrayList<ImageItem>)
+                        data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                ItemCards.Card card = ItemCards.getInstance(getApplicationContext()).cards.get(mCardIndex);
+                card.addImages(images);
+                mAdapter.notifyDataSetChanged();
 
             } else {
                 Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
@@ -135,7 +196,7 @@ public class CollectionDetailsActivity extends AppCompatActivity {
         FragmentManager ft = this.getSupportFragmentManager();
 
         fragment.show(ft, "dialog");
-        //TODO: move takeScreenShot  to somewhere else
+        //TODO: move takeScreenShot method to somewhere else from CardsFragment
 
         Bitmap map = CardsFragment.takeScreenShot(this);
         Bitmap fast = CardsFragment.BlurBuilder.blur(getApplicationContext(), map);
