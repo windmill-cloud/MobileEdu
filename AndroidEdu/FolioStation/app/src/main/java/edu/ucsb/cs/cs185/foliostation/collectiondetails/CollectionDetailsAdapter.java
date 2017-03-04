@@ -77,11 +77,18 @@ public class CollectionDetailsAdapter extends RecyclerView.Adapter<CardViewHolde
         }
 
         holder.imageView.setOnClickListener(this);
+        holder.imageView.setTag(position);
+
     }
 
     @Override
     public int getItemCount() {
         return mImages.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     /**

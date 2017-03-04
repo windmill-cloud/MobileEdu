@@ -110,7 +110,9 @@ public class CardsFragment extends Fragment {
 
     protected void startDetailDialog(int position){
         Bundle arguments = new Bundle();
-        arguments.putInt("POSITION", position);
+        arguments.putInt("CARD_INDEX", position);
+        arguments.putString("FROM", "GRID");
+
         DetailBlurDialog fragment = new DetailBlurDialog();
 
         fragment.setArguments(arguments);

@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -75,36 +76,63 @@ public class DetailBlurDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_detail_blur_dialog, container, false);
-        int idx = getArguments().getInt("POSITION");
-        ItemCards.Card card = ItemCards.getInstance(getContext()).cards.get(idx);
-
-        int width = 200, height = 200;
-        //Uri imageUri = Uri.parse(card.mURL);
+        int idx = getArguments().getInt("CARD_INDEX");
 
         ImageView imageView = (ImageView) rootView.findViewById(R.id.dialog_photo);
-
-        // TODO: refactor picture loading
-        if(card.getCoverImage().isFromPath()) {
-            Picasso.with(getContext())
-                    .load(new File(card.getCoverImage().mUrl))
-                    .resize(300, 450)
-                    .centerCrop()
-                    .into(imageView);
-        } else {
-            Picasso.with(getContext())
-                    .load(card.getCoverImage().mUrl)
-                    .resize(300, 450)
-                    .centerCrop()
-                    .into(imageView);
-        }
-
-        //imageView.setImageDrawable(card.mImages.get(0).mDrawable);
-
         TextView title = (TextView) rootView.findViewById(R.id.dialog_title);
-        title.setText(card.getTitle());
-
         TextView description = (TextView) rootView.findViewById(R.id.dialog_description);
-        description.setText(card.getDescription());
+
+        String from = getArguments().getString("FROM");
+
+        if(from != null ){
+            if(from.equals("GRID")){
+                // TODO: refactor picture loading
+                ItemCards.Card card = ItemCards.getInstance(getContext()).cards.get(idx);
+
+                if(card.getCoverImage().isFromPath()) {
+                    Picasso.with(getContext())
+                            .load(new File(card.getCoverImage().mUrl))
+                            .resize(300, 450)
+                            .centerCrop()
+                            .into(imageView);
+                } else {
+                    Picasso.with(getContext())
+                            .load(card.getCoverImage().mUrl)
+                            .resize(300, 450)
+                            .centerCrop()
+                            .into(imageView);
+                }
+
+                //imageView.setImageDrawable(card.mImages.get(0).mDrawable);
+
+                title.setText(card.getTitle());
+
+                description.setText(card.getDescription());
+
+            } else if(from.equals("DETAILS")){
+                // TODO: refactor picture loading
+                ItemCards.Card card = ItemCards.getInstance(getContext()).cards.get(idx);
+                int imageIndex = getArguments().getInt("IMAGE_INDEX");
+
+                if(card.getImages().get(imageIndex).isFromPath()) {
+                    Picasso.with(getContext())
+                            .load(new File(card.getImages().get(imageIndex).mUrl))
+                            .resize(300, 450)
+                            .centerCrop()
+                            .into(imageView);
+                } else {
+                    Picasso.with(getContext())
+                            .load(card.getImages().get(imageIndex).mUrl)
+                            .resize(300, 450)
+                            .centerCrop()
+                            .into(imageView);
+                }
+
+                title.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0));
+                description.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0));
+
+            }
+        }
 
         return rootView;
     }
