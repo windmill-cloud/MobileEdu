@@ -137,7 +137,7 @@ public class CardsFragment extends Fragment {
         }
     }
 
-    private static Bitmap takeScreenShot(Activity activity) {
+    public static Bitmap takeScreenShot(Activity activity) {
         View view = activity.getWindow().getDecorView();
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
