@@ -1,9 +1,7 @@
 package space.firstorder.hc;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.loaders.ModelLoader;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
@@ -21,14 +19,9 @@ import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.graphics.g3d.model.NodePart;
-import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
-import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
-import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
-import com.badlogic.gdx.input.RemoteInput;
 import com.badlogic.gdx.math.MathUtils;
 
-
-public class Main extends ApplicationAdapter implements ApplicationListener {
+public class Main extends ApplicationAdapter {
 	public SpriteBatch sprites;
 	public Environment environment;
 
@@ -41,15 +34,6 @@ public class Main extends ApplicationAdapter implements ApplicationListener {
 	public Texture logo;
 	public Music backgroundMusic;
 
-    private LightSensorInterface lightSensor;
-
-	public interface LightSensorInterface {
-        float getCurrentLux();
-	}
-
-    public Main(LightSensorInterface lightSensor){
-        this.lightSensor = lightSensor;
-    }
 	/*
 		add variables here if you need any, in the case you're doing
 		texturing or something more complicated
@@ -57,7 +41,7 @@ public class Main extends ApplicationAdapter implements ApplicationListener {
 
 	@Override
 	public void create() {
-        // TODO: create completely new batches for sprites and models
+		// TODO: create completely new batches for sprites and models
 		sprites = new SpriteBatch();
 		modelBatch = new ModelBatch();
 
@@ -66,7 +50,7 @@ public class Main extends ApplicationAdapter implements ApplicationListener {
 		// add a new directional light to the environment
 
 		environment = new Environment();
-		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
+		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 0.1f));
 		environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
 		// create a new logo texture from the "data/firstorder.png" file
@@ -99,98 +83,72 @@ public class Main extends ApplicationAdapter implements ApplicationListener {
 
 
 		// TODO: create a new model instance and scale it to 20% it's original size (it's huge...)
-        instance = new ModelInstance(model); // ← our model instance is here
+		instance = new ModelInstance(model); // ← our model instance is here
 		instance.transform.scale(0.2f, 0.2f, 0.2f);
-        /*
-        Runnable gyroscopePoller = new Runnable() {
-            @Override
-            public void run() {
 
-                while(true){
-                    boolean gyroscopeAvail = Gdx.input.isPeripheralAvailable(Input.Peripheral.Gyroscope);
-                    if(!gyroscopeAvail){
-                        break;
-                    }
-                    float gyroX = Gdx.input.getGyroscopeX();
-                    float gyroY = Gdx.input.getGyroscopeY();
-                    float gyroZ = Gdx.input.getGyroscopeZ();
-                    instance.transform.setFromEulerAngles(gyroX, gyroY, gyroZ);
-                    try{
-                        Thread.sleep(50);
-                    }catch (InterruptedException e){
-                        System.out.println(e.toString());
-                    }
-
-                }
-            }
-        };
-        Thread t = new Thread(gyroscopePoller);
-
-        t.start();
-        */
-
-        // TODO: set the helmet details material to a new diffuse black color attribute
-        getHelmetDetails().material = new Material(ColorAttribute.createDiffuse(Color.BLACK));
-        getHelmetMoreDetails().material = new Material(ColorAttribute.createDiffuse(Color.DARK_GRAY));
-        getHelmetBase().material = new Material(ColorAttribute.createDiffuse(Color.WHITE));
-        // set the input processor to work with our custom input:
-        //  clicking the image in the lower right should change the colors of the helmets
-        //  bonus points: implement your own GestureDetector and an input processor based on it
-        Gdx.app.log("instance node size", ""+String.valueOf(instance.nodes.size));
+		// TODO: set the helmet details material to a new diffuse black color attribute
+		getHelmetDetails().material = new Material(ColorAttribute.createDiffuse(Color.BLACK));
+		getHelmetMoreDetails().material = new Material(ColorAttribute.createDiffuse(Color.DARK_GRAY));
+		getHelmetBase().material = new Material(ColorAttribute.createDiffuse(Color.WHITE));
+		// set the input processor to work with our custom input:
+		//  clicking the image in the lower right should change the colors of the helmets
+		//  bonus points: implement your own GestureDetector and an input processor based on it
+		Gdx.app.log("instance node size", ""+String.valueOf(instance.nodes.size));
 
 
 		Gdx.input.setInputProcessor(new FirstOrderInputProcessor(cam, new Runnable() {
-            private Texture camouflage =  new Texture("data/camouflage.png");
-            private Texture paper =  new Texture("data/paper.png");
-            private Texture hive =  new Texture("data/hive.png");
-            private Texture strips =  new Texture("data/strip.png");
-            private Texture grass =  new Texture("data/grass.jpeg");
-            public void run() {
+			private Texture camouflage =  new Texture("data/camouflage.png");
+			private Texture paper =  new Texture("data/paper.png");
+			private Texture hive =  new Texture("data/hive.png");
+			private Texture strips =  new Texture("data/strip.png");
+			private Texture grass =  new Texture("data/grass.jpeg");
+			public void run() {
 				// TODO: change the helmet details material to a new diffuse random color
 
 				getHelmetDetails().material = getRandomMaterial();
 				getHelmetMoreDetails().material = getRandomMaterial();
 
-                // bonus points:
-                //  randomly change the material of the helmet base to a texture
-                //  from the files aloha.png and camouflage.png (or add your own!)
+				// bonus points:
+				//  randomly change the material of the helmet base to a texture
+				//  from the files aloha.png and camouflage.png (or add your own!)
 				getHelmetBase().material = getRandomMaterial();
+				setRandomLight();
 
 			}
 
-            private Material getRandomMaterial() {
-                int rand = (int) (MathUtils.random() * 100) % 8;
-                Gdx.app.log("Random", "" + rand);
+			private Material getRandomMaterial() {
+				int rand = (int) (MathUtils.random() * 100) % 8;
+				Gdx.app.log("Random", "" + rand);
 
-                //Texture aloha =  new Texture("data/aloha.png");
-                Material randMaterial = null;
+				//Texture aloha =  new Texture("data/aloha.png");
+				Material randMaterial = null;
 
-                switch (rand) {
-                    case 0:
-                    case 1:
-                        randMaterial = new Material(ColorAttribute.createReflection(Color.WHITE));
-                        break;
-                    case 2:
-                        randMaterial = new Material(TextureAttribute.createDiffuse(paper));
-                        break;
-                    case 3:
-                        randMaterial = new Material(TextureAttribute.createDiffuse(hive));
-                        break;
-                    case 4:
-                        randMaterial = new Material(TextureAttribute.createDiffuse(camouflage));
-                        break;
-                    case 5:
-                        randMaterial = new Material(ColorAttribute.createDiffuse(getRandomColor()));
-                        break;
-                    case 6:
-                        randMaterial = new Material(TextureAttribute.createDiffuse(strips));
-                        break;
-                    case 7:
-                        randMaterial = new Material(TextureAttribute.createDiffuse(grass));
-                        break;
-                }
-                return randMaterial;
-            }
+				switch (rand) {
+					case 0:
+					case 1:
+						randMaterial = new Material(ColorAttribute.createReflection(Color.WHITE));
+						break;
+					case 2:
+						randMaterial = new Material(TextureAttribute.createDiffuse(paper));
+						break;
+					case 3:
+						randMaterial = new Material(TextureAttribute.createDiffuse(hive));
+						break;
+					case 4:
+						randMaterial = new Material(TextureAttribute.createDiffuse(camouflage));
+						break;
+					case 5:
+						randMaterial = new Material(ColorAttribute.createDiffuse(getRandomColor()));
+						break;
+					case 6:
+						randMaterial = new Material(TextureAttribute.createDiffuse(strips));
+						break;
+					case 7:
+						randMaterial = new Material(TextureAttribute.createDiffuse(grass));
+						break;
+				}
+				return randMaterial;
+			}
 		}));
 	}
 
@@ -198,41 +156,24 @@ public class Main extends ApplicationAdapter implements ApplicationListener {
 	public void render() {
 		// create a new viewport of size (0, 0, width, height)
 		//	the width and height you can get from the Gdx.graphics
-        // clear the color and depth buffer
-        Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+		// clear the color and depth buffer
+		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
 
 		// TODO: begin the model batch with the current camera
 		// render the instance of the model in the set-up environment using the model batch
-        // end the model batch rendering process
+		// end the model batch rendering process
 		modelBatch.begin(cam);
-        boolean acceleroAvail = Gdx.input.isPeripheralAvailable(Input.Peripheral.Accelerometer);
-        if(acceleroAvail) {
-            float accelerometerX = Gdx.input.getAccelerometerX();
-            float accelerometerY = Gdx.input.getAccelerometerY();
-            float accelerometerZ = Gdx.input.getAccelerometerZ();
-
-            final float alpha = 0.8f;
-            float[] gravity = new float[3];
-            gravity[0] = alpha * gravity[0] + (1 - alpha) * accelerometerX;
-            gravity[1] = alpha * gravity[1] + (1 - alpha) * accelerometerY;
-            gravity[2] = alpha * gravity[2] + (1 - alpha) * accelerometerZ;
-
-            instance.transform.setFromEulerAngles(20f * accelerometerX,
-                    20f * accelerometerY, 20f * accelerometerZ);
-        }
-
-        instance.transform.scale(0.2f, 0.2f, 0.2f);
 		modelBatch.render(instance, environment);
-
 		modelBatch.end();
 
 		// TODO: begin the sprite batch rendering
 		// draw the new order logo at (50, 50, 200, 200)
 		// end the sprite batch rendering process
-        sprites.begin();
+		sprites.begin();
 		sprites.draw(logo,50, 50, 200, 200);
+		//sprites.draw(logo, 200, 500, 200, 200);
 		sprites.end();
 	}
 
@@ -257,10 +198,17 @@ public class Main extends ApplicationAdapter implements ApplicationListener {
 		return instance.nodes.get(1).parts.get(0);
 	}
 
-    protected NodePart getHelmetBase() {
-        return instance.nodes.get(2).parts.get(0);
-    }
+	protected NodePart getHelmetBase() {
+		return instance.nodes.get(2).parts.get(0);
+	}
 
+	protected void setRandomLight() {
+		environment.set(new ColorAttribute(ColorAttribute.AmbientLight,
+				MathUtils.random(), MathUtils.random(), MathUtils.random(), MathUtils.random()));
+		environment.add(new DirectionalLight().set(
+				MathUtils.random(), MathUtils.random(), MathUtils.random(),
+				MathUtils.random(), MathUtils.random(), MathUtils.random()));
+	}
 
 	protected Color getRandomColor() {
 		return new Color(MathUtils.random(), MathUtils.random(), MathUtils.random(), MathUtils.random());
