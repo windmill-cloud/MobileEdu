@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
-    private Sensor mAmbientTemperature;
+    private Sensor mLightSensor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
-        mAmbientTemperature = mSensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
-        mSensorManager.registerListener(this, mAmbientTemperature, SensorManager.SENSOR_DELAY_NORMAL);
+        mLightSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        mSensorManager.registerListener(this, mLightSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             TextView accelerometerText = (TextView) findViewById(R.id.accelerometer_text);
             accelerometerText.setText(stringBuilder.toString());
         }
-        else if (sensor.getType() == Sensor.TYPE_PRESSURE) {
+        else if (sensor.getType() == Sensor.TYPE_LIGHT) {
             stringBuilder.append(event.values[0]);
             TextView tempText = (TextView) findViewById(R.id.temperature_text);
             tempText.setText(stringBuilder.toString());

@@ -18,7 +18,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Accelerometer Values" />
+        android:text="Accelerometer Values (m/s^2)" />
 
     <TextView
         android:id="@+id/accelerometer_text"
@@ -28,7 +28,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Temperature:"
+        android:text="Light (lux):"
          />
 
     <TextView
