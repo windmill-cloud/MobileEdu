@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, AnotherActivity.class);
 
                 // Putting some data with the intent
-                intent.putExtra("EMAIL", email.getText());
+                intent.putExtra("EMAIL", email.getText().toString());
 
                 // Invoking the intent, start AnotherActivity
                 startActivity(intent);

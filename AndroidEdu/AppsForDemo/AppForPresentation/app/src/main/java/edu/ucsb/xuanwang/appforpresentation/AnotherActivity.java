@@ -14,7 +14,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AnotherActivity extends AppCompatActivity {
 
@@ -36,6 +40,19 @@ public class AnotherActivity extends AppCompatActivity {
         final TextView screenSizeText = (TextView) findViewById(R.id.screen_size_text);
         // Getting the application's context
         displayScreenSizeInTextView(getApplicationContext(), screenSizeText);
+
+        // Setting the ImageView with a built-in image
+        final ImageView imageView = (ImageView) findViewById(R.id.my_image);
+        imageView.setImageResource(R.drawable.cat_image);
+
+        // Setting the toast
+        final Button toastButton = (Button) findViewById(R.id.make_toast);
+        toastButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(AnotherActivity.this, "Cheers!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
