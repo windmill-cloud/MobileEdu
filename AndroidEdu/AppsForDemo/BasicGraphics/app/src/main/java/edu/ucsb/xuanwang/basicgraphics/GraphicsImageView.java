@@ -45,7 +45,7 @@ public class GraphicsImageView extends AppCompatImageView {
             int x = getWidth();
             int y = getHeight();
             int radius;
-            radius = 100;
+            radius = x / 4;
             paint.setStyle(Paint.Style.FILL);
             paint.setColor(Color.WHITE);
             canvas.drawPaint(paint);

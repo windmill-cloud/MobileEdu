@@ -11,7 +11,7 @@ import {
 import CoreApp from './src/CoreApp';
 
 const App = () => {
-  <CoreApp />
+  return (<CoreApp />);
 };
 
 AppRegistry.registerComponent('RRG', () => App);
