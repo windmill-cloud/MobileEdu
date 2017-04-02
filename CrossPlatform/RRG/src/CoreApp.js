@@ -2,30 +2,16 @@
  * Created by xuanwang on 3/29/17.
  */
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { StackNavigator } from 'react-navigation';
+import MainScreen from './MainScreen';
+import ChatScreen from './ChatScreen';
 
-class CoreApp extends Component {
 
-    _buttonClickHandler(){
+const CoreApp = StackNavigator({
+    Home: { screen: MainScreen },
+    Chat: { screen: ChatScreen }
 
-    }
-
-    render() {
-        return (
-            <View style={containerStyle}>
-                <Text>Hello</Text>
-                <Button title="Button" onPress={this._buttonClickHandler}/>
-            </View>
-        );
-    }
-}
-
-const styles = {
-    containerStyle: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-around',
-    }
-};
+    //Profile: {screen: ProfileScreen},
+});
 
 export default CoreApp;
