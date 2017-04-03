@@ -13,27 +13,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="edu.ucsb.xuanwang.sensorsdemo.MainActivity">
+    tools:context="edu.ucsb.ece150.demos.sensorsdemo.MainActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Accelerometer Values (m/s^2)" />
+        android:text="Accelerometer Values (m/s^2)"
+        android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/accelerometer_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textSize="20sp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Light (lux):"
-         />
+        android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/temperature_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="20sp"/>
 
 </LinearLayout>

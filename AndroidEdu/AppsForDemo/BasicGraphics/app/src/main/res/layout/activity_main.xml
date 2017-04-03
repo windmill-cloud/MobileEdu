@@ -14,10 +14,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="edu.ucsb.xuanwang.basicgraphics.MainActivity">
+    tools:context="edu.ucsb.ece150.demos.basicgraphics.MainActivity">
 
 
-    <edu.ucsb.xuanwang.basicgraphics.GraphicsImageView
+    <edu.ucsb.ece150.demos.basicgraphics.GraphicsImageView
         android:id="@+id/my_image_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
