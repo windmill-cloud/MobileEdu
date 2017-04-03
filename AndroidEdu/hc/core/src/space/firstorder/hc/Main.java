@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Material;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.graphics.g3d.model.NodePart;
+import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Main extends ApplicationAdapter {
@@ -81,15 +83,16 @@ public class Main extends ApplicationAdapter {
 		// TODO: load the internal file "data/stormtrooper.obj" into the model variable
 		model = modelLoader.loadModel(Gdx.files.internal("data/stormtrooper_unwrapped.obj"));
 
-
 		// TODO: create a new model instance and scale it to 20% it's original size (it's huge...)
 		instance = new ModelInstance(model); // ← our model instance is here
 		instance.transform.scale(0.2f, 0.2f, 0.2f);
 
 		// TODO: set the helmet details material to a new diffuse black color attribute
+
 		getHelmetDetails().material = new Material(ColorAttribute.createDiffuse(Color.BLACK));
 		getHelmetMoreDetails().material = new Material(ColorAttribute.createDiffuse(Color.DARK_GRAY));
 		getHelmetBase().material = new Material(ColorAttribute.createDiffuse(Color.WHITE));
+
 		// set the input processor to work with our custom input:
 		//  clicking the image in the lower right should change the colors of the helmets
 		//  bonus points: implement your own GestureDetector and an input processor based on it
