@@ -4,11 +4,14 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "run-ios": "react-native run-ios",
     "test": "jest"
   },
   "dependencies": {
     "react": "~15.4.1",
     "react-native": "0.42.3",
+    "react-native-material-bottom-navigation": "^0.4.0",
+    "react-native-vector-icons": "^4.0.0",
     "react-navigation": "^1.0.0-beta.7"
   },
   "devDependencies": {
