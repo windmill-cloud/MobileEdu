@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~  Copyright (c) 2017 - present, Xuan Wang
-  ~  All rights reserved.
-  ~
-  ~  This source code is licensed under the BSD-style license found in the
-  ~  LICENSE file in the root directory of this source tree.
-  ~
--->
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.ucsb.ece150.demos.activitiesdemo">
 
@@ -19,14 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="edu.ucsb.ece150.demos.activitiesdemo.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="edu.ucsb.ece150.demos.activitiesdemo.AnotherActivity"></activity>
+        <activity android:name=".AnotherActivity"></activity>
     </application>
 
 </manifest>
