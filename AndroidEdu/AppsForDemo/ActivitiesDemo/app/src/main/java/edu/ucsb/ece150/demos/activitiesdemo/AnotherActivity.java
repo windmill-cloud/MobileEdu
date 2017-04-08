@@ -34,21 +34,27 @@ public class AnotherActivity extends AppCompatActivity {
 
         // Setting the ImageView with a built-in image
         final ImageView imageView = (ImageView) findViewById(R.id.my_image);
-        imageView.setImageResource(R.drawable.cat_image);
+        imageView.setImageResource(R.drawable.dog_image);
 
         // Setting the toast
         final Button toastButton = (Button) findViewById(R.id.make_toast);
         toastButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Toast.makeText(AnotherActivity.this, "Cheers!", Toast.LENGTH_SHORT).show();
             }
         });
+        /*
+        toastButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(AnotherActivity.this, "Cheers!", Toast.LENGTH_SHORT).show();
+            }
+        });*/
 
     }
 
     public void displayScreenSizeInTextView(Context context, TextView textView){
-
         // Getting the screen height and width in pixels
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 
