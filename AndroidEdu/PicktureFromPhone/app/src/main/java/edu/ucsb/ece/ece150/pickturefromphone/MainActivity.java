@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_PICK = 1234;
 
     // The default image uri
-    Uri imageUri = Uri.parse("android.resource://edu.ucsb.ece.ece150.pickture/drawable/kafka");
+    Uri imageUri = Uri.parse("android.resource://edu.ucsb.ece.ece150.pickturefromphone/drawable/kafka");
 
     // Reference to the ImageView
     ImageView profileImage;
@@ -99,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
         editor.clear();
         editor.putString("imageUri", imageUri.toString());
 
-        // Commit the edits!
         editor.apply();
     }
 }

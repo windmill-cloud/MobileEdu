@@ -26,7 +26,7 @@
         android:textSize="20sp"/>
 
     <TextView
-        android:id="@+id/temperature_text"
+        android:id="@+id/light_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"/>

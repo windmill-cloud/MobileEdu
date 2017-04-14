@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.util.List;
@@ -25,36 +26,40 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         Sensor accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         if (accelerometer != null) {
-            mSensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+            mSensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_FASTEST);
         }
 
         Sensor lightSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         if (lightSensor != null) {
-            mSensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
+            mSensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_UI);
         }
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         Sensor sensor = event.sensor;
-        StringBuilder stringBuilder = new StringBuilder();
-        if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            stringBuilder.append("X: ").append(event.values[0]).append(", ");
-            stringBuilder.append("Y: ").append(event.values[1]).append(", ");
-            stringBuilder.append("Z: ").append(event.values[2]);
+        String sensorData;
+        switch (sensor.getType()){
+            case Sensor.TYPE_ACCELEROMETER:
+                float x = event.values[0];
+                float y = event.values[1];
+                float z = event.values[2];
 
-            TextView accelerometerText = (TextView) findViewById(R.id.accelerometer_text);
-            accelerometerText.setText(stringBuilder.toString());
-        }
-        else if (sensor.getType() == Sensor.TYPE_LIGHT) {
-            stringBuilder.append(event.values[0]);
-            TextView tempText = (TextView) findViewById(R.id.temperature_text);
-            tempText.setText(stringBuilder.toString());
+                sensorData = String.format("X: %.2f, Y: %.2f, Z: %.2f", x, y, z);
+                TextView accelerometerText = (TextView) findViewById(R.id.accelerometer_text);
+                accelerometerText.setText(sensorData);
+                break;
+            case Sensor.TYPE_LIGHT:
+                float lux = event.values[0];
+                sensorData = String.format("%.1f", lux);
+                TextView lightText = (TextView) findViewById(R.id.light_text);
+                lightText.setText(sensorData);
+                break;
         }
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
+        Log.d("Main", "accuracy" + String.valueOf(accuracy));
     }
 }

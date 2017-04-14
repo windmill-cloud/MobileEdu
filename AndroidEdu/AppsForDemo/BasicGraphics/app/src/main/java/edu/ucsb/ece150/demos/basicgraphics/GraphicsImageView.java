@@ -42,6 +42,9 @@ public class GraphicsImageView extends AppCompatImageView {
             canvas.drawPaint(paint);
             paint.setColor(Color.BLUE);
             canvas.drawCircle(x / 2, y / 2, radius, paint);
+            paint.setColor(Color.RED);
+            paint.setStrokeWidth(20);
+            canvas.drawLine(x / 8, y / 8, x / 8, y * 7 /8, paint);
         } else {
             canvas.drawColor(Color.WHITE);
         }
@@ -56,6 +59,4 @@ public class GraphicsImageView extends AppCompatImageView {
         drawSomething = false;
         this.invalidate();
     }
-
-
 }

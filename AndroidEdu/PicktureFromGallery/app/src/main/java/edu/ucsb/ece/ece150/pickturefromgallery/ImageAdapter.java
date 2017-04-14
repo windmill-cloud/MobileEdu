@@ -10,6 +10,18 @@ import android.widget.ImageView;
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
 
+    // references to our images
+    protected Integer[] mThumbIds = {
+            R.drawable.bear,
+            R.drawable.kyoto, R.drawable.library,
+            R.drawable.chairs, R.drawable.roses,
+            R.drawable.cross, R.drawable.sand,
+            R.drawable.circles, R.drawable.trunk,
+            R.drawable.japan, R.drawable.mosque,
+            R.drawable.whitetower, R.drawable.deer,
+            R.drawable.post
+    };
+
     public ImageAdapter(Context c) {
         mContext = c;
     }
@@ -41,16 +53,4 @@ public class ImageAdapter extends BaseAdapter {
         imageView.setImageResource(mThumbIds[position]);
         return imageView;
     }
-
-    // references to our images
-    protected Integer[] mThumbIds = {
-            R.drawable.bear,
-            R.drawable.kyoto, R.drawable.library,
-            R.drawable.chairs, R.drawable.roses,
-            R.drawable.cross, R.drawable.sand,
-            R.drawable.circles, R.drawable.trunk,
-            R.drawable.japan, R.drawable.mosque,
-            R.drawable.whitetower, R.drawable.deer,
-            R.drawable.post
-    };
 }
