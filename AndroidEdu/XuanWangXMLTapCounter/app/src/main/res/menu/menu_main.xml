@@ -10,7 +10,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="edu.ucsb.cs.cs190i.xuanwangxmltapcounter.MainActivity">
+    tools:context="edu.ucsb.cs.cs190i.xuanwang.xmltapcounter.MainActivity">
     <item
         android:id="@+id/action_reset"
         android:orderInCategory="100"

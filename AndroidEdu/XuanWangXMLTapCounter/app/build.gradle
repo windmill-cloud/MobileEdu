@@ -4,7 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "edu.ucsb.cs.cs190i.xuanwangprogtapcounter"
+        applicationId "edu.ucsb.cs.cs190i.xuanwang.xmltapcounter"
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
