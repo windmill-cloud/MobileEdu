@@ -15,10 +15,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,28 +28,54 @@ import java.util.Map;
  * Created by xuanwang on 4/14/17.
  */
 
+
 public class DrawingView extends SurfaceView implements SurfaceHolder.Callback {
     private SurfaceHolder holder;
     private Map<Integer, PointF> pointers;
     private int[] colors;
     private Canvas paintingCanvas;
     private Bitmap painting;
+
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
+
+    private int radius = 1;
+
+
+    public DrawingView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init();
+    }
+
+    public DrawingView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
+
     public DrawingView(Context context) {
         super(context);
+        init();
+    }
+
+    private void init() {
+        Log.d("SurfaceView", "init");
+
         pointers = new HashMap<>();
         colors = new int[]{
                 Color.RED,
                 Color.GREEN,
                 Color.BLUE,
                 Color.BLACK,
-                Color.YELLOW
+                Color.YELLOW,
+                Color.MAGENTA,
+                Color.CYAN,
+                Color.LTGRAY
         };
-        getHolder().addCallback(this);
+        holder = getHolder();
+        holder.addCallback(this);
     }
 
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        return false;
-    }
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
@@ -57,14 +84,6 @@ public class DrawingView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {
-        /*
-        Canvas canvas = surfaceHolder.lockCanvas();
-
-        Paint paint = new Paint();
-        paint.setColor(Color.YELLOW);
-        canvas.drawCircle(100, 100, 25, paint);
-        surfaceHolder.unlockCanvasAndPost(canvas);
-*/
         painting = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         paintingCanvas = new Canvas();
         paintingCanvas.setBitmap(painting);
@@ -102,8 +121,9 @@ public class DrawingView extends SurfaceView implements SurfaceHolder.Callback {
                     pointers.put(currentId, currentPoint);
                 }
         }
-
-        return super.onTouchEvent(event);
+        drawPointers();
+        //return super.onTouchEvent(event);
+        return true;
     }
 
     private void drawPointers(){
@@ -112,12 +132,23 @@ public class DrawingView extends SurfaceView implements SurfaceHolder.Callback {
                 PointF point = pointers.get(id);
                 Paint paint = new Paint();
                 paint.setColor(colors[id % colors.length]);
-                paintingCanvas.drawCircle(point.x, point.y, 100, paint);
+                paintingCanvas.drawCircle(point.x, point.y, radius, paint);
             }
             Canvas canvas = holder.lockCanvas();
             canvas.drawColor(Color.WHITE);
             canvas.drawBitmap(painting, 0, 0, null);
             holder.unlockCanvasAndPost(canvas);
+        }
+    }
+
+    protected void clear(){
+        if(holder != null) {
+            Canvas canvas = holder.lockCanvas();
+            canvas.drawColor(Color.WHITE);
+            paintingCanvas.drawColor(Color.WHITE);
+            //canvas.drawBitmap(painting, 0, 0, null);
+            holder.unlockCanvasAndPost(canvas);
+            canvas.setBitmap(painting);
         }
     }
 }
