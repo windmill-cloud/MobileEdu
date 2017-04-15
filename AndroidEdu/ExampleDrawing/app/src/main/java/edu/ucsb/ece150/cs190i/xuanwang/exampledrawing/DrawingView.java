@@ -14,9 +14,11 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.PointF;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -35,6 +37,7 @@ public class DrawingView extends SurfaceView implements SurfaceHolder.Callback {
     private int[] colors;
     private Canvas paintingCanvas;
     private Bitmap painting;
+    private boolean initialized = false;
 
     public void setRadius(int radius) {
         this.radius = radius;
@@ -83,10 +86,24 @@ public class DrawingView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {
-        int dimension = Math.max(width, height);
-        painting = Bitmap.createBitmap(dimension, dimension, Bitmap.Config.ARGB_8888);
-        paintingCanvas = new Canvas();
-        paintingCanvas.setBitmap(painting);
+        if(!initialized){
+            Display display = ((MainActivity) getContext()).getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            int w = size.x;
+            int h = size.y;
+            int dimension = Math.max(w, h);
+            painting = Bitmap.createBitmap(dimension, dimension, Bitmap.Config.ARGB_8888);
+            paintingCanvas = new Canvas();
+            paintingCanvas.setBitmap(painting);
+
+            initialized = true;
+
+        }
+        Canvas canvas = holder.lockCanvas();
+        canvas.drawColor(Color.WHITE);
+        canvas.drawBitmap(painting, 0, 0, null);
+        holder.unlockCanvasAndPost(canvas);
     }
 
     @Override
