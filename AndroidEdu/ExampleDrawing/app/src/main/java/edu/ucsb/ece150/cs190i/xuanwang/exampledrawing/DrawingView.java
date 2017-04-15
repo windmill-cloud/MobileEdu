@@ -79,12 +79,12 @@ public class DrawingView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {
-        painting = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        int dimension = Math.max(width, height);
+        painting = Bitmap.createBitmap(dimension, dimension, Bitmap.Config.ARGB_8888);
         paintingCanvas = new Canvas();
         paintingCanvas.setBitmap(painting);
     }
@@ -118,6 +118,18 @@ public class DrawingView extends SurfaceView implements SurfaceHolder.Callback {
                     PointF currentPoint = new PointF();
                     currentPoint.x = event.getX(i);
                     currentPoint.y = event.getY(i);
+                    if(holder != null) {
+                        PointF oldPoint = pointers.get(currentId);
+                        Paint paint = new Paint();
+                        paint.setColor(colors[currentId % colors.length]);
+                        paint.setStrokeWidth(2*radius);
+                        paintingCanvas.drawLine(oldPoint.x, oldPoint.y, currentPoint.x, currentPoint.y,  paint);
+
+                        Canvas canvas = holder.lockCanvas();
+                        canvas.drawColor(Color.WHITE);
+                        canvas.drawBitmap(painting, 0, 0, null);
+                        holder.unlockCanvasAndPost(canvas);
+                    }
                     pointers.put(currentId, currentPoint);
                 }
         }
