@@ -1,0 +1,26 @@
+[2017-04-16 16:48:51.896][debug][command:null][tid:14][com.google.common.util.concurrent.ServiceManager] Starting PerfStatsTracking [RUNNING].
+[2017-04-16 16:48:51.896][debug][command:null][tid:14][com.google.common.util.concurrent.ServiceManager] Starting PerfStatsTracking [RUNNING].
+[2017-04-16 16:48:51.897][debug][command:null][tid:14][com.google.common.util.concurrent.ServiceManager] Started PerfStatsTracking [RUNNING] in 4.895 ms.
+[2017-04-16 16:48:51.897][debug][command:null][tid:14][com.google.common.util.concurrent.ServiceManager] Started PerfStatsTracking [RUNNING] in 4.895 ms.
+[2017-04-16 16:48:51.927][debug][command:null][tid:15][com.facebook.buck.util.perf.ProcessTracker] startUp
+[2017-04-16 16:48:51.927][debug][command:null][tid:15][com.facebook.buck.util.perf.ProcessTracker] startUp
+[2017-04-16 16:48:51.935][debug][command:4392d6d2-3caf-4760-8519-8ece2d26e7cc][tid:01][com.google.common.util.concurrent.ServiceManager] Starting ProcessTracker [STARTING].
+[2017-04-16 16:48:51.936][debug][command:4392d6d2-3caf-4760-8519-8ece2d26e7cc][tid:01][com.facebook.buck.cli.Main] InvocationInfo BuildId=[4392d6d2-3caf-4760-8519-8ece2d26e7cc] Args=[server, status, --http-port]
+[2017-04-16 16:48:52.137][debug][command:null][tid:15][com.google.common.util.concurrent.ServiceManager] Started ProcessTracker [RUNNING] in 210.8 ms.
+[2017-04-16 16:48:52.137][debug][command:null][tid:15][com.google.common.util.concurrent.ServiceManager] Started ProcessTracker [RUNNING] in 210.8 ms.
+[2017-04-16 16:48:52.157][debug][command:4392d6d2-3caf-4760-8519-8ece2d26e7cc][tid:01][com.facebook.buck.util.environment.MacWifiSsidFinder] Getting current SSID..
+[2017-04-16 16:48:52.361][debug][command:4392d6d2-3caf-4760-8519-8ece2d26e7cc][tid:01][com.facebook.buck.util.environment.MacWifiSsidFinder] Getting SSID from Wi-Fi interface: <CWInterface: 0x7fa3946a7810> [interfaceName=en0]
+[2017-04-16 16:48:52.364][debug][command:4392d6d2-3caf-4760-8519-8ece2d26e7cc][tid:01][com.facebook.buck.util.environment.MacWifiSsidFinder] Found SSID: UCSB Wireless Web
+[2017-04-16 16:48:54.623][warn ][command:null][tid:19][com.facebook.buck.event.listener.PublicAnnouncementManager] Failed to get public announcements. Reason: Failed to establish connection to server.
+[2017-04-16 16:48:54.623][warn ][command:null][tid:19][com.facebook.buck.event.listener.PublicAnnouncementManager] Failed to get public announcements. Reason: Failed to establish connection to server.
+[2017-04-16 16:48:55.092][info ][command:4392d6d2-3caf-4760-8519-8ece2d26e7cc][tid:01][com.facebook.buck.cli.Main] Awaiting termination of HTTP Write executor service. Waiting for all jobs to complete, or up to maximum of 1800 seconds...
+[2017-04-16 16:48:55.096][info ][command:4392d6d2-3caf-4760-8519-8ece2d26e7cc][tid:01][com.facebook.buck.cli.Main] Awaiting termination of CounterAggregatorExecutor executor service. Waiting for all jobs to complete, or up to maximum of 20 seconds...
+[2017-04-16 16:48:55.100][debug][command:4392d6d2-3caf-4760-8519-8ece2d26e7cc][tid:15][com.facebook.buck.util.perf.ProcessTracker] shutDown
+[2017-04-16 16:48:55.102][debug][command:4392d6d2-3caf-4760-8519-8ece2d26e7cc][tid:14][com.google.common.util.concurrent.ServiceManager] Service PerfStatsTracking [TERMINATED] has terminated. Previous state was: STOPPING
+[2017-04-16 16:48:55.103][debug][command:4392d6d2-3caf-4760-8519-8ece2d26e7cc][tid:15][com.google.common.util.concurrent.ServiceManager] Service ProcessTracker [TERMINATED] has terminated. Previous state was: STOPPING
+[2017-04-16 16:48:55.277][info ][command:null][tid:01][com.facebook.buck.cli.Main] Awaiting termination of PROJECT executor service. Waiting for all jobs to complete, or up to maximum of 60 seconds...
+[2017-04-16 16:48:55.280][info ][command:null][tid:01][com.facebook.buck.cli.Main] Awaiting termination of CPU executor service. Waiting for all jobs to complete, or up to maximum of 60 seconds...
+[2017-04-16 16:48:55.281][info ][command:null][tid:01][com.facebook.buck.cli.Main] Awaiting termination of NETWORK executor service. Waiting for all jobs to complete, or up to maximum of 60 seconds...
+[2017-04-16 16:48:55.283][info ][command:null][tid:01][com.facebook.buck.cli.Main] Awaiting termination of Disk IO executor service. Waiting for all jobs to complete, or up to maximum of 10 seconds...
+[2017-04-16 16:48:55.287][debug][command:null][tid:01][com.facebook.buck.event.listener.ChromeTraceBuildListener] Writing Chrome trace to buck-out/log/2017-04-16_23h48m51s_servercommand_4392d6d2-3caf-4760-8519-8ece2d26e7cc/build.2017-04-16.16-48-52.4392d6d2-3caf-4760-8519-8ece2d26e7cc.trace
+[2017-04-16 16:48:55.341][debug][command:null][tid:01][com.facebook.buck.cli.Main] Done.
