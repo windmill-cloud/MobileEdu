@@ -30,7 +30,7 @@ public class GdxDemo extends ApplicationAdapter {
         environment = new Environment();
 
         // set a new color attribute for ambient light in the environment
-        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 0.1f));
+        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 0.0f));
 
         // add a new directional light to the environment
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
@@ -45,17 +45,17 @@ public class GdxDemo extends ApplicationAdapter {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
         cam = new PerspectiveCamera(70f, width, height);
-        cam.position.set(100f,100f,100f);
+        cam.position.set(100f, 100f, 100f);
         cam.lookAt(0f, 0f, 0f);
         cam.near = 1f;
         cam.far = 300f;
         cam.update();
 
-        model = new ModelBuilder().createBox(300f, 300f, 300f,
+        model = new ModelBuilder().createBox(50f, 50f, 50f,
                 new Material(ColorAttribute.createDiffuse(Color.GREEN)),
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
         instance = new ModelInstance(model); // ← our model instance is here
-        instance.transform.scale(0.2f, 0.2f, 0.2f);
+        //instance.transform.scale(0.2f, 0.2f, 0.2f);
 
         Gdx.input.setInputProcessor(new DemoInputProcessor(cam, new Runnable() {
 
@@ -64,6 +64,7 @@ public class GdxDemo extends ApplicationAdapter {
 
             }
         }));
+
     }
 
     @Override
