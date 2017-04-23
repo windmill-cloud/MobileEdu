@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">MasterDetailDemo</string>
+    <string name="title_action_detail">Action Detail</string>
+    <string-array name="actions">
+        <item>Speech-To-Text</item>
+        <item>Text-To-Speech</item>
+        <item>Comic</item>
+        <item>Video</item>
+        <item>Animation</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
