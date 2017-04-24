@@ -39,7 +39,8 @@ public class SpeechToTextFragment extends SavableFragment {
     View rootView = inflater.inflate(R.layout.fragment_speech_to_text, container, false);
 
     recognizedText = (TextView) rootView.findViewById(R.id.textSpeechToText);
-    if (recognizedText != null) {
+
+    if (recognizedText != null && !savedText.equals("")) {
       recognizedText.setText(savedText);
     }
 

@@ -1,8 +1,10 @@
 package edu.ucsb.cs.cs190i.xuanwang.xuanwangdemosuite;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.PointF;
@@ -17,10 +19,22 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.almeros.android.multitouch.MoveGestureDetector;
 import com.almeros.android.multitouch.RotateGestureDetector;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.squareup.picasso.Picasso;
+
+import java.io.ByteArrayOutputStream;
 
 
 /**
@@ -28,9 +42,16 @@ import com.almeros.android.multitouch.RotateGestureDetector;
  */
 public class ComicFragment extends SavableFragment implements View.OnTouchListener {
 
+  private static final String MATRIX = "Matrix";
+  private static final String COMIC = "Comic";
+
+  String savedUrl = "";
+
   ImageView mImageView;
   Bitmap mBitMap;
-  Matrix mMatrix;
+  Matrix mMatrix = new Matrix();
+  Button getComicButton;
+  EditText editText;
 
   private float mScaleFactor = 1.0f;
   private float mRotationDegrees = 0.f;
@@ -50,33 +71,124 @@ public class ComicFragment extends SavableFragment implements View.OnTouchListen
                            Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     View rootView = inflater.inflate(R.layout.fragment_comic, container, false);
-    mMatrix = new Matrix();
+    if(mMatrix == null) {
+      mMatrix = new Matrix();
+    }
 
     mImageView = (ImageView) rootView.findViewById(R.id.imageView);
     mImageView.setOnTouchListener(this);
+
+    if(savedUrl != null && !savedUrl.equals("")){
+      Picasso.with(getActivity()).load(savedUrl).into(mImageView);
+    }
+
+    mImageView.setImageMatrix(mMatrix);
+
+    Drawable d = mImageView.getDrawable();
+    if(mBitMap == null){
+      mBitMap = drawableToBitmap(d);
+    }
     // Setup Gesture Detectors
     mScaleDetector = new ScaleGestureDetector(getContext(), new ScaleListener());
     mRotateDetector = new RotateGestureDetector(getContext(), new RotateListener());
     mMoveDetector = new MoveGestureDetector(getContext(), new MoveListener());
+
+    editText = (EditText) rootView.findViewById(R.id.editTextNumber);
+
+    getComicButton = (Button) rootView.findViewById(R.id.buttonGetComic);
+    getComicButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+
+        String num = editText.getText().toString();
+        if(!num.matches("[0-9]{1,4}")){
+          Toast.makeText(
+              getActivity(),
+              "Wrong input, please enter a number between 1 and 1827!",
+              Toast.LENGTH_SHORT).show();
+          return;
+        }
+
+        int i = Integer.parseInt(num);
+        if(i == 0){
+          i = 1;
+        } else {
+          i = i % 1828;
+        }
+
+        final ReqQueueSingleton queue= ReqQueueSingleton.getInstance(getActivity().getApplicationContext());
+
+        String url ="https://xkcd.com/" + i;
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+            new Response.Listener<String>() {
+              @Override
+              public void onResponse(String response) {
+                // Display the first 500 characters of the response string.
+                savedUrl = getImageUrl(response);
+
+                Picasso.with(getActivity()).load(savedUrl).into(mImageView);
+
+
+                Log.d("html", savedUrl);
+              }
+            }, new Response.ErrorListener() {
+          @Override
+          public void onErrorResponse(VolleyError error) {
+
+          }
+        });
+
+        queue.addToRequestQueue(stringRequest);
+
+      }
+    });
+
     return rootView;
+  }
+
+
+  private void resetFactors(){
+      mScaleFactor = 1.0f;
+      mRotationDegrees = 0.f;
+      mFocusX = 0.f;
+      mFocusY = 0.f;
   }
 
   @Override
   public void saveState(Bundle bundle) {
 
+    bundle.putString(COMIC, savedUrl);
+
+    float[] values = new float[9];
+    mMatrix.getValues(values);
+    bundle.putFloatArray(MATRIX, values);
+
   }
 
   @Override
   public void restoreState(Bundle bundle) {
+    if(bundle != null) {
+      savedUrl = bundle.getString(COMIC);
 
+      float[] values = bundle.getFloatArray(MATRIX);
+      mMatrix.setValues(values);
+
+    }
+  }
+
+  @Override
+  public void onStart() {
+    super.onStart();
+    if(mImageView != null){
+      mImageView.setImageMatrix(mMatrix);
+    }
   }
 
   @Override
   public boolean onTouch(View view, MotionEvent motionEvent) {
     Drawable d = mImageView.getDrawable();
-    if(mBitMap == null){
-      mBitMap = drawableToBitmap(d);
-    }
 
     mScaleDetector.onTouchEvent(motionEvent);
     mRotateDetector.onTouchEvent(motionEvent);
@@ -158,4 +270,14 @@ public class ComicFragment extends SavableFragment implements View.OnTouchListen
     return bitmap;
   }
 
+  public static String getImageUrl(String html){
+    String[] lines = html.split("\\r?\\n");
+    for(String line:lines) {
+      if(line.contains("for hotlinking/embedding")) {
+        String[] tokens =  line.split(":\\s");
+        return tokens[1];
+      }
+    }
+    return "";
+  }
 }

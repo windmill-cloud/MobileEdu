@@ -1,4 +1,19 @@
-package edu.ucsb.cs.cs190i.xuanwang.xuanwangdemosuite;
+/*
+ *  Copyright (c) 2017 - present, Xuan Wang
+ *  All rights reserved.
+ *
+ *  This source code is licensed under the BSD-style license found in the
+ *  LICENSE file in the root directory of this source tree.
+ *
+ */
+
+package edu.ucsb.cs.cs190i.xuanwang.xuanwangdemosuite.bouncingball;
+
+/**
+ * Created by xuanwang on 4/23/17.
+ */
+
+
 /*
  * Winter 2015, Marty Stepp
  * This class is a helper to wrap up some of the icky code needed to
@@ -8,7 +23,6 @@ package edu.ucsb.cs.cs190i.xuanwang.xuanwangdemosuite;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
-
 
 /**
  * This class is a helper to wrap up some of the icky code needed to
