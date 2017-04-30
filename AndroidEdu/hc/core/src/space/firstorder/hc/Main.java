@@ -176,7 +176,6 @@ public class Main extends ApplicationAdapter {
 		// end the sprite batch rendering process
 		sprites.begin();
 		sprites.draw(logo,50, 50, 200, 200);
-		//sprites.draw(logo, 200, 500, 200, 200);
 		sprites.end();
 	}
 

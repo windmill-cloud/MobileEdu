@@ -23,6 +23,7 @@
         <activity
             android:name="edu.ucsb.cs.cs190i.xuanwang.xuanwangdemosuite.ActionDetailActivity"
             android:label="@string/title_action_detail"
+            android:windowSoftInputMode="adjustResize"
             android:parentActivityName="edu.ucsb.cs.cs190i.xuanwang.xuanwangdemosuite.ActionListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

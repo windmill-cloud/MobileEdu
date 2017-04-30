@@ -21,8 +21,8 @@ public class Ball {
   float radius = 80;      // Ball's radius
   float x = radius + 20;  // Ball's center (x,y)
   float y = radius + 40;
-  float speedX = 20;       // Ball's speed (x,y)
-  float speedY = 40;
+  float speedX = 10;       // Ball's speed (x,y)
+  float speedY = 20;
   private RectF bounds;   // Needed for Canvas.drawOval
   private Paint paint;    // The paint style, color used for drawing
 

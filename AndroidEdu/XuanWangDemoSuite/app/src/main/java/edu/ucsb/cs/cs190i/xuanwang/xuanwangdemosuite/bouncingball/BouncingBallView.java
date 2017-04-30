@@ -106,7 +106,7 @@ public class BouncingBallView extends AppCompatImageView {
     float currentX = event.getX();
     float currentY = event.getY();
     float deltaX, deltaY;
-    float scalingFactor = 100.0f / ((box.xMax > box.yMax) ? box.yMax : box.xMax);
+    float scalingFactor = 50.0f / ((box.xMax > box.yMax) ? box.yMax : box.xMax);
     switch (event.getAction()) {
       case MotionEvent.ACTION_MOVE:
         // Modify rotational angles according to movement
