@@ -71,21 +71,19 @@ public class ComicFragment extends SavableFragment implements View.OnTouchListen
                            Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     View rootView = inflater.inflate(R.layout.fragment_comic, container, false);
-    if(mMatrix == null) {
-      mMatrix = new Matrix();
-    }
 
     mImageView = (ImageView) rootView.findViewById(R.id.imageView);
     mImageView.setOnTouchListener(this);
 
     if(savedUrl != null && !savedUrl.equals("")){
-      Picasso.with(getActivity()).load(savedUrl).into(mImageView);
+      Picasso.with(getActivity()).load(savedUrl).resize(800, 600)
+          .centerInside().into(mImageView);
     }
 
     mImageView.setImageMatrix(mMatrix);
 
     Drawable d = mImageView.getDrawable();
-    if(mBitMap == null){
+    if(mBitMap == null && d != null){
       mBitMap = drawableToBitmap(d);
     }
     // Setup Gesture Detectors
@@ -106,7 +104,6 @@ public class ComicFragment extends SavableFragment implements View.OnTouchListen
               getActivity(),
               "Wrong input, please enter a number between 1 and 1827!",
               Toast.LENGTH_SHORT).show();
-          return;
         }
 
         int i = Integer.parseInt(num);
@@ -128,8 +125,11 @@ public class ComicFragment extends SavableFragment implements View.OnTouchListen
                 // Display the first 500 characters of the response string.
                 savedUrl = getImageUrl(response);
 
-                Picasso.with(getActivity()).load(savedUrl).into(mImageView);
+                Picasso.with(getActivity()).load(savedUrl).resize(800, 600)
+                    .centerInside().into(mImageView);
 
+                //resetFactors();
+                mImageView.setImageMatrix(mMatrix);
 
                 Log.d("html", savedUrl);
               }
@@ -242,8 +242,6 @@ public class ComicFragment extends SavableFragment implements View.OnTouchListen
       mFocusX += d.x;
       mFocusY += d.y;
 
-      // mFocusX = detector.getFocusX();
-      // mFocusY = detector.getFocusY();
       return true;
     }
   }

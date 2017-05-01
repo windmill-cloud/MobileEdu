@@ -19,7 +19,9 @@ import java.util.Locale;
  * A simple {@link Fragment} subclass.
  */
 public class TextToSpeechFragment extends SavableFragment {
-  TextToSpeech textToSpeech;
+  private TextToSpeech textToSpeech;
+  private EditText editText;
+  private String savedText = "";
 
   public TextToSpeechFragment() {
     // Required empty public constructor
@@ -33,8 +35,8 @@ public class TextToSpeechFragment extends SavableFragment {
 
     View rootView = inflater.inflate(R.layout.fragment_text_to_speech, container, false);
 
-    final EditText editText = (EditText) rootView.findViewById(R.id.editTextToSpeech);
-
+    editText = (EditText) rootView.findViewById(R.id.editTextToSpeech);
+    editText.setText(savedText);
     textToSpeech = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
       @Override
       public void onInit(int status) {
@@ -62,11 +64,25 @@ public class TextToSpeechFragment extends SavableFragment {
 
   @Override
   public void saveState(Bundle bundle) {
-
+    bundle.putString("savedText", editText.getText().toString());
   }
 
   @Override
   public void restoreState(Bundle bundle) {
+    if(bundle != null) {
+      savedText = bundle.getString("savedText");
+    }
+  }
 
+  @Override
+  public void onDestroy() {
+    // Close the Text to Speech Library
+    // to prevent service leak
+    if(textToSpeech != null) {
+
+      textToSpeech.stop();
+      textToSpeech.shutdown();
+    }
+    super.onDestroy();
   }
 }

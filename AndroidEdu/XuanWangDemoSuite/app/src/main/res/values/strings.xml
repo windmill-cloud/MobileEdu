@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MasterDetailDemo</string>
+    <string name="app_name">XuanWangDemoSuite</string>
     <string name="title_action_detail">Action Detail</string>
     <string-array name="actions">
         <item>Speech-To-Text</item>

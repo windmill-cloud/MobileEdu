@@ -17,8 +17,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
-public class Ball {
-  float radius = 80;      // Ball's radius
+class Ball {
+  private float radius = 50;      // Ball's radius
   float x = radius + 20;  // Ball's center (x,y)
   float y = radius + 40;
   float speedX = 10;       // Ball's speed (x,y)
@@ -27,17 +27,16 @@ public class Ball {
   private Paint paint;    // The paint style, color used for drawing
 
   // Constructor
-  public Ball(int color) {
+  Ball(int color) {
     bounds = new RectF();
     paint = new Paint();
     paint.setColor(color);
   }
 
-  public void moveWithCollisionDetection(BoundaryBox box) {
-    // Get new (x,y) position
+  void moveWithCollisionDetection(BoundaryBox box) {
     x += speedX;
     y += speedY;
-    // Detect collision and react
+
     if (x + radius > box.xMax) {
       speedX = -speedX;
       x = box.xMax-radius;
@@ -54,7 +53,7 @@ public class Ball {
     }
   }
 
-  public void draw(Canvas canvas) {
+  void draw(Canvas canvas) {
     bounds.set(x-radius, y-radius, x+radius, y+radius);
     canvas.drawOval(bounds, paint);
   }
