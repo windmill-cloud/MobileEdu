@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "705592516449",
+    "firebase_url": "https://monimenta-5041a.firebaseio.com",
+    "project_id": "monimenta-5041a",
+    "storage_bucket": "monimenta-5041a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:705592516449:android:24ea5dbe1503c695",
+        "android_client_info": {
+          "package_name": "edu.ucsb.cs.cs190i.xuanwang.storeinfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "705592516449-o6hkrr3c7mc2k44h6t1t013ns3dqfh8h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.ucsb.cs.cs190i.xuanwang.storeinfirebase",
+            "certificate_hash": "ce36d5a5c1c9019d05a239af093720a5423ace91"
+          }
+        },
+        {
+          "client_id": "705592516449-irpk3pjhmruqqak4tdoq15k19ooe9ntq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAET-PIDgMjkfDJd11KvafnDzgXQ2LfubY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "705592516449-irpk3pjhmruqqak4tdoq15k19ooe9ntq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

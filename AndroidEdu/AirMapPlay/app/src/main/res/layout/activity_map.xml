@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Copyright (c) 2017 - present, Xuan Wang
+  ~  All rights reserved.
+  ~
+  ~  This source code is licensed under the BSD-style license found in the
+  ~  LICENSE file in the root directory of this source tree.
+  ~
+  -->
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.ucsb.cs.cs190i.xuanwang.airmapplay.MapActivity">
+
+    <fragment
+        android:id="@+id/map"
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp"/>
+
+</android.support.constraint.ConstraintLayout>
