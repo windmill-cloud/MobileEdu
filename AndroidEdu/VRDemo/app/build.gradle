@@ -45,6 +45,5 @@ dependencies {
     compile 'com.google.vr:sdk-panowidget:1.10.0'
     compile 'com.google.vr:sdk-videowidget:1.10.0'
 
-    compile 'com.google.vr:sdk-panowidget:1.40.0'
     testCompile 'junit:junit:4.12'
 }

@@ -14,7 +14,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "edu.ucsb.cs.cs190i.lithoplay"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -37,28 +37,37 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
+    // ...
     // Litho
-    compile 'com.facebook.litho:litho-core:0.1.0'
-    compile 'com.facebook.litho:litho-widget:0.1.0'
-    provided 'com.facebook.litho:litho-annotations:0.1.0'
-
-    annotationProcessor 'com.facebook.litho:litho-processor:0.1.0'
 
     // SoLoader
-    compile 'com.facebook.soloader:soloader:0.1.0+'
 
     // Optional
     // For debugging
-    debugCompile 'com.facebook.litho:litho-stetho:0.1.0'
 
     // For integration with Fresco
-    debugCompile 'com.facebook.litho:litho-fresco:0.1.0'
 
     // For testing
-    testCompile 'com.facebook.litho:litho-testing:0.1.0'
 
+    compile 'com.squareup.okhttp3:okhttp:3.7.0'
+    compile 'com.google.vr:sdk-audio:1.10.0'
+    compile 'com.google.vr:sdk-base:1.10.0'
+    compile 'com.google.vr:sdk-common:1.10.0'
+    compile 'com.google.vr:sdk-commonwidget:1.10.0'
+    compile 'com.google.vr:sdk-panowidget:1.10.0'
+    compile 'com.google.vr:sdk-videowidget:1.10.0'
+
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.facebook.litho:litho-core:0.2.0'
+    compile 'com.facebook.litho:litho-widget:0.2.0'
+    compile 'com.facebook.soloader:soloader:0.2.0'
+    compile 'com.facebook.litho:litho-fresco:0.2.0'
+    compile 'com.android.support:support-v4:25.3.1'
+    testCompile 'com.facebook.litho:litho-testing:0.2.0'
     testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.facebook.litho:litho-processor:0.2.0'
+    debugCompile 'com.facebook.litho:litho-stetho:0.2.0'
+    provided 'com.facebook.litho:litho-annotations:0.2.0'
 }

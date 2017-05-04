@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Copyright (c) 2017 - present, Xuan Wang
+  ~  All rights reserved.
+  ~
+  ~  This source code is licensed under the BSD-style license found in the
+  ~  LICENSE file in the root directory of this source tree.
+  ~
+  -->
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.ucsb.cs.cs190i.lithoplay.FragActivity">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/ic_launcher"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/action_detail_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"/>
+
+
+</FrameLayout>

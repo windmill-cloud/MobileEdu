@@ -16,39 +16,38 @@ import com.facebook.litho.widget.RecyclerBinder;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        final ComponentContext context = new ComponentContext(this);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    final ComponentContext context = new ComponentContext(this);
 
-        final RecyclerBinder recyclerBinder = new RecyclerBinder(
-                context,
-                new LinearLayoutInfo(this, OrientationHelper.VERTICAL, false));
+    final RecyclerBinder recyclerBinder = new RecyclerBinder(
+        context,
+        new LinearLayoutInfo(this, OrientationHelper.VERTICAL, false));
 
-        final Component component = Recycler.create(context)
-                .binder(recyclerBinder)
-                .build();
+    final Component component = Recycler.create(context)
+        .binder(recyclerBinder)
+        .build();
 
-        addContent(recyclerBinder, context);
+    addContent(recyclerBinder, context);
+    setContentView(LithoView.create(context, component));
+  }
 
-        setContentView(LithoView.create(context, component));
+  private static void addContent(
+      RecyclerBinder recyclerBinder,
+      ComponentContext context) {
+
+    for (int i = 0; i < 32; i++) {
+      ComponentInfo.Builder componentInfoBuilder = ComponentInfo.create();
+
+      componentInfoBuilder.component(
+          ListItem.create(context)
+              .color(i % 2 == 0 ? Color.WHITE : Color.LTGRAY)
+              .title("Hello, world!")
+              .subtitle("Litho tutorial")
+              .build());
+
+      recyclerBinder.insertItemAt(i, componentInfoBuilder.build());
     }
-
-    private static void addContent(
-            RecyclerBinder recyclerBinder,
-            ComponentContext context) {
-        for (int i = 0; i < 32; i++) {
-            ComponentInfo.Builder componentInfoBuilder = ComponentInfo.create();
-            componentInfoBuilder.component(
-                    ListItem.create(context)
-                            .color(i % 2 == 0 ? Color.WHITE : Color.LTGRAY)
-                            .title("Hello, world!")
-                            .subtitle("Litho tutorial")
-                            .build());
-            recyclerBinder.insertItemAt(i, componentInfoBuilder.build());
-        }
-    }
-
-
-
+  }
 }
