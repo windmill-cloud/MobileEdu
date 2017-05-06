@@ -11,23 +11,17 @@ package edu.ucsb.cs.cs190i.lithoplay;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.widget.ImageView;
 
 import com.facebook.litho.ComponentContext;
 import com.facebook.litho.ComponentLayout;
-import com.facebook.litho.Output;
+
 import com.facebook.litho.Size;
 import com.facebook.litho.SizeSpec;
-import com.facebook.litho.annotations.FromPrepare;
 import com.facebook.litho.annotations.MountSpec;
 import com.facebook.litho.annotations.OnCreateMountContent;
 import com.facebook.litho.annotations.OnMeasure;
 import com.facebook.litho.annotations.OnMount;
-import com.facebook.litho.annotations.OnPrepare;
-import com.facebook.litho.annotations.OnUnmount;
 import com.facebook.litho.annotations.Prop;
-import com.facebook.litho.utils.MeasureUtils;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 
 import java.io.IOException;
@@ -47,11 +41,6 @@ import static com.google.vr.cardboard.ThreadUtils.runOnUiThread;
 
 @MountSpec
 public class VrViewSpec {
-/*
-  @OnPrepare
-  static void onPrepare(ComponentContext context, @Prop String url, Output<String> uri) {
-    url.set(url);
-  }*/
 
   @OnMeasure
   static void onMeasure(ComponentContext c, ComponentLayout layout, int widthSpec, int heightSpec, Size size) {
@@ -68,6 +57,7 @@ public class VrViewSpec {
     } else {
       size.height = SizeSpec.getSize(heightSpec);
     }
+
   }
 
   @OnCreateMountContent
@@ -107,8 +97,6 @@ public class VrViewSpec {
 
           @Override
           public void onResponse(Call call, final Response response) throws IOException {
-            //String res = response.body().string();
-
             // Do something with the response
             InputStream inputStream = response.body().byteStream();
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
