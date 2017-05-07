@@ -19,17 +19,36 @@ import edu.ucsb.cs.cs190i.xuanwang.imagetagexplorer.models.ImageItem;
  * Created by xuanwang on 5/7/17.
  */
 
-public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>
+    implements View.OnClickListener {
+
   private List<ImageItem> content = new ArrayList<>();
   private Context mContext;
+  private OnRecyclerViewItemClickListener mOnItemClickListener = null;
+
+  /**
+   * Item click
+   */
+
+  //define Item click interface
+  public interface OnRecyclerViewItemClickListener {
+    void onItemClick(View view, int position);
+  }
+
+  @Override
+  public void onClick(View view) {
+    if (mOnItemClickListener != null) {
+      // get tag
+      mOnItemClickListener.onItemClick(view, (int) view.getTag());
+    }
+  }
+
+  public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
+    this.mOnItemClickListener = listener;
+  }
 
   public ImageAdapter(Context context){
     mContext = context;
-  }
-
-  public void addContent(ImageItem image){
-    content.add(image);
-    this.notifyDataSetChanged();
   }
 
   public void clearContent(){
@@ -38,8 +57,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
   }
 
   public void setContent(List<ImageItem> list){
-    content.clear();
-    content.addAll(list);
+    content = list;
     this.notifyDataSetChanged();
   }
 
@@ -53,6 +71,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
   @Override
   public void onBindViewHolder(ImageAdapter.ViewHolder holder, int position) {
+    holder.pic.setTag(position);
+    holder.pic.setOnClickListener(this);
+
     ImageItem item = content.get(position);
     String path = item.getPath();
     File file = new File(path);

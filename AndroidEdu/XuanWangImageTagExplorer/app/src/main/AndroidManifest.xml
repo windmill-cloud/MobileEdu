@@ -19,7 +19,9 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
         <activity android:name=".MainActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden">
+            android:configChanges="orientation|screenSize|keyboardHidden"
+                  android:windowSoftInputMode="adjustResize|stateHidden"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

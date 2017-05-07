@@ -169,7 +169,7 @@ public class ImageTagDatabaseHelper extends SQLiteOpenHelper {
     return res;
   }
 
-  String[] getTagsFromDb(){
+  String[] getAllTagsFromDb(){
     int i = 0;
     SQLiteDatabase db = getWritableDatabase();
 
@@ -191,6 +191,8 @@ public class ImageTagDatabaseHelper extends SQLiteOpenHelper {
 
     return res;
   }
+
+
 /*
   // Getting single contact
   public Contact getContact(int id) {}

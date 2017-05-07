@@ -1,25 +1,20 @@
 package edu.ucsb.cs.cs190i.xuanwang.imagetagexplorer;
 
 import android.Manifest;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.ParcelFileDescriptor;
-import android.provider.ContactsContract;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.CursorLoader;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -27,17 +22,11 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
 import java.io.File;
-import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -45,7 +34,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
@@ -61,7 +49,9 @@ import permissions.dispatcher.RuntimePermissions;
 public class MainActivity extends AppCompatActivity {
   String mCurrentPhotoPath;
   List<ImageItem> imageList = new ArrayList<>();
+
   ImageAdapter imageAdapter;
+  TagAdapter tagAdapter;
 
   @BindView(R.id.main_rv)
   RecyclerView imageRecycler;
@@ -69,7 +59,13 @@ public class MainActivity extends AppCompatActivity {
   @BindView(R.id.text_tag_search)
   AutoCompleteTextView searchView;
 
+  @BindView(R.id.tag_rv)
+  RecyclerView tagRecycler;
+
   Set<String> tagSet = new HashSet<>();
+  Set<String> searchTagSet = new HashSet<>();
+  List<String> searchTagList = new ArrayList<>();
+
   String[] tags;
 
   @Override
@@ -89,7 +85,65 @@ public class MainActivity extends AppCompatActivity {
     imageRecycler.setHasFixedSize(true);
 
     List<ImageItem> list = ImageTagDatabaseHelper.getInstance().getImagesFromDb();
-    imageAdapter.setContent(list);
+    imageList.addAll(list);
+    imageAdapter.setContent(imageList);
+
+    imageAdapter.setOnItemClickListener(new ImageAdapter.OnRecyclerViewItemClickListener() {
+      @Override
+      public void onItemClick(View view, int position) {
+        Toast.makeText(MainActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
+        // TODO: start dialog
+        showEditDialog(imageList.get(position));
+      }
+    });
+
+    tagAdapter = new TagAdapter(this);
+    tagRecycler.setAdapter(tagAdapter);
+    LinearLayoutManager layoutManager
+        = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+    tagRecycler.setLayoutManager(layoutManager);
+    tagAdapter.setOnItemClickListener(new TagAdapter.OnRecyclerViewItemClickListener() {
+      @Override
+      public void onItemClick(View view, int position) {
+        String tag = searchTagList.get(position);
+        searchTagSet.remove(tag);
+        searchTagList.remove(position);
+        tagAdapter.setData(searchTagList);
+        // TODO: refresh search
+      }
+    });
+
+    tags = ImageTagDatabaseHelper.getInstance().getAllTagsFromDb();
+    for(String tag :tags){
+      tagSet.add(tag);
+    }
+    ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+        android.R.layout.simple_list_item_1, tags);
+
+    searchView.setAdapter(adapter);
+    searchView.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        if(tagSet.contains(charSequence.toString())){
+          Toast.makeText(MainActivity.this, charSequence, Toast.LENGTH_SHORT).show();
+          searchTagSet.add(charSequence.toString());
+          searchTagList = new ArrayList<>(searchTagSet);
+          tagAdapter.setData(searchTagList);
+
+          // TODO: perform search
+        }
+      }
+
+      @Override
+      public void afterTextChanged(Editable editable) {
+
+      }
+    });
 
     toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
       @Override
@@ -106,34 +160,6 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-    tags = ImageTagDatabaseHelper.getInstance().getTagsFromDb();
-    for(String tag :tags){
-      tagSet.add(tag);
-
-    }
-    ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-        android.R.layout.simple_list_item_1, tags);
-
-    searchView.setAdapter(adapter);
-    searchView.addTextChangedListener(new TextWatcher() {
-      @Override
-      public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-      }
-
-      @Override
-      public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        if(tagSet.contains(charSequence.toString())){
-          Toast.makeText(MainActivity.this, charSequence, Toast.LENGTH_SHORT).show();
-          // TODO: perform search
-        }
-      }
-
-      @Override
-      public void afterTextChanged(Editable editable) {
-
-      }
-    });
   }
 
   @Override
@@ -176,7 +202,8 @@ public class MainActivity extends AppCompatActivity {
                   //MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
                   //new File(getExternalFilesDir(null), "ImageTagExplorer-ed1350b7-ebf7-44bd-8923-33bfe90d0ba5.jpg").exists()
                   ImageTagDatabaseHelper.getInstance().addTaggedImage(imgItem, image.tags);
-                  imageAdapter.addContent(imgItem);
+                  imageList.add(imgItem);
+                  imageAdapter.notifyDataSetChanged();
 
                 } catch (Exception e) {
                   e.printStackTrace();
@@ -310,6 +337,12 @@ public class MainActivity extends AppCompatActivity {
   private void showEditDialog(Uri uri) {
     FragmentManager fm = getSupportFragmentManager();
     EditTagFragment editTagFragment = EditTagFragment.newInstance(uri);
+    fm.beginTransaction().add(editTagFragment, "fragment_edit_name").commitAllowingStateLoss();
+  }
+
+  private void showEditDialog(ImageItem imageItem) {
+    FragmentManager fm = getSupportFragmentManager();
+    EditTagFragment editTagFragment = EditTagFragment.newInstance(imageItem);
     fm.beginTransaction().add(editTagFragment, "fragment_edit_name").commitAllowingStateLoss();
   }
 
