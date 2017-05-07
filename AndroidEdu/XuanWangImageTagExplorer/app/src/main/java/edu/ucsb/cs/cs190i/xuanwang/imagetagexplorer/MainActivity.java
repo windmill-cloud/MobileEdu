@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
+import android.provider.ContactsContract;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
@@ -18,10 +19,17 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,12 +41,18 @@ import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.ucsb.cs.cs190i.xuanwang.imagetagexplorer.models.ImageItem;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnPermissionDenied;
 import permissions.dispatcher.RuntimePermissions;
@@ -46,6 +60,17 @@ import permissions.dispatcher.RuntimePermissions;
 @RuntimePermissions
 public class MainActivity extends AppCompatActivity {
   String mCurrentPhotoPath;
+  List<ImageItem> imageList = new ArrayList<>();
+  ImageAdapter imageAdapter;
+
+  @BindView(R.id.main_rv)
+  RecyclerView imageRecycler;
+
+  @BindView(R.id.text_tag_search)
+  AutoCompleteTextView searchView;
+
+  Set<String> tagSet = new HashSet<>();
+  String[] tags;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +80,16 @@ public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
-    ImageView iv = (ImageView) findViewById(R.id.test_image);
 
-    Picasso.with(this).load("file:///storage/emulated/0/Android/data/edu.ucsb.cs.cs190i.xuanwang.imagetagexplorer/files/ImageTagExplorer-b3227278-b733-4826-b069-e6d3e511a937.jpg").into(iv);
+    ImageTagDatabaseHelper.initialize(this);
+
+    imageAdapter = new ImageAdapter(this);
+    imageRecycler.setLayoutManager(new GridLayoutManager(this, 2));
+    imageRecycler.setAdapter(imageAdapter);
+    imageRecycler.setHasFixedSize(true);
+
+    List<ImageItem> list = ImageTagDatabaseHelper.getInstance().getImagesFromDb();
+    imageAdapter.setContent(list);
 
     toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
       @Override
@@ -74,9 +106,41 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-    ImageTagDatabaseHelper.initialize(this);
+    tags = ImageTagDatabaseHelper.getInstance().getTagsFromDb();
+    for(String tag :tags){
+      tagSet.add(tag);
+
+    }
+    ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+        android.R.layout.simple_list_item_1, tags);
+
+    searchView.setAdapter(adapter);
+    searchView.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        if(tagSet.contains(charSequence.toString())){
+          Toast.makeText(MainActivity.this, charSequence, Toast.LENGTH_SHORT).show();
+          // TODO: perform search
+        }
+      }
+
+      @Override
+      public void afterTextChanged(Editable editable) {
+
+      }
+    });
   }
 
+  @Override
+  protected void onResume() {
+    super.onResume();
+    imageAdapter.notifyDataSetChanged();
+  }
 
   @NeedsPermission({
       Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -105,22 +169,18 @@ public class MainActivity extends AppCompatActivity {
                   out.flush();
                   out.close();
                   image.image.recycle();
-                  image.uri = Uri.fromFile(file);
+
+                  ImageItem imgItem = new ImageItem(
+                      UUID.randomUUID().toString(),
+                      Uri.fromFile(file).toString());
                   //MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
                   //new File(getExternalFilesDir(null), "ImageTagExplorer-ed1350b7-ebf7-44bd-8923-33bfe90d0ba5.jpg").exists()
+                  ImageTagDatabaseHelper.getInstance().addTaggedImage(imgItem, image.tags);
+                  imageAdapter.addContent(imgItem);
 
                 } catch (Exception e) {
                   e.printStackTrace();
                 }
-
-                ImageTagDatabaseHelper.getInstance().addTaggedImage(image);
-
-/*
-                StringBuilder tagList = new StringBuilder();
-                for (String p : image.tags) {
-                  tagList.append(p + "\n");
-                }*/
-                //textView.setText(textView.getText() + "\n\n" + tagList.toString());
               }
             }
           });
@@ -137,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
     for (File file : picsDir.listFiles()) {
       file.delete();
     }
+    imageAdapter.clearContent();
   }
 
   @Override
@@ -294,4 +355,5 @@ public class MainActivity extends AppCompatActivity {
     cursor.close();
     return filePath;
   }
+
 }

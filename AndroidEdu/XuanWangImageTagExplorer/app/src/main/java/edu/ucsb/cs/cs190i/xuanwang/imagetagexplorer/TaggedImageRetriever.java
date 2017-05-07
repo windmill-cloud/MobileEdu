@@ -54,7 +54,6 @@ public class TaggedImageRetriever {
     static class TaggedImage {
         public Bitmap image;
         public ArrayList<String> tags;
-        public Uri uri;
 
         public TaggedImage(Bitmap i, ArrayList<String> t) {
             image = i;

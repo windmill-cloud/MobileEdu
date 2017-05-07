@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import edu.ucsb.cs.cs190i.xuanwang.imagetagexplorer.models.ImageItem;
+
 /**
  * Created by Samuel on 5/2/2017.
  */
@@ -91,17 +93,16 @@ public class ImageTagDatabaseHelper extends SQLiteOpenHelper {
   }
 
   // Adding new contact
-  public void addTaggedImage(TaggedImageRetriever.TaggedImage taggedImage) {
+  void addTaggedImage(ImageItem imageItem, List<String> tags) {
     SQLiteDatabase db = getWritableDatabase();
 
     ContentValues imageContent = new ContentValues();
-    imageContent.put(URI, taggedImage.uri.toString());
-    String uuid = UUID.randomUUID().toString();
-    imageContent.put(IMAGE_ID, uuid);
+    imageContent.put(URI, imageItem.getPath());
+    imageContent.put(IMAGE_ID, imageItem.getId());
 
     db.insert(TABLE_IMAGE, null, imageContent);
 
-    for(String tag: taggedImage.tags){
+    for(String tag: tags){
 
       //Cursor cursor = db.query(TABLE_TAG, new String[] { TAG_ID }, TAG + "=" + "'" + tag + "'", null, null, null, null);
       Cursor cursor = db.query(TABLE_TAG, new String[] { TAG_ID }, TAG + "=" + "'" + tag + "'", null, null, null, null);
@@ -112,7 +113,7 @@ public class ImageTagDatabaseHelper extends SQLiteOpenHelper {
             cursor.getColumnIndex(TAG_ID));
 
         ContentValues link = new ContentValues();
-        link.put(LINK_IMAGE_ID, uuid);
+        link.put(LINK_IMAGE_ID, imageItem.getId());
         link.put(LINK_TAG_ID, tagId);
         db.insert(TABLE_LINK, null, link);
 
@@ -126,7 +127,7 @@ public class ImageTagDatabaseHelper extends SQLiteOpenHelper {
 
         // insert into link table
         ContentValues linkContent = new ContentValues();
-        linkContent.put(LINK_IMAGE_ID, uuid);
+        linkContent.put(LINK_IMAGE_ID, imageItem.getId());
         linkContent.put(LINK_TAG_ID, tagId);
         db.insert(TABLE_LINK, null, linkContent);
       }
@@ -137,7 +138,7 @@ public class ImageTagDatabaseHelper extends SQLiteOpenHelper {
     db.close(); // Closing database connection
   }
 
-  public void clearDatabase(){
+  void clearDatabase(){
     SQLiteDatabase db = getWritableDatabase();
 
     db.execSQL("DELETE FROM " + TABLE_IMAGE);
@@ -145,6 +146,50 @@ public class ImageTagDatabaseHelper extends SQLiteOpenHelper {
     db.execSQL("DELETE FROM " + TABLE_TAG);
 
     db.close(); // Closing database connection
+  }
+
+  List<ImageItem> getImagesFromDb(){
+    List<ImageItem> res = new ArrayList<>();
+
+    SQLiteDatabase db = getWritableDatabase();
+
+         //Cursor cursor = db.query(TABLE_TAG, new String[] { TAG_ID }, TAG + "=" + "'" + tag + "'", null, null, null, null);
+    Cursor cursor = db.query(TABLE_IMAGE, new String[] { IMAGE_ID, URI },  null, null, null, null, null);
+    if (cursor.getCount() > 0) { // the tag exists
+      while (cursor.moveToNext()) {
+        String imageId = cursor.getString(cursor.getColumnIndex(IMAGE_ID));
+        String uri = cursor.getString(cursor.getColumnIndex(URI));
+        res.add(new ImageItem(imageId, uri));
+      }
+    }
+    cursor.close();
+
+    db.close(); // Closing database connection
+
+    return res;
+  }
+
+  String[] getTagsFromDb(){
+    int i = 0;
+    SQLiteDatabase db = getWritableDatabase();
+
+    //Cursor cursor = db.query(TABLE_TAG, new String[] { TAG_ID }, TAG + "=" + "'" + tag + "'", null, null, null, null);
+    Cursor cursor = db.query(TABLE_TAG, new String[] { TAG },  null, null, null, null, null);
+    i = cursor.getCount();
+
+    String[] res = new String[i];
+    if (cursor.getCount() > 0) { // the tag exists
+      int count = 0;
+      while (cursor.moveToNext()) {
+        String tag = cursor.getString(cursor.getColumnIndex(TAG));
+        res[count++] = tag;
+      }
+    }
+    cursor.close();
+
+    db.close(); // Closing database connection
+
+    return res;
   }
 /*
   // Getting single contact
