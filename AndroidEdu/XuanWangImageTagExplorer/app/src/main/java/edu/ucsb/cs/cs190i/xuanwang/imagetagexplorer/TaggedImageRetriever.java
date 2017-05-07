@@ -6,6 +6,7 @@ package edu.ucsb.cs.cs190i.xuanwang.imagetagexplorer;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
@@ -53,6 +54,7 @@ public class TaggedImageRetriever {
     static class TaggedImage {
         public Bitmap image;
         public ArrayList<String> tags;
+        public Uri uri;
 
         public TaggedImage(Bitmap i, ArrayList<String> t) {
             image = i;
