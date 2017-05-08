@@ -8,10 +8,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import edu.ucsb.cs.cs190i.xuanwang.imagetagexplorer.models.ImageItem;
+import edu.ucsb.cs.cs190i.xuanwang.imagetagexplorer.models.TagWithId;
 
 /**
  * Created by Samuel on 5/2/2017.
@@ -183,6 +186,50 @@ public class ImageTagDatabaseHelper extends SQLiteOpenHelper {
       while (cursor.moveToNext()) {
         String tag = cursor.getString(cursor.getColumnIndex(TAG));
         res[count++] = tag;
+      }
+    }
+    cursor.close();
+
+    db.close(); // Closing database connection
+
+    return res;
+  }
+
+  List<TagWithId> getTagsByImageId(String imageId){
+    List<TagWithId> res = new ArrayList<>();
+    SQLiteDatabase db = getWritableDatabase();
+
+    Cursor cursor =
+        db.rawQuery("SELECT Id, Text FROM Tag JOIN Link ON Tag.Id = Link.TagId AND Link.ImageId = '"
+                    + imageId + "'", null);
+
+    if (cursor.getCount() > 0) { // the tag exists
+      int count = 0;
+      while (cursor.moveToNext()) {
+        String id = cursor.getString(cursor.getColumnIndex(TAG_ID));
+        String tag = cursor.getString(cursor.getColumnIndex(TAG));
+        TagWithId twi = new TagWithId(id, tag);
+        res.add(twi);
+      }
+    }
+    cursor.close();
+
+    db.close(); // Closing database connection
+
+    return res;
+  }
+
+  Map<String, String> getTagsIdMap(){
+    Map<String, String> res = new HashMap<>();
+
+    SQLiteDatabase db = getWritableDatabase();
+
+    Cursor cursor = db.query(TABLE_TAG, new String[] { TAG_ID, TAG },  null, null, null, null, null);
+    if (cursor.getCount() > 0) { // the tag exists
+      while (cursor.moveToNext()) {
+        String tagId = cursor.getString(cursor.getColumnIndex(TAG_ID));
+        String tag = cursor.getString(cursor.getColumnIndex(TAG));
+        res.put(tag, tagId);
       }
     }
     cursor.close();

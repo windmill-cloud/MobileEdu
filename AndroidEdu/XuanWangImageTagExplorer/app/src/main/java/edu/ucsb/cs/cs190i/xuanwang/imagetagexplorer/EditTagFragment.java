@@ -21,17 +21,21 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.ucsb.cs.cs190i.xuanwang.imagetagexplorer.models.EditTagTracker;
 import edu.ucsb.cs.cs190i.xuanwang.imagetagexplorer.models.ImageItem;
-
+import edu.ucsb.cs.cs190i.xuanwang.imagetagexplorer.models.TagWithId;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,6 +58,8 @@ public class EditTagFragment extends DialogFragment {
 
   Set<String> tagSet = new HashSet<>();
   List<String> tagList = new ArrayList<>();
+  Map<String, EditTagTracker> editTagTracker = new HashMap<>();
+  Map<String, String> tagIdMap = new HashMap<>();
 
   public EditTagFragment() {
     // Required empty public constructor
@@ -95,9 +101,10 @@ public class EditTagFragment extends DialogFragment {
     Uri uri = getArguments().getParcelable("uri");
     Picasso.with(getContext()).load(uri).resize(700, 700).centerCrop().into(mImageView);
 
-    final String[] tags = ImageTagDatabaseHelper.getInstance().getAllTagsFromDb();
+    //final String[] tags = ImageTagDatabaseHelper.getInstance().getAllTagsFromDb();
+
     ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
-        android.R.layout.simple_list_item_1, tags);
+        android.R.layout.simple_list_item_1, ((MainActivity)getActivity()).tags);
     editTag.setAdapter(adapter);
 
     tagAdapter = new TagAdapter(getContext());
@@ -112,14 +119,71 @@ public class EditTagFragment extends DialogFragment {
         tagSet.remove(tag);
         tagList.remove(position);
         tagAdapter.setData(tagList);
+        EditTagTracker ett = editTagTracker.get(tag);
+        switch (ett.getType()){
+          case EditTagTracker.NEW:
+            editTagTracker.remove(tag);
+            break;
+          case EditTagTracker.OLD:
+            ett.setType(EditTagTracker.DELETE);
+            editTagTracker.put(tag, ett);
+            break;
+        }
       }
     });
+
+    editTag.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        String tag = charSequence.toString();
+        if(((MainActivity)getActivity()).tagSet.contains(tag) &&
+            !tagSet.contains(tag)){
+          tagSet.add(charSequence.toString());
+          tagList = new ArrayList<>(tagSet);
+          tagAdapter.setData(tagList);
+
+          String id = UUID.randomUUID().toString();
+          if(tagIdMap.containsKey(tag)){
+            id = tagIdMap.get(tag);
+          }
+
+          editTagTracker.put(
+              tag,
+              new EditTagTracker(
+                  id,
+                  EditTagTracker.NEW
+              )
+          );
+          editTag.getText().clear();
+        }
+      }
+
+      @Override
+      public void afterTextChanged(Editable editable) {
+
+      }
+    });
+
+    tagIdMap = ImageTagDatabaseHelper.getInstance().getTagsIdMap();
 
     switch (type){
       case NEW_ENTRY:
         break;
       case EDIT_ENTRY:
         String imageId = getArguments().getString("id");
+        List<TagWithId> twis = ImageTagDatabaseHelper.getInstance().getTagsByImageId(imageId);
+
+        for(TagWithId twi: twis) {
+          String tag = twi.getTag();
+          tagSet.add(tag);
+          editTagTracker.put(tag, new EditTagTracker(twi.getId(), EditTagTracker.OLD));
+        }
+        tagList = new ArrayList<>(tagSet);
         break;
     }
 
@@ -135,6 +199,18 @@ public class EditTagFragment extends DialogFragment {
 
     if(!m.find()){
       tagSet.add(tag);
+      String id = UUID.randomUUID().toString();
+      if(tagIdMap.containsKey(tag)){
+        tagIdMap.get(tag);
+      }
+
+      editTagTracker.put(
+          tag,
+          new EditTagTracker(
+              id,
+              EditTagTracker.NEW
+          )
+      );
       tagList = new ArrayList<>(tagSet);
       tagAdapter.setData(tagList);
       editTag.getText().clear();
