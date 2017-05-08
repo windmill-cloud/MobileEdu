@@ -204,10 +204,6 @@ public class EditTagFragment extends DialogFragment {
         postButton.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
-            //String path = MainActivity.getRealPathFromURI(getActivity(), path);
-            //File f = new File(path);
-            //Uri absoluteUri = Uri.fromFile(f);
-
             ImageItem newImageItem = new ImageItem(UUID.randomUUID().toString(), path);
             ImageTagDatabaseHelper.getInstance().addTaggedImage(newImageItem, tagList);
             MainActivity ma = (MainActivity) getActivity();
@@ -223,7 +219,7 @@ public class EditTagFragment extends DialogFragment {
         });
         break;
       case EDIT_ENTRY:
-        String imageId = getArguments().getString("id");
+        final String imageId = getArguments().getString("id");
         List<TagWithId> twis = ImageTagDatabaseHelper.getInstance().getTagsByImageId(imageId);
 
         for(TagWithId twi: twis) {
@@ -235,14 +231,35 @@ public class EditTagFragment extends DialogFragment {
         postButton.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
+            ImageTagDatabaseHelper.getInstance()
+                .updateImageTags(imageId, editTagTracker);
+
             dismiss();
           }
         });
         break;
       case CAMERA:
+        Uri uri = getArguments().getParcelable("uri");
+        final String path = uri.getPath();
         postButton.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
+            ImageItem newImageItem = new ImageItem(
+                UUID.randomUUID().toString(),
+                path);
+            ImageTagDatabaseHelper.getInstance()
+                .addTaggedImage(
+                    newImageItem,
+                    tagList
+                );
+            MainActivity ma = (MainActivity) getActivity();
+            ma.tags = ImageTagDatabaseHelper.getInstance().getAllTagsFromDb();
+            ma.tagSet.clear();
+            for(String tag :ma.tags){
+              tagSet.add(tag);
+            }
+            ma.imageList.add(newImageItem);
+            ma.imageAdapter.notifyDataSetChanged();
             dismiss();
           }
         });

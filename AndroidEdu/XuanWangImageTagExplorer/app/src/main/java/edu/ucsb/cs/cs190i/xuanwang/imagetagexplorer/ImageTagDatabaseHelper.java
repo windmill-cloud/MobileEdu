@@ -14,8 +14,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import edu.ucsb.cs.cs190i.xuanwang.imagetagexplorer.models.EditTagTracker;
 import edu.ucsb.cs.cs190i.xuanwang.imagetagexplorer.models.ImageItem;
 import edu.ucsb.cs.cs190i.xuanwang.imagetagexplorer.models.TagWithId;
+
+import static edu.ucsb.cs.cs190i.xuanwang.imagetagexplorer.models.EditTagTracker.DELETE;
+import static edu.ucsb.cs.cs190i.xuanwang.imagetagexplorer.models.EditTagTracker.NEW;
+import static edu.ucsb.cs.cs190i.xuanwang.imagetagexplorer.models.EditTagTracker.OLD;
 
 /**
  * Created by Samuel on 5/2/2017.
@@ -108,8 +113,8 @@ public class ImageTagDatabaseHelper extends SQLiteOpenHelper {
 
     for(String tag: tags){
 
-      //Cursor cursor = db.query(TABLE_TAG, new String[] { TAG_ID }, TAG + "=" + "'" + tag + "'", null, null, null, null);
-      Cursor cursor = db.query(TABLE_TAG, new String[] { TAG_ID }, TAG + "=" + "'" + tag + "'", null, null, null, null);
+      Cursor cursor = db.query(TABLE_TAG, new String[] { TAG_ID },
+          TAG + "=" + "'" + tag + "'", null, null, null, null);
 
       if (cursor.getCount() > 0) { // the tag exists
         cursor.moveToFirst();
@@ -157,7 +162,6 @@ public class ImageTagDatabaseHelper extends SQLiteOpenHelper {
 
     SQLiteDatabase db = getWritableDatabase();
 
-         //Cursor cursor = db.query(TABLE_TAG, new String[] { TAG_ID }, TAG + "=" + "'" + tag + "'", null, null, null, null);
     Cursor cursor = db.query(TABLE_IMAGE, new String[] { IMAGE_ID, URI },  null, null, null, null, null);
     if (cursor.getCount() > 0) { // the tag exists
       while (cursor.moveToNext()) {
@@ -295,6 +299,61 @@ public class ImageTagDatabaseHelper extends SQLiteOpenHelper {
     }
 
     return res;
+  }
+
+  void updateImageTags(String imageId, Map<String, EditTagTracker> editTagTracker){
+    SQLiteDatabase db = getWritableDatabase();
+
+    for(Map.Entry<String, EditTagTracker> e: editTagTracker.entrySet()){
+      String tag = e.getKey();
+      EditTagTracker ett = e.getValue();
+
+      switch (ett.getType()){
+        case NEW:{
+          Cursor cursor =
+              db.rawQuery("SELECT Id, Text FROM Tag WHERE Text = '" + tag + "'", null);
+
+          if(cursor.getCount() == 0){
+            // no record found
+
+            // insert into tag table
+            ContentValues cv = new ContentValues();
+            cv.put(TAG_ID, ett.getId());
+            cv.put(TAG, tag);
+            db.insert(TABLE_TAG, null, cv);
+
+            // insert into link table
+            ContentValues lcv = new ContentValues();
+            lcv.put(LINK_IMAGE_ID, imageId);
+            lcv.put(LINK_TAG_ID, ett.getId());
+            db.insert(TABLE_LINK, null, lcv);
+          }
+
+          cursor.close();
+          break;
+        }
+        case OLD:
+          // Do nothing
+          break;
+        case DELETE:
+
+          Cursor cursor =
+              db.rawQuery("SELECT ImageId, TagId FROM Link WHERE TagId = '" + ett.getId() + "'", null);
+
+          if(cursor.getCount() == 1){
+            // one record, this tag only associates with this image
+            db.delete(TABLE_LINK, "ImageId = '" + imageId + "' AND TagId = '" + ett.getId() + "'", null);
+            db.delete(TABLE_TAG, "Id = '" + ett.getId() + "'", null);
+          } else {
+            // multiple links, only delete current link
+            db.delete(TABLE_LINK, "ImageId = '" + imageId + "' AND TagId = '" + ett.getId() + "'", null);
+          }
+
+          cursor.close();
+          break;
+      }
+    }
+    db.close();
   }
 
 }
