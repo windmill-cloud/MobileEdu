@@ -15,11 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -44,6 +46,8 @@ public class EditTagFragment extends DialogFragment {
 
   public static final int NEW_ENTRY = 0;
   public static final int EDIT_ENTRY = 1;
+  public static final int CAMERA = 2;
+  String path;
 
   @BindView(R.id.image_dialog)
   ImageView mImageView;
@@ -53,6 +57,9 @@ public class EditTagFragment extends DialogFragment {
 
   @BindView(R.id.tag_rv)
   RecyclerView tagRecycler;
+
+  @BindView(R.id.button_post)
+  Button postButton;
 
   TagAdapter tagAdapter;
 
@@ -65,10 +72,19 @@ public class EditTagFragment extends DialogFragment {
     // Required empty public constructor
   }
 
-  public static EditTagFragment newInstance(Uri uri) {
+  public static EditTagFragment newInstance(String path) {
     EditTagFragment frag = new EditTagFragment();
     Bundle args = new Bundle();
     args.putInt("type", NEW_ENTRY);
+    args.putString("uri", path);
+    frag.setArguments(args);
+    return frag;
+  }
+
+  public static EditTagFragment newInstance(Uri uri) {
+    EditTagFragment frag = new EditTagFragment();
+    Bundle args = new Bundle();
+    args.putInt("type", CAMERA);
     args.putParcelable("uri", uri);
     frag.setArguments(args);
     return frag;
@@ -78,7 +94,7 @@ public class EditTagFragment extends DialogFragment {
     EditTagFragment frag = new EditTagFragment();
     Bundle args = new Bundle();
     args.putInt("type", EDIT_ENTRY);
-    args.putParcelable("uri", Uri.parse(imgItem.getPath()));
+    args.putString("uri", imgItem.getPath());
     args.putString("id", imgItem.getId());
     frag.setArguments(args);
     return frag;
@@ -98,9 +114,21 @@ public class EditTagFragment extends DialogFragment {
     super.onViewCreated(view, savedInstanceState);
 
     int type = getArguments().getInt("type");
-    Uri uri = getArguments().getParcelable("uri");
-    Picasso.with(getContext()).load(uri).resize(700, 700).centerCrop().into(mImageView);
+    if(type != CAMERA) {
+      path = getArguments().getString("uri");
 
+      File file = new File(path);
+      if(!file.exists()){
+        String[] segments = path.split("/");
+        String fileName = segments[segments.length - 1];
+        file = new File(getActivity().getExternalFilesDir(null), fileName);
+      }
+
+      Picasso.with(getContext()).load(file).resize(700, 700).centerCrop().into(mImageView);
+    }else {
+      Uri uri = getArguments().getParcelable("uri");
+      Picasso.with(getContext()).load(uri).resize(700, 700).centerCrop().into(mImageView);
+    }
     //final String[] tags = ImageTagDatabaseHelper.getInstance().getAllTagsFromDb();
 
     ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
@@ -173,6 +201,26 @@ public class EditTagFragment extends DialogFragment {
 
     switch (type){
       case NEW_ENTRY:
+        postButton.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+            //String path = MainActivity.getRealPathFromURI(getActivity(), path);
+            //File f = new File(path);
+            //Uri absoluteUri = Uri.fromFile(f);
+
+            ImageItem newImageItem = new ImageItem(UUID.randomUUID().toString(), path);
+            ImageTagDatabaseHelper.getInstance().addTaggedImage(newImageItem, tagList);
+            MainActivity ma = (MainActivity) getActivity();
+            ma.tags = ImageTagDatabaseHelper.getInstance().getAllTagsFromDb();
+            ma.tagSet.clear();
+            for(String tag :ma.tags){
+              tagSet.add(tag);
+            }
+            ma.imageList.add(newImageItem);
+            ma.imageAdapter.notifyDataSetChanged();
+            dismiss();
+          }
+        });
         break;
       case EDIT_ENTRY:
         String imageId = getArguments().getString("id");
@@ -184,6 +232,20 @@ public class EditTagFragment extends DialogFragment {
           editTagTracker.put(tag, new EditTagTracker(twi.getId(), EditTagTracker.OLD));
         }
         tagList = new ArrayList<>(tagSet);
+        postButton.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+            dismiss();
+          }
+        });
+        break;
+      case CAMERA:
+        postButton.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+            dismiss();
+          }
+        });
         break;
     }
 

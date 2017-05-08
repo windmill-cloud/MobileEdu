@@ -331,6 +331,7 @@ public class MainActivity extends AppCompatActivity {
     Uri contentUri = Uri.fromFile(f);
     mediaScanIntent.setData(contentUri);
     this.sendBroadcast(mediaScanIntent);
+    //String path = getRealPathFromURI(this, contentUri);
     showEditDialog(contentUri);
   }
 
@@ -343,6 +344,12 @@ public class MainActivity extends AppCompatActivity {
   private void showEditDialog(ImageItem imageItem) {
     FragmentManager fm = getSupportFragmentManager();
     EditTagFragment editTagFragment = EditTagFragment.newInstance(imageItem);
+    fm.beginTransaction().add(editTagFragment, "fragment_edit_name").commitAllowingStateLoss();
+  }
+
+  private void showEditDialog(String path) {
+    FragmentManager fm = getSupportFragmentManager();
+    EditTagFragment editTagFragment = EditTagFragment.newInstance(path);
     fm.beginTransaction().add(editTagFragment, "fragment_edit_name").commitAllowingStateLoss();
   }
 
@@ -359,7 +366,7 @@ public class MainActivity extends AppCompatActivity {
           String path = getRealPathFromURI(this, selectedImageUri);
           File f = new File(path);
           Uri uri = Uri.fromFile(f);
-          showEditDialog(uri);
+          showEditDialog(path);
           break;
       }
     }
