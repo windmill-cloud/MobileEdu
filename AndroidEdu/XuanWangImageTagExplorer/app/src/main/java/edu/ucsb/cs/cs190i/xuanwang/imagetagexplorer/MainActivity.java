@@ -110,6 +110,13 @@ public class MainActivity extends AppCompatActivity {
         searchTagList.remove(position);
         tagAdapter.setData(searchTagList);
         // TODO: refresh search
+
+        if(searchTagList.size() == 0){
+          imageList = ImageTagDatabaseHelper.getInstance().getImagesFromDb();
+        }else {
+          imageList = ImageTagDatabaseHelper.getInstance().searchByTags(searchTagList);
+        }
+        imageAdapter.setContent(imageList);
       }
     });
 
@@ -136,6 +143,8 @@ public class MainActivity extends AppCompatActivity {
           tagAdapter.setData(searchTagList);
 
           // TODO: perform search
+          imageList = ImageTagDatabaseHelper.getInstance().searchByTags(searchTagList);
+          imageAdapter.setContent(imageList);
         }
       }
 
@@ -325,7 +334,6 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void galleryAddPic() {
-    // TODO: dialog fragment
     Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
     File f = new File(mCurrentPhotoPath);
     Uri contentUri = Uri.fromFile(f);

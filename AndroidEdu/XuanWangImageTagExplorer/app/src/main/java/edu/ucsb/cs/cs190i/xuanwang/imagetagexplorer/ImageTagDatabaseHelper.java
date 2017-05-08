@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -200,8 +201,8 @@ public class ImageTagDatabaseHelper extends SQLiteOpenHelper {
     SQLiteDatabase db = getWritableDatabase();
 
     Cursor cursor =
-        db.rawQuery("SELECT Id, Text FROM Tag JOIN Link ON Tag.Id = Link.TagId AND Link.ImageId = '"
-                    + imageId + "'", null);
+        db.rawQuery("SELECT Id, Text FROM Tag WHERE Id IN (" +
+                      "SELECT TagId FROM Link WHERE ImageId = '" + imageId + "')", null);
 
     if (cursor.getCount() > 0) { // the tag exists
       int count = 0;
@@ -239,19 +240,61 @@ public class ImageTagDatabaseHelper extends SQLiteOpenHelper {
     return res;
   }
 
+  List<ImageItem> searchByTags(List<String> tags){
+    List<ImageItem> res = new ArrayList<>();
 
-/*
-  // Getting single contact
-  public Contact getContact(int id) {}
+    SQLiteDatabase db = getWritableDatabase();
+    List<List<String>> all = new ArrayList<>();
+    HashMap<String, String> idUriMap = new HashMap<>();
+    for(String tag: tags) {
+      List<String> tmp = new ArrayList<>();
+      Cursor cursor =
+          db.rawQuery("SELECT Id, Uri FROM Image WHERE Id IN (" +
+                        "SELECT ImageId FROM Link WHERE TagId IN (" +
+                        "SELECT Id FROM Tag WHERE Text = '" + tag + "'))", null);
+      if (cursor.getCount() > 0) { // the tag exists
+        while (cursor.moveToNext()) {
+          String id = cursor.getString(cursor.getColumnIndex(IMAGE_ID));
+          String uri = cursor.getString(cursor.getColumnIndex(URI));
+          tmp.add(id);
+          idUriMap.put(id, uri);
+        }
+        all.add(tmp);
+      }
+      cursor.close();
+    }
 
-  // Getting All Contacts
-  public List<Contact> getAllContacts() {}
+    List<String> intersection = all.get(0);
+    for(int i = 1; i < all.size(); i++){
+      intersection = findIntersection(intersection, all.get(i));
+    }
 
-  // Getting contacts Count
-  public int getContactsCount() {}
-  // Updating single contact
-  public int updateContact(Contact contact) {}
+    for(int i = 0; i < intersection.size(); i++) {
+      String id = intersection.get(i);
+      res.add(new ImageItem(id, idUriMap.get(id)));
+    }
 
-  // Deleting single contact
-  public void deleteContact(Contact contact) {}*/
+    db.close(); // Closing database connection
+
+    return res;
+  }
+
+  List<String> findIntersection(List<String> l1, List<String> l2){
+    HashSet<String> set = new HashSet<>();
+    List<String> res = new ArrayList<>();
+    //Add all elements to set from array 1
+    for(int i =0; i< l1.size(); i++) {
+      set.add(l1.get(i));
+    }
+    for(int j = 0; j < l2.size(); j++) {
+      // If present in array 2 then add to res and remove from set
+      if(set.contains(l2.get(j))) {
+        res.add(l2.get(j));
+        set.remove(l2.get(j));
+      }
+    }
+
+    return res;
+  }
+
 }
