@@ -1,0 +1,3 @@
+rootProject.name = 'Monimenta'
+
+include ':app'
