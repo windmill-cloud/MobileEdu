@@ -5,6 +5,9 @@ import React, { Component } from 'react';
 import { Card, CardSection, Input, Button } from './common';
 
 class LoginForm extends Component {
+    static navigationOptions = {
+        title: 'Login',
+    };
     render() {
         return (
             <Card>

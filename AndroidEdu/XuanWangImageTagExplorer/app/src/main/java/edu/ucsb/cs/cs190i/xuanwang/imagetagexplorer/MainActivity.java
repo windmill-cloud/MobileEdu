@@ -91,8 +91,6 @@ public class MainActivity extends AppCompatActivity {
     imageAdapter.setOnItemClickListener(new ImageAdapter.OnRecyclerViewItemClickListener() {
       @Override
       public void onItemClick(View view, int position) {
-        Toast.makeText(MainActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
-        // TODO: start dialog
         showEditDialog(imageList.get(position));
       }
     });
@@ -109,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
         searchTagSet.remove(tag);
         searchTagList.remove(position);
         tagAdapter.setData(searchTagList);
-        // TODO: refresh search
 
         if(searchTagList.size() == 0){
           imageList = ImageTagDatabaseHelper.getInstance().getImagesFromDb();
@@ -120,14 +117,7 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-    tags = ImageTagDatabaseHelper.getInstance().getAllTagsFromDb();
-    for(String tag :tags){
-      tagSet.add(tag);
-    }
-    ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-        android.R.layout.simple_list_item_1, tags);
-
-    searchView.setAdapter(adapter);
+    setAutoComplete();
     searchView.addTextChangedListener(new TextWatcher() {
       @Override
       public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -137,12 +127,11 @@ public class MainActivity extends AppCompatActivity {
       @Override
       public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         if(tagSet.contains(charSequence.toString())){
-          Toast.makeText(MainActivity.this, charSequence, Toast.LENGTH_SHORT).show();
           searchTagSet.add(charSequence.toString());
           searchTagList = new ArrayList<>(searchTagSet);
           tagAdapter.setData(searchTagList);
 
-          // TODO: perform search
+          // perform search
           imageList = ImageTagDatabaseHelper.getInstance().searchByTags(searchTagList);
           imageAdapter.setContent(imageList);
         }
@@ -171,6 +160,16 @@ public class MainActivity extends AppCompatActivity {
 
   }
 
+  private void setAutoComplete() {
+    tags = ImageTagDatabaseHelper.getInstance().getAllTagsFromDb();
+    for(String tag :tags){
+      tagSet.add(tag);
+    }
+    ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+        android.R.layout.simple_list_item_1, tags);
+    searchView.setAdapter(adapter);
+  }
+
   @Override
   protected void onResume() {
     super.onResume();
@@ -185,7 +184,6 @@ public class MainActivity extends AppCompatActivity {
     TaggedImageRetriever.getNumImages(new TaggedImageRetriever.ImageNumResultListener() {
       @Override
       public void onImageNum(int num) {
-        //textView.setText(textView.getText() + "\n\n" + num);
         for (int i = 0; i < num; i++) {
           TaggedImageRetriever.getTaggedImageByIndex(i, new TaggedImageRetriever.TaggedImageResultListener() {
             @Override
@@ -208,9 +206,8 @@ public class MainActivity extends AppCompatActivity {
                   ImageItem imgItem = new ImageItem(
                       UUID.randomUUID().toString(),
                       Uri.fromFile(file).toString());
-                  //MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
-                  //new File(getExternalFilesDir(null), "ImageTagExplorer-ed1350b7-ebf7-44bd-8923-33bfe90d0ba5.jpg").exists()
                   ImageTagDatabaseHelper.getInstance().addTaggedImage(imgItem, image.tags);
+                  setAutoComplete();
                   imageList.add(imgItem);
                   imageAdapter.notifyDataSetChanged();
 
@@ -233,6 +230,9 @@ public class MainActivity extends AppCompatActivity {
     for (File file : picsDir.listFiles()) {
       file.delete();
     }
+    tagSet.clear();
+    searchTagSet.clear();
+    searchTagList.clear();
     imageAdapter.clearContent();
   }
 
@@ -339,7 +339,6 @@ public class MainActivity extends AppCompatActivity {
     Uri contentUri = Uri.fromFile(f);
     mediaScanIntent.setData(contentUri);
     this.sendBroadcast(mediaScanIntent);
-    //String path = getRealPathFromURI(this, contentUri);
     showEditDialog(contentUri);
   }
 
@@ -373,7 +372,6 @@ public class MainActivity extends AppCompatActivity {
           Uri selectedImageUri = data.getData();
           String path = getRealPathFromURI(this, selectedImageUri);
           File f = new File(path);
-          Uri uri = Uri.fromFile(f);
           showEditDialog(path);
           break;
       }
