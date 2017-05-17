@@ -134,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
           // perform search
           imageList = ImageTagDatabaseHelper.getInstance().searchByTags(searchTagList);
           imageAdapter.setContent(imageList);
+          searchView.setText("");
         }
       }
 
@@ -234,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
     searchTagSet.clear();
     searchTagList.clear();
     imageAdapter.clearContent();
+    tagAdapter.clearContent();
   }
 
   @Override

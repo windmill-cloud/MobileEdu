@@ -51,6 +51,11 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder>
     this.notifyDataSetChanged();
   }
 
+  public void clearContent(){
+    tags.clear();
+    this.notifyDataSetChanged();
+  }
+
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View itemView = LayoutInflater.from(parent.getContext())
