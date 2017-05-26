@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">DemoTTS</string>
+    <string name="title">DemoTTS</string>
+    <string name="title_action_detail">Action Detail</string>
+    <string-array name="actions">
+        <item>Speech-To-Text</item>
+        <item>Text-To-Speech</item>
+    </string-array>
+    <string name="speech_to_text_prompt">Tap button and wait for prompt, then speak!</string>
+
+</resources>

@@ -81,7 +81,7 @@ public class MapsActivity extends FragmentActivity implements
   private GoogleApiClient mGoogleApiClient;
   private LocationRequest mLocationRequest;
   private long UPDATE_INTERVAL = 60000;  /* 60 secs */
-  private long FASTEST_INTERVAL = 2000; /* 2 secs */
+  private long FASTEST_INTERVAL = 5000; /* 2 secs */
   private String markerId = "";
 
   private LatLng currLoc = new LatLng(34.412540, -119.848043);
