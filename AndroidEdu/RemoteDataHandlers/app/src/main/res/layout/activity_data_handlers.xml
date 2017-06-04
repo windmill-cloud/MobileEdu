@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Copyright (c) 2017 - present, Xuan Wang
+  ~  All rights reserved.
+  ~
+  ~  This source code is licensed under the BSD-style license found in the
+  ~  LICENSE file in the root directory of this source tree.
+  ~
+  -->
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.ucsb.cs.cs190i.xuanwang.remotedatahandlers.DataHandlersActivity">
+
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/button_get_likes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Get like numbers"
+            />
+
+            <Button
+                android:id="@+id/button_increase_likes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Increase like numbers"/>
+
+            <Button
+                android:id="@+id/button_get_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Get date"
+            />
+
+            <Button
+                android:id="@+id/button_set_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Set date"
+                />
+
+            <Button
+                android:id="@+id/button_get_all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Get All"
+                />
+
+            <Button
+                android:id="@+id/button_get_description_array"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Get description array"
+                />
+
+            <Button
+                android:id="@+id/button_set_description_array"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Set description array"
+                />
+
+            <Button
+                android:id="@+id/button_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Search"
+                />
+
+            <Button
+                android:id="@+id/button_get_sketch_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Get sketch url"
+                />
+
+            <Button
+                android:id="@+id/button_set_sketch_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Set sketch url"
+                />
+
+            <Button
+                android:id="@+id/button_get_image_array"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Get image array"
+                />
+
+            <Button
+                android:id="@+id/button_set_image_array"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Set image array"
+                />
+
+            <Button
+                android:id="@+id/button_get_user_posts_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Get user posts number"
+                />
+        </LinearLayout>
+    </ScrollView>
+
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,86 @@
+{
+  "project_info": {
+    "project_number": "499243320920",
+    "firebase_url": "https://newproject-720b7.firebaseio.com",
+    "project_id": "newproject-720b7",
+    "storage_bucket": "newproject-720b7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:499243320920:android:9df2abe7019c9997",
+        "android_client_info": {
+          "package_name": "edu.ucsb.cs.cs190i.papertown"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "499243320920-par8q2r90e27fe9t6h8ubu4g1m9o1asc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCf5O2Lf0d-ulk7O5nYPBTQi1h8hG3Kb1g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:499243320920:android:7d59a8c30aa8e12c",
+        "android_client_info": {
+          "package_name": "edu.ucsb.cs.cs190i.xuanwang.remotedatahandlers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "499243320920-854pcqk2vki2ahrdle6gskuahdc3epg9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.ucsb.cs.cs190i.xuanwang.remotedatahandlers",
+            "certificate_hash": "ce36d5a5c1c9019d05a239af093720a5423ace91"
+          }
+        },
+        {
+          "client_id": "499243320920-par8q2r90e27fe9t6h8ubu4g1m9o1asc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCf5O2Lf0d-ulk7O5nYPBTQi1h8hG3Kb1g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "499243320920-par8q2r90e27fe9t6h8ubu4g1m9o1asc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
