@@ -23,6 +23,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A login screen that offers login via email/password.
@@ -92,14 +100,34 @@ public class LoginActivity extends AppCompatActivity {
       // FirebaseUser.getToken() instead.
       String uid = user.getUid();
 
-      UserSingleton curUser = UserSingleton.getInstance();
+      final UserSingleton curUser = UserSingleton.getInstance();
       curUser.setEmail(email);
       curUser.setName(name);
       curUser.setPhotoUrl(photoUrl);
       curUser.setUid(uid);
-      Intent intent = new Intent(this, DataHandlersActivity.class);
-      startActivity(intent);
-      finish();
+
+      DatabaseReference userDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("likes");
+      userDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+          List<String> listLikes = new ArrayList<>();
+
+          for(DataSnapshot ds: dataSnapshot.getChildren()){
+            listLikes.add(ds.getValue().toString());
+          }
+          curUser.setLikes(listLikes);
+
+          Intent intent = new Intent(LoginActivity.this, DataHandlersActivity.class);
+          startActivity(intent);
+          finish();
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+      });
+
     }
   }
 
@@ -173,15 +201,33 @@ public class LoginActivity extends AppCompatActivity {
                 // FirebaseUser.getToken() instead.
                 String uid = user.getUid();
 
-                UserSingleton curUser = UserSingleton.getInstance();
+                final UserSingleton curUser = UserSingleton.getInstance();
                 curUser.setEmail(email);
                 curUser.setName(name);
                 curUser.setPhotoUrl(photoUrl);
                 curUser.setUid(uid);
 
-                Intent intent = new Intent(LoginActivity.this, DataHandlersActivity.class);
-                startActivity(intent);
-                finish();
+                DatabaseReference userDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("likes");
+                userDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                  @Override
+                  public void onDataChange(DataSnapshot dataSnapshot) {
+                    List<String> listLikes = new ArrayList<>();
+
+                    for(DataSnapshot ds: dataSnapshot.getChildren()){
+                      listLikes.add(ds.getValue().toString());
+                    }
+                    curUser.setLikes(listLikes);
+
+                    Intent intent = new Intent(LoginActivity.this, DataHandlersActivity.class);
+                    startActivity(intent);
+                    finish();
+                  }
+
+                  @Override
+                  public void onCancelled(DatabaseError databaseError) {
+
+                  }
+                });
               }
             }
           });

@@ -24,6 +24,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.ButterKnife;
@@ -32,6 +33,8 @@ import butterknife.OnClick;
 public class DataHandlersActivity extends AppCompatActivity {
 
   String id = "57e7c595-bb3f-4c3d-b679-677b6e1d3ae11495402652269";
+  String userId;
+
   String TAG = "TOWN";
 
   Town town = null;
@@ -47,6 +50,8 @@ public class DataHandlersActivity extends AppCompatActivity {
 
     database = FirebaseDatabase.getInstance();
     townsDatabase = FirebaseDatabase.getInstance().getReference().child("towns");
+
+    userId = UserSingleton.getInstance().getUid();
 
     Query q = townsDatabase.child(id);
     q.addValueEventListener(new ValueEventListener() {
@@ -258,6 +263,68 @@ public class DataHandlersActivity extends AppCompatActivity {
 
       }
     });
+  }
+
+  @OnClick(R.id.button_get_user_name)
+  public void getUserName() {
+    DatabaseReference userDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("name");
+
+    userDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+          Log.d(TAG, dataSnapshot.getValue().toString());
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+
+      }
+    });
+  }
+
+  @OnClick(R.id.button_get_user_likes)
+  public void getUserLikes() {
+    DatabaseReference likeData = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("likes");
+
+    likeData.addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        for(DataSnapshot ds: dataSnapshot.getChildren()){
+          Log.d(TAG, ds.getValue().toString());
+        }
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+
+      }
+    });
+  }
+
+  @OnClick(R.id.button_set_user_like_town)
+  public void addLikes() {
+
+    List<String> likes = UserSingleton.getInstance().getLikes();
+    boolean alreadyLiked = false;
+    for (String like: likes) {
+      if (like.equals(id)) {
+        alreadyLiked = true;
+        break;
+      }
+    }
+
+    if (!alreadyLiked) {
+      likes.add(id);
+      DatabaseReference likeData = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("likes");
+
+      likeData.setValue(likes, new DatabaseReference.CompletionListener() {
+        public void onComplete(DatabaseError err, DatabaseReference ref){
+          if (err == null) {
+            Log.d("SET_LIKES", "Setting likes succeeded");
+          }
+        }
+      });
+    }
   }
 
   void printTown(DataSnapshot dataSnapshot) {

@@ -125,6 +125,28 @@
                 android:layout_height="wrap_content"
                 android:text="Get user posts number"
                 />
+
+            <Button
+                android:id="@+id/button_get_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Get username"
+                />
+
+            <Button
+                android:id="@+id/button_get_user_likes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Get user likes"
+                />
+
+            <Button
+                android:id="@+id/button_set_user_like_town"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Set user likes"
+                />
+
         </LinearLayout>
     </ScrollView>
 
